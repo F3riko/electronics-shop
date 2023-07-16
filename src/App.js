@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import ProductTile from "./components/ProductTile";
 import "bootstrap/dist/css/bootstrap.min.css";
+import NavBar from "./components/NavBar";
 
 // Temporary components
 const Navbar = () => {
@@ -69,7 +70,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Navbar />}>
+        <Route path="/" element={<NavBar />}>
           <Route index element={<MainPage />} />
           <Route path="about" element={<About />} />
           <Route path="product/:productId" element={<Product />} />
