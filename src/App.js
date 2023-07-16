@@ -1,20 +1,9 @@
-import React from "react";
-import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Alert } from "react-bootstrap";
-// FontAwesomeIcon example import
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
-const element = <FontAwesomeIcon icon={faEnvelope} />;
+import "./App.css";
+import ProductTile from "./components/ProductTile";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-  return (
-    <>
-      {element}
-      <Alert variant="warning">This is a sample alert message.</Alert>
-    </>
-  );
-}
+  return <ProductTile />;
 
 export default App;
