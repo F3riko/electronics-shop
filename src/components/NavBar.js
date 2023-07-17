@@ -3,10 +3,21 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import { Outlet, Link, NavLink } from "react-router-dom";
+import { Outlet, NavLink } from "react-router-dom";
+import LoginForm from "./sign-up-login/LoginForm";
+import { useState } from "react";
+import SignUpForm from "./sign-up-login/SignUpForm";
 
 const NavBar = () => {
+  // Login modal window control
+  const [showModal, setShowLogin] = useState({ login: false, singUp: false });
+  const handleModalClose = (modalName) => {
+    setShowLogin((prevValue) => ({ ...prevValue, [modalName]: false }));
+  };
+  const handleModalShow = (modalName) => {
+    setShowLogin((prevValue) => ({ ...prevValue, [modalName]: true }));
+  };
+
   return (
     <>
       <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
@@ -30,11 +41,24 @@ const NavBar = () => {
               <Nav.Link as={NavLink} to={"cart"}>
                 Cart
               </Nav.Link>
-              <Button variant="primary">Sign in</Button>
+              <Button
+                variant="primary"
+                onClick={() => handleModalShow("singUp")}
+              >
+                Sign in
+              </Button>
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      <LoginForm
+        showInitial={showModal.login}
+        handleClose={() => handleModalClose("login")}
+      />
+      <SignUpForm
+        showInitial={showModal.singUp}
+        handleClose={() => handleModalClose("singUp")}
+      />
       <Outlet />
     </>
   );
