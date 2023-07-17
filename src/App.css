@@ -18,3 +18,11 @@
 .product-tile-button-wrapper {
   padding: 0 !important;
 }
+
+/* Login modal */
+
+.login-modal-error-alert {
+  text-align: justify;
+  font-size: 110%;
+  margin-top: 20px;
+}
