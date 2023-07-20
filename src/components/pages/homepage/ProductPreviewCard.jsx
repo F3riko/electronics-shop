@@ -10,7 +10,7 @@ import { faComment } from "@fortawesome/free-regular-svg-icons";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 
-const ProductTile = () => {
+const ProductPreviewCard = () => {
   return (
     <Container fluid className="bg-light">
       <Row>
@@ -63,4 +63,4 @@ const ProductTile = () => {
   );
 };
 
-export default ProductTile;
+export default ProductPreviewCard;
