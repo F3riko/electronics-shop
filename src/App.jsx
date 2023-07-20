@@ -10,10 +10,10 @@ import {
 import ProductPreviewCard from "./components/pages/homepage/ProductPreviewCard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavBar from "./components/NavBar";
-import ProductPreviewGallery from "./components/pages/homepage/ProductPreviewGallery";
+import ProductPreviewGallery from "./components/pages/homepage/Product Preview Gallery/ProductPreviewGallery";
 
 // Temporary components
-const testData = Array(500).fill(1);
+const testData = Array(100).fill(1);
 
 const Navbar = () => {
   return (
