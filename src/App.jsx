@@ -7,11 +7,14 @@ import {
   useParams,
   Navigate,
 } from "react-router-dom";
-import ProductTile from "./components/ProductTile";
+import ProductPreviewCard from "./components/pages/homepage/ProductPreviewCard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavBar from "./components/NavBar";
+import ProductPreviewGallery from "./components/pages/homepage/ProductPreviewGallery";
 
 // Temporary components
+const testData = Array(500).fill(1);
+
 const Navbar = () => {
   return (
     <>
@@ -27,7 +30,7 @@ const MainPage = () => {
   return (
     <>
       <h1>Main page</h1>
-      <ProductTile />
+      <ProductPreviewGallery productsData={testData} />
     </>
   );
 };
