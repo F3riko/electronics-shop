@@ -11,6 +11,10 @@ import ProductPreviewCard from "./components/pages/homepage/ProductPreviewCard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavBar from "./components/NavBar";
 import ProductPreviewGallery from "./components/pages/homepage/Product Preview Gallery/ProductPreviewGallery";
+import CategoriesBar from "./components/pages/homepage/CategoriesBar";
+import Row from "react-bootstrap/esm/Row";
+import Col from "react-bootstrap/esm/Col";
+import { useState } from "react";
 
 // Temporary components
 const testData = Array(100).fill(1);
@@ -27,10 +31,26 @@ const Navbar = () => {
 };
 
 const MainPage = () => {
+  const [activeCategory, setActiveCategory] = useState({
+    id: 0,
+    category_name: "All products",
+    parent_category_id: null,
+  });
+
   return (
     <>
       <h1>Main page</h1>
-      <ProductPreviewGallery productsData={testData} />
+      <Row>
+        <Col md={2}>
+          <CategoriesBar
+            activeCategory={activeCategory}
+            setActiveCategory={setActiveCategory}
+          />
+        </Col>
+        <Col md={9}>
+          <ProductPreviewGallery productsData={testData} />
+        </Col>
+      </Row>
     </>
   );
 };
