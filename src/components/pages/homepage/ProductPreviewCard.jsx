@@ -10,11 +10,13 @@ import { faComment } from "@fortawesome/free-regular-svg-icons";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 
-const ProductPreviewCard = () => {
+import categories from "../../dummydata/categories";
+
+const ProductPreviewCard = ({ productData }) => {
   return (
     <Container fluid className="bg-light">
       <Row>
-        <Col className="text-center">Product title</Col>
+        <Col className="text-center">{productData.name}</Col>
       </Row>
       <Row>
         <Col xs={3} className="product-tile-thubmnail-wrapper">
@@ -22,11 +24,13 @@ const ProductPreviewCard = () => {
         </Col>
         <Col className="d-flex flex-column justify-content-between">
           <Row>
-            <span>Product short description type: category name</span>
-            <span>Product short description type: category name </span>
-            <span>category property: -- </span>
-            <span>following category properties: -- </span>
-            <span>following category properties: -- </span>
+            <span>
+              Category: {categories[productData.category].category_name}
+            </span>
+            <span>Description: {productData.short_description}</span>
+            <span>Year of production: {productData.year_of_production}</span>
+            <span>Weight: {productData.weight}g</span>
+            <span>In stock: {productData.stock_quantity}</span>
           </Row>
           <Row className="justify-content-start">
             <Col xs={3} className="d-inline-flex product-tile-button-wrapper">
@@ -47,7 +51,7 @@ const ProductPreviewCard = () => {
         </Col>
         <Col xs={2} className="d-flex flex-column">
           <Button variant="info" className="mb-auto mt-2">
-            1000$
+            {productData.price}$
           </Button>
           <Button variant="primary" className="mb-2">
             <FontAwesomeIcon icon={faCartShopping} />

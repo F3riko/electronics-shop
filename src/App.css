@@ -26,3 +26,9 @@
   font-size: 110%;
   margin-top: 20px;
 }
+
+/* Product gallery -> no items found component */
+
+.no-products-card-body {
+  height: 80vh;
+}
