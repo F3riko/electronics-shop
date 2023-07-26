@@ -2,21 +2,13 @@ import { useEffect, useState } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import categories from "../../dummydata/categories";
 import ListGroupItem from "react-bootstrap/esm/ListGroupItem";
+import {
+  getCategoriesByParent,
+  categoryHasChildren,
+} from "../../dummydata/dummyDataOperations";
 
 const CategoriesBar = ({ activeCategory, setActiveCategory }) => {
   const [categoriesToDisplay, setCategoriesToDisplay] = useState([]);
-
-  const getCategoriesByParent = (categoriesObj, parentId) => {
-    return Object.values(categoriesObj).filter(
-      (category) => category.parent_category_id === parentId
-    );
-  };
-
-  const categoryHasChildren = (categoriesObj, categoryId) => {
-    return Object.values(categoriesObj).some(
-      (category) => category.parent_category_id === categoryId
-    );
-  };
 
   useEffect(() => {
     const categoriesToRender = [];
@@ -35,7 +27,6 @@ const CategoriesBar = ({ activeCategory, setActiveCategory }) => {
         ...getCategoriesByParent(categories, activeCategory.parent_category_id)
       );
     }
-    console.log(categoriesToRender);
     setCategoriesToDisplay(categoriesToRender);
   }, [activeCategory]);
 
