@@ -1,12 +1,17 @@
-import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import LoginForm from "./sign-up-login/LoginForm";
 import { useState } from "react";
 import SignUpForm from "./sign-up-login/SignUpForm";
+import Image from "react-bootstrap/Image";
+import Row from "react-bootstrap/esm/Row";
+import Col from "react-bootstrap/esm/Col";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import Badge from "react-bootstrap/Badge";
 
 const NavBar = () => {
   // Login modal window control
@@ -18,39 +23,64 @@ const NavBar = () => {
     setShowLogin((prevValue) => ({ ...prevValue, [modalName]: true }));
   };
 
+  const navigate = useNavigate();
+
   return (
     <>
-      <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
-        <Container>
-          <Navbar.Brand href="#home">Andrew</Navbar.Brand>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="me-auto">
-              <Form className="d-flex">
+      <Navbar
+        collapseOnSelect
+        expand="lg"
+        className="bg-body-tertiary nav-bar-bootstrap-component sticky-top"
+      >
+        <Navbar.Brand onClick={() => navigate("/")}>
+          <Image src="electroverse-logo.png" className="nav-bar-logo" />
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Row className="w-100">
+            <Col md={6}>
+              <Form className="d-flex nav-bar-search-field">
                 <Form.Control
                   type="search"
-                  placeholder="Search"
+                  placeholder="Search Electroverse"
                   className="me-2"
                   aria-label="Search"
                 />
                 <Button variant="outline-success">Search</Button>
               </Form>
-              <Nav.Link as={NavLink} to={"about"}>
-                About us
-              </Nav.Link>
-              <Nav.Link as={NavLink} to={"cart"}>
-                Cart
-              </Nav.Link>
+            </Col>
+            <Col
+              md={6}
+              className="d-flex justify-content-md-end align-items-center"
+            >
+              <Nav className="me-auto">
+                <Nav.Link as={NavLink} to={"about"} className="me-3">
+                  About us
+                </Nav.Link>
+              </Nav>
               <Button
                 variant="primary"
                 onClick={() => handleModalShow("singUp")}
+                className="mx-3"
               >
                 Sign in
               </Button>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
+              <Button onClick={() => navigate("cart")}>
+                <span>Cart</span>
+                <FontAwesomeIcon
+                  icon={faCartShopping}
+                  style={{ color: "#ffffff" }}
+                  className="nav-bar-cart-icon"
+                />
+                <Badge bg="light" text="dark" className="nav-bar-cart-badge">
+                  9
+                </Badge>
+              </Button>
+            </Col>
+          </Row>
+        </Navbar.Collapse>
       </Navbar>
+
       <LoginForm
         showInitial={showModal.login}
         handleClose={() => handleModalClose("login")}
