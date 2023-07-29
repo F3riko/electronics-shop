@@ -54,3 +54,32 @@
 .nav-bar-cart-badge {
   padding: 2px 8px !important;
 }
+
+.custom-link {
+  text-decoration-line: none !important;
+  color: black;
+}
+
+.custom-link:hover {
+  color: #0e59e2;
+}
+
+.product-page-cart-block-discount,
+.product-page-cart-block-price {
+  margin-bottom: 10px;
+  text-align: center;
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+  padding-top: 6px;
+  color: white;
+}
+
+.product-page-cart-block-discount {
+  text-decoration-line: line-through;
+  background-color: red;
+}
+
+.product-page-cart-block-price {
+  background-color: #10c44c;
+}

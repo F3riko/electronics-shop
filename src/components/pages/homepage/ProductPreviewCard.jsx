@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -9,6 +10,7 @@ import { faStar } from "@fortawesome/free-regular-svg-icons";
 import { faComment } from "@fortawesome/free-regular-svg-icons";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import CustomLink from "../../supportComponents/CustomLink";
 
 import categories from "../../dummydata/categories";
 
@@ -16,11 +18,15 @@ const ProductPreviewCard = ({ productData }) => {
   return (
     <Container fluid className="bg-light">
       <Row>
-        <Col className="text-center">{productData.name}</Col>
+        <CustomLink to={`product/${productData.id}`}>
+          <Col className="text-center">{productData.name}</Col>
+        </CustomLink>
       </Row>
       <Row>
         <Col xs={3} className="product-tile-thubmnail-wrapper">
-          <Image src="/placeholder1.png" className="product-tile-thubmnail" />
+          <Link to={`product/${productData.id}`}>
+            <Image src="/placeholder1.png" className="product-tile-thubmnail" />
+          </Link>
         </Col>
         <Col className="d-flex flex-column justify-content-between">
           <Row>
