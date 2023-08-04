@@ -11,6 +11,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import NavBar from "./components/NavBar";
 import Homepage from "./components/pages/homepage/Homepage";
 import ProductPage from "./components/pages/productPage/ProductPage";
+import Cart from "./components/pages/cart/Cart";
 
 // Temporary components
 
@@ -52,7 +53,7 @@ function App() {
           <Route index element={<Homepage />} />
           <Route path="about" element={<About />} />
           <Route path="product/:productId" element={<ProductPage />} />
-          <Route path="cart" />
+          <Route path="cart" element={<Cart />} />
           <Route path="user/main" element={<UserAuth />}>
             <Route index element={<User />} />
             <Route path="order/:orderId" />
