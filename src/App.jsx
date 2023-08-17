@@ -12,6 +12,7 @@ import NavBar from "./components/NavBar";
 import Homepage from "./components/pages/homepage/Homepage";
 import ProductPage from "./components/pages/productPage/ProductPage";
 import Cart from "./components/pages/cart/Cart";
+import OrderPage from "./components/pages/orderPage/OrderPage";
 
 // Temporary components
 
@@ -56,7 +57,7 @@ function App() {
           <Route path="cart" element={<Cart />} />
           <Route path="user/main" element={<UserAuth />}>
             <Route index element={<User />} />
-            <Route path="order/:orderId" />
+            <Route path="order/:orderId" element={<OrderPage />} />
           </Route>
         </Route>
         <Route path="admin/main" element={<AdminAuth />}>

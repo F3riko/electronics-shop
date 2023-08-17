@@ -3,10 +3,11 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import ProductPreviewCardCart from "./ProductPreviewCardCart";
+import CheckoutPlate from "../../generalComponents/CheckoutPlate";
 
 // Dummy data
 import dummyData from "../../dummydata/electronicsData";
-import ProductPreviewCardCart from "./ProductPreviewCardCart";
 
 const Cart = () => {
   return (
@@ -37,23 +38,7 @@ const Cart = () => {
         </Col>
 
         <Col xs={12} md={4}>
-          <div className="cart-checkout-wrapper">
-            <div className="cart-checkout-button-wrapper">
-              <Row className="justify-content-center">
-                <Button className="cart-checkout-button">Check out</Button>
-              </Row>
-            </div>
-            <Row>
-              <Col md={6}>
-                <p className="cart-checkout-info-p">Your cart</p>
-                <p className="cart-checkout-info-p">Items()</p>
-              </Col>
-              <Col md={6}>
-                <p className="cart-checkout-info-p">3 items 0,26kg</p>
-                <p className="cart-checkout-info-p">268$</p>
-              </Col>
-            </Row>
-          </div>
+          <CheckoutPlate />
         </Col>
       </Row>
     </Container>
