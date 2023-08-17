@@ -115,3 +115,42 @@
   padding-top: 5px;
   margin: 0;
 }
+
+/* Order page */
+/* Order page Payment choice */
+.order-page-payment-card-wrapper {
+  margin: 10px 0 25px 25px !important;
+  border: 1px solid black;
+  width: fit-content !important;
+  border-radius: 15px;
+}
+
+.order-page-payment-card-text {
+  padding: 25px 0px;
+  text-align: center;
+  margin: 0;
+}
+
+.order-page-payment-choice-wrapper {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  background-color: #f5f5f5;
+  border-radius: 15px;
+}
+
+.order-page-payment-header {
+  margin: 5px 20px 0 12px !important;
+  width: fit-content !important;
+}
+
+/* Address form */
+.address-form-textarea {
+  resize: none;
+}
+
+.address-form-wrapper {
+  margin-top: 20px;
+  /* Temp */
+  background-color: #f5f5f5;
+  border-radius: 15px;
+}
