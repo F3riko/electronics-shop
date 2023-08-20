@@ -2,39 +2,49 @@ import ProductPreviewGallery from "./Product Preview Gallery/ProductPreviewGalle
 import CategoriesBar from "./CategoriesBar";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
-import { useEffect, useMemo, useState } from "react";
-import dummyData from "../../dummydata/electronicsData";
-import categories from "../../dummydata/categories";
-import { getAllChildrenCategories } from "../../dummydata/dummyDataOperations";
+import { createContext, useEffect, useState } from "react";
+import {
+  getCategoriesList,
+  getProducts,
+  getProductsByCategory,
+} from "../../../dal/rest-api/homepage-api";
+
+// Context for homepage components
+export const HomeContext = createContext();
 
 const Homepage = () => {
-  const dummyDataArray = useMemo(() => Object.values(dummyData), []);
+  // Initial data fetching
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [activeCategory, setActiveCategory] = useState({});
 
-  const [activeCategory, setActiveCategory] = useState({
-    id: 0,
-    category_name: "All products",
-    parent_category_id: null,
-  });
-  const [productsToRender, setProductsToRender] = useState(dummyDataArray);
-
-  // Logic to filter products based on the current active category, will be deleted later
   useEffect(() => {
-    let productsFiltrdByCategory = [...dummyDataArray];
-    productsFiltrdByCategory.map((category) => category.id);
-    if (activeCategory.id !== 0) {
-      let fromCategories = [
-        activeCategory.id,
-        ...getAllChildrenCategories(categories, activeCategory.id),
-      ];
-      productsFiltrdByCategory = productsFiltrdByCategory.filter((product) =>
-        fromCategories.includes(product.category)
-      );
-    }
-    setProductsToRender(productsFiltrdByCategory);
-  }, [activeCategory, dummyDataArray]);
+    (async () => {
+      if (activeCategory && activeCategory !== 0) {
+        const products = await getProductsByCategory(activeCategory.id);
+        setProducts(products);
+      }
+    })();
+  }, [activeCategory]);
+
+  useEffect(() => {
+    (async () => {
+      const products = await getProducts();
+      const categories = await getCategoriesList();
+      setProducts(products);
+      setCategories(categories);
+      setActiveCategory(categories[0]);
+    })();
+  }, []);
+
+  // Logic to filter products based on the category
+  // Note: do I have to change url here or it's not necessary for SPA?
+  // Basic fetch for all of the products can also be done with category func
+  // Make fetch for children categories of the active one
+  // Order of fetching and unnecessary calls
 
   return (
-    <>
+    <HomeContext.Provider value={categories}>
       <Row>
         <Col md={2}>
           <CategoriesBar
@@ -43,10 +53,10 @@ const Homepage = () => {
           />
         </Col>
         <Col md={9}>
-          <ProductPreviewGallery productsData={productsToRender} />
+          <ProductPreviewGallery productsData={products} />
         </Col>
       </Row>
-    </>
+    </HomeContext.Provider>
   );
 };
 
