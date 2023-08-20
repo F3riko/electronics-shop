@@ -11,15 +11,18 @@ import { faComment } from "@fortawesome/free-regular-svg-icons";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import CustomLink from "../../supportComponents/CustomLink";
-
-import categories from "../../dummydata/categories";
+import { useContext } from "react";
+import { HomeContext } from "./Homepage";
+import { getCategoryNameById } from "../../../utils/categoryUtils";
 
 const ProductPreviewCard = ({ productData }) => {
+  // Usage of home page context
+  const categories = useContext(HomeContext);
   return (
     <Container fluid className="bg-light">
       <Row>
         <CustomLink to={`product/${productData.id}`}>
-          <Col className="text-center">{productData.name}</Col>
+          <Col className="text-center">{productData.title}</Col>
         </CustomLink>
       </Row>
       <Row>
@@ -31,12 +34,13 @@ const ProductPreviewCard = ({ productData }) => {
         <Col className="d-flex flex-column justify-content-between">
           <Row>
             <span>
-              Category: {categories[productData.category].category_name}
+              Category:{" "}
+              {getCategoryNameById(categories, productData.category_id)}
             </span>
-            <span>Description: {productData.short_description}</span>
-            <span>Year of production: {productData.year_of_production}</span>
-            <span>Weight: {productData.weight}g</span>
-            <span>In stock: {productData.stock_quantity}</span>
+            <span>Description: {productData.description}</span>
+            {/* <span>Year of production: {productData.year_of_production}</span> */}
+            {/* <span>Weight: {productData.weight}g</span> */}
+            {/* <span>In stock: {productData.stock_quantity}</span> */}
           </Row>
           <Row className="justify-content-start">
             <Col xs={3} className="d-inline-flex product-tile-button-wrapper">
