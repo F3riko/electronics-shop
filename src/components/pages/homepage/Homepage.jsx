@@ -7,7 +7,7 @@ import {
   getCategoriesList,
   getProducts,
   getProductsByCategory,
-} from "../../../dal/rest-api/homepage-api";
+} from "../../../services/homepage-api";
 
 // Context for homepage components
 export const HomeContext = createContext();

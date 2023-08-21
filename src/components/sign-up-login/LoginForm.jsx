@@ -6,7 +6,7 @@ import Alert from "react-bootstrap/Alert";
 import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { loginUser } from "../../dal/rest-api/api/signIn-api";
+import { loginUser } from "../../services/api/signIn-api";
 
 const LoginForm = ({ showInitial, handleClose }) => {
   const defaultLoginData = {
@@ -14,7 +14,7 @@ const LoginForm = ({ showInitial, handleClose }) => {
     password: "",
     validationError: false,
   };
-  const [loginData, setLoginData] = useState(defaultLoginData);
+  const [loginData, setLoginData] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -4,7 +4,6 @@ import {
   Routes,
   Route,
   Outlet,
-  useParams,
   Navigate,
 } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";

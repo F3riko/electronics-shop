@@ -35,9 +35,6 @@ export const arePasswordsSame = (password, repeatPassword) => {
   return false;
 };
 
-// Prepare when database is ready
-const isUsernmaeTaken = (value) => {};
-
 export const defaultSignUpData = {
   name: {
     value: "",

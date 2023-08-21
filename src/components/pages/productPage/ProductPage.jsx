@@ -7,7 +7,6 @@ import Image from "react-bootstrap/Image";
 
 // Dummy data
 import dummyData from "../../dummydata/electronicsData";
-import categories from "../../dummydata/categories";
 import CartBlock from "./productPageCartBlock/CartBlock";
 
 const ProductPage = () => {

@@ -11,12 +11,11 @@ import {
   validateInput,
 } from "../../utils/validations/singUpValidations";
 import { nanoid } from "nanoid";
-import shortHash from "short-hash";
 import ReCAPTCHA from "react-google-recaptcha";
-import { submitUser } from "../../dal/rest-api/api/signUp-api";
+import { submitUser } from "../../services/api/signUp-api";
 
-const secretKey = process.env.REACT_APP_SECRET_KEY;
-const siteKey = process.env.REACT_APP_SITE_KEY;
+// const secretKey = process.env.REACT_APP_SECRET_KEY;
+// const siteKey = process.env.REACT_APP_SITE_KEY;
 
 // Current issues
 // 1. validate the reCAPTCHA response by making a request to the reCAPTCHA API with  secret key and the recaptchaResponse value. The reCAPTCHA API will verify the response and provide server with the validation result.
@@ -48,7 +47,6 @@ function SignUpForm({ showInitial, handleClose }) {
       ...prevFormData,
       [id]: { ...prevFormData[id], value: value, errors: [] },
     }));
-    console.log(secretKey);
   };
 
   const validateField = (fieldId) => {
