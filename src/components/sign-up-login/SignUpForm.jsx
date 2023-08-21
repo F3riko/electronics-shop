@@ -5,11 +5,15 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { arePasswordsSame, defaultSignUpData } from "./singUpValidations";
-import { validateInput } from "./singUpValidations";
+import {
+  arePasswordsSame,
+  defaultSignUpData,
+  validateInput,
+} from "../../utils/validations/singUpValidations";
 import { nanoid } from "nanoid";
 import shortHash from "short-hash";
 import ReCAPTCHA from "react-google-recaptcha";
+import { submitUser } from "../../dal/rest-api/api/signUp-api";
 
 const secretKey = process.env.REACT_APP_SECRET_KEY;
 const siteKey = process.env.REACT_APP_SITE_KEY;
@@ -109,9 +113,10 @@ function SignUpForm({ showInitial, handleClose }) {
     if (!hasErrors) {
       // Create new user
       const newUser = {
-        id: nanoid(),
-        accessToken: nanoid(),
-        registrationData: new Date(),
+        // Now created on the server
+        // id: nanoid(),
+        // accessToken: nanoid(),
+        // registrationData: new Date(),
       };
 
       // Populate newUser object with form data
@@ -119,13 +124,15 @@ function SignUpForm({ showInitial, handleClose }) {
         if (key !== "repeatPassword") {
           newUser[key] =
             key === "password"
-              ? shortHash(signUpData[key].value)
+              ? // ? shortHash(signUpData[key].value)
+                signUpData[key].value
               : signUpData[key].value;
         }
       }
 
       // Send data to server
       console.log(newUser);
+      submitUser(newUser);
       // Perform any necessary actions (e.g., close modal, navigate, etc.)
       handleClose();
       setConfirmationShow(true);
