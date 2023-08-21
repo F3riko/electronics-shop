@@ -4,7 +4,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import LoginForm from "./sign-up-login/LoginForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SignUpForm from "./sign-up-login/SignUpForm";
 import Image from "react-bootstrap/Image";
 import Row from "react-bootstrap/esm/Row";
@@ -12,6 +12,31 @@ import Col from "react-bootstrap/esm/Col";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import Badge from "react-bootstrap/Badge";
+import Cookies from "js-cookie";
+import CustomLink from "./supportComponents/CustomLink";
+
+const AccountAuth = ({ handleModalShow }) => {
+  return (
+    <>
+      <Button
+        variant="primary"
+        onClick={() => handleModalShow("singUp")}
+        className="mx-3"
+      >
+        Sign up
+      </Button>
+
+      {/* Temp button */}
+      <Button
+        variant="primary"
+        onClick={() => handleModalShow("login")}
+        className="mx-3"
+      >
+        Sign in
+      </Button>
+    </>
+  );
+};
 
 const NavBar = () => {
   // Login modal window control
@@ -22,6 +47,13 @@ const NavBar = () => {
   const handleModalShow = (modalName) => {
     setShowLogin((prevValue) => ({ ...prevValue, [modalName]: true }));
   };
+
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    const openDataCookie = Cookies.get("openData");
+    if (openDataCookie) setUserName(openDataCookie);
+  }, [showModal.login]);
 
   const navigate = useNavigate();
 
@@ -58,13 +90,12 @@ const NavBar = () => {
                   About us
                 </Nav.Link>
               </Nav>
-              <Button
-                variant="primary"
-                onClick={() => handleModalShow("singUp")}
-                className="mx-3"
-              >
-                Sign in
-              </Button>
+              {userName ? (
+                <CustomLink to={"/user/main"} children={<h6>userName</h6>} />
+              ) : (
+                <AccountAuth handleModalShow={handleModalShow} />
+              )}
+
               <Button onClick={() => navigate("cart")}>
                 <span>Cart</span>
                 <FontAwesomeIcon

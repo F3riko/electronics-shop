@@ -5,17 +5,10 @@ import Modal from "react-bootstrap/Modal";
 import Alert from "react-bootstrap/Alert";
 import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import { useNavigate } from "react-router-dom";
-import shortHash from "short-hash";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { loginUser } from "../../dal/rest-api/api/signIn-api";
 
 const LoginForm = ({ showInitial, handleClose }) => {
-  //   Tests
-  const registeredUser = {
-    email: "test@mail.ru",
-    password: shortHash("12345"),
-  };
-  //   End of tests
-
   const defaultLoginData = {
     email: "",
     password: "",
@@ -48,17 +41,22 @@ const LoginForm = ({ showInitial, handleClose }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const validated =
-      loginData.email === registeredUser.email &&
-      shortHash(loginData.password) === registeredUser.password;
 
-    if (validated) {
-      navigate("/user/main");
-      handleClose();
-    } else {
-      setLoginData((prevData) => ({ ...prevData, validationError: true }));
+    try {
+      const { status } = await loginUser(loginData);
+      // Testing
+      console.log("Server response status:", status);
+
+      if (status === 200) {
+        navigate("/user/main");
+        handleClose();
+      } else {
+        setLoginData((prevData) => ({ ...prevData, validationError: true }));
+      }
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 
