@@ -91,7 +91,14 @@ const NavBar = () => {
                 </Nav.Link>
               </Nav>
               {userName ? (
-                <CustomLink to={"/user/main"} children={<h6>userName</h6>} />
+                <CustomLink
+                  to={"/user/main"}
+                  children={
+                    <h6 className="mx-2" as={Button}>
+                      {JSON.parse(userName)}
+                    </h6>
+                  }
+                />
               ) : (
                 <AccountAuth handleModalShow={handleModalShow} />
               )}
