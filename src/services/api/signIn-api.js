@@ -13,7 +13,6 @@ export const loginUser = async (userJson) => {
         headers: {
           "Content-Type": "application/json",
         },
-        withCredentials: true,
       }
     );
 
@@ -24,23 +23,3 @@ export const loginUser = async (userJson) => {
     throw error;
   }
 };
-
-// export const loginUser = async (userJson) => {
-//   try {
-//     const response = await fetch("http://localhost:3100/api/auth/user", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify(userJson),
-//     });
-
-//     const result = await response.json();
-//     console.log(result);
-
-//     return { status: response.status, data: result };
-//   } catch (error) {
-//     console.error("Error:", error);
-//     throw error;
-//   }
-// };

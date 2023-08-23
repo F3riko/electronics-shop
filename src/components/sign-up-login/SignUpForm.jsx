@@ -11,12 +11,12 @@ import {
   validateInput,
 } from "../../utils/validations/singUpValidations";
 import { nanoid } from "nanoid";
-import shortHash from "short-hash";
 import ReCAPTCHA from "react-google-recaptcha";
-import { submitUser } from "../../dal/rest-api/api/signUp-api";
+import { submitUser } from "../../services/api/signUp-api";
+import { useNavigate } from "react-router-dom";
 
-const secretKey = process.env.REACT_APP_SECRET_KEY;
-const siteKey = process.env.REACT_APP_SITE_KEY;
+// const secretKey = process.env.REACT_APP_SECRET_KEY;
+// const siteKey = process.env.REACT_APP_SITE_KEY;
 
 // Current issues
 // 1. validate the reCAPTCHA response by making a request to the reCAPTCHA API with  secret key and the recaptchaResponse value. The reCAPTCHA API will verify the response and provide server with the validation result.
@@ -24,6 +24,7 @@ const siteKey = process.env.REACT_APP_SITE_KEY;
 // 3. Save the keys into the env file
 
 function SignUpForm({ showInitial, handleClose }) {
+  const navigate = useNavigate();
   const [confirmationShow, setConfirmationShow] = useState(false);
   // Form data
   const [signUpData, setSignUpData] = useState(defaultSignUpData);
@@ -48,7 +49,6 @@ function SignUpForm({ showInitial, handleClose }) {
       ...prevFormData,
       [id]: { ...prevFormData[id], value: value, errors: [] },
     }));
-    console.log(secretKey);
   };
 
   const validateField = (fieldId) => {
@@ -89,7 +89,7 @@ function SignUpForm({ showInitial, handleClose }) {
     return errors ? errors : null;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     let hasErrors = false;
@@ -111,31 +111,22 @@ function SignUpForm({ showInitial, handleClose }) {
     }
 
     if (!hasErrors) {
-      // Create new user
+      // bcrypt for password here
       const newUser = {
-        // Now created on the server
-        // id: nanoid(),
-        // accessToken: nanoid(),
-        // registrationData: new Date(),
+        password: signUpData.password.value,
+        email: signUpData.email.value,
+        name: signUpData.name.value,
+        recaptchaResponse: signUpData.recaptchaResponse.value,
       };
-
-      // Populate newUser object with form data
-      for (const key in signUpData) {
-        if (key !== "repeatPassword") {
-          newUser[key] =
-            key === "password"
-              ? // ? shortHash(signUpData[key].value)
-                signUpData[key].value
-              : signUpData[key].value;
-        }
+      const response = await submitUser(newUser);
+      if (response.status === 200) {
+        navigate("/user/main");
+        handleClose();
+        // For future email confirmation - pop up window
+        // setConfirmationShow(true);
+      } else {
+        // Display server error in sign up form here
       }
-
-      // Send data to server
-      console.log(newUser);
-      submitUser(newUser);
-      // Perform any necessary actions (e.g., close modal, navigate, etc.)
-      handleClose();
-      setConfirmationShow(true);
     }
   };
 

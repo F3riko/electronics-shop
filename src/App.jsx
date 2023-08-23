@@ -4,7 +4,6 @@ import {
   Routes,
   Route,
   Outlet,
-  useParams,
   Navigate,
 } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -13,6 +12,8 @@ import Homepage from "./components/pages/homepage/Homepage";
 import ProductPage from "./components/pages/productPage/ProductPage";
 import Cart from "./components/pages/cart/Cart";
 import OrderPage from "./components/pages/orderPage/OrderPage";
+import UserPage from "./components/pages/userPage/UserPage";
+import ResetPassword from "./components/sign-up-login/ResetPassword";
 
 // Temporary components
 
@@ -22,10 +23,6 @@ const About = () => {
 
 const Admin = () => {
   return <h1>Admin</h1>;
-};
-
-const User = () => {
-  return <h1>User</h1>;
 };
 
 const UserAuth = () => {
@@ -55,8 +52,12 @@ function App() {
           <Route path="about" element={<About />} />
           <Route path="product/:productId" element={<ProductPage />} />
           <Route path="cart" element={<Cart />} />
+
+          {/* Temporary route */}
+          <Route path="user/passReset" element={<ResetPassword />} />
+
           <Route path="user/main" element={<UserAuth />}>
-            <Route index element={<User />} />
+            <Route index element={<UserPage />} />
             <Route path="order/:orderId" element={<OrderPage />} />
           </Route>
         </Route>

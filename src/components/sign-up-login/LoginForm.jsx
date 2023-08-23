@@ -6,9 +6,10 @@ import Alert from "react-bootstrap/Alert";
 import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { loginUser } from "../../dal/rest-api/api/signIn-api";
+import { loginUser } from "../../services/api/signIn-api";
+import ForgotPassword from "./ForgotPassword";
 
-const LoginForm = ({ showInitial, handleClose }) => {
+const LoginForm = ({ showInitial, handleClose, showResetPassword }) => {
   const defaultLoginData = {
     email: "",
     password: "",
@@ -104,7 +105,14 @@ const LoginForm = ({ showInitial, handleClose }) => {
             </Button>
           </Modal.Body>
           <Modal.Footer className="justify-content-between">
-            <Button variant="link" className="p-0">
+            <Button
+              variant="link"
+              className="p-0"
+              onClick={() => {
+                handleClose();
+                showResetPassword();
+              }}
+            >
               Can't sign in?
             </Button>
             <Button variant="link" className="p-0">

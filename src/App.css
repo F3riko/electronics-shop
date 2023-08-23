@@ -154,3 +154,14 @@
   background-color: #f5f5f5;
   border-radius: 15px;
 }
+
+/* User page */
+.profile-placeholder-image {
+  width: 200px;
+  height: 200px;
+  margin-top: 75px;
+}
+
+.profile-placeholder-image-caption {
+  font-size: larger;
+}
