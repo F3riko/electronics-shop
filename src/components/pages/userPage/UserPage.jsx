@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Figure } from "react-bootstrap";
+import { Container, Row, Col, Figure, Button } from "react-bootstrap";
 import Cookies from "js-cookie";
+// testing sessions
+import axios from "axios";
 
 const UserPage = () => {
   //   const [loading, setLoading] = useState(true);
@@ -14,6 +16,28 @@ const UserPage = () => {
     }
     // setLoading(false)
   });
+
+  // Testing sessions
+  const [counter, setCounter] = useState(0);
+
+  const handleCounter = async (action) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:3100/api/auth/user/${action}`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      setCounter(response.data.counter);
+    } catch (error) {
+      console.error("Error:", error);
+      throw error;
+    }
+  };
 
   return (
     <Container fluid>
@@ -29,6 +53,26 @@ const UserPage = () => {
               {userName}
             </Figure.Caption>
           </Figure>
+        </Col>
+        {/* Testing counters */}
+        <Col>
+          <Button
+            className="mx-2"
+            onClick={() => {
+              handleCounter("increment");
+            }}
+          >
+            +
+          </Button>
+          <span className="p-2">{counter}</span>
+          <Button
+            className="mx-2"
+            onClick={() => {
+              handleCounter("decrement");
+            }}
+          >
+            -
+          </Button>
         </Col>
       </Row>
     </Container>
