@@ -15,6 +15,7 @@ import OrderPage from "./components/pages/orderPage/OrderPage";
 import UserPage from "./components/pages/userPage/UserPage";
 import ResetPassword from "./components/sign-up-login/ResetPassword";
 import { AuthProvider } from "./components/supportComponents/AuthProvider";
+import UserAuth from "./components/supportComponents/UserAuth";
 
 // Temporary components
 
@@ -24,15 +25,6 @@ const About = () => {
 
 const Admin = () => {
   return <h1>Admin</h1>;
-};
-
-const UserAuth = () => {
-  const isAuthenticated = true;
-  if (isAuthenticated) {
-    return <Outlet />;
-  } else {
-    <Navigate to={"/"} />;
-  }
 };
 
 const AdminAuth = () => {
