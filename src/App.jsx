@@ -14,6 +14,7 @@ import Cart from "./components/pages/cart/Cart";
 import OrderPage from "./components/pages/orderPage/OrderPage";
 import UserPage from "./components/pages/userPage/UserPage";
 import ResetPassword from "./components/sign-up-login/ResetPassword";
+import { AuthProvider } from "./components/supportComponents/AuthProvider";
 
 // Temporary components
 
@@ -45,28 +46,30 @@ const AdminAuth = () => {
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<NavBar />}>
-          <Route index element={<Homepage />} />
-          <Route path="about" element={<About />} />
-          <Route path="product/:productId" element={<ProductPage />} />
-          <Route path="cart" element={<Cart />} />
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<NavBar />}>
+            <Route index element={<Homepage />} />
+            <Route path="about" element={<About />} />
+            <Route path="product/:productId" element={<ProductPage />} />
+            <Route path="cart" element={<Cart />} />
 
-          {/* Temporary route */}
-          <Route path="user/passReset" element={<ResetPassword />} />
+            {/* Temporary route */}
+            <Route path="user/passReset" element={<ResetPassword />} />
 
-          <Route path="user/main" element={<UserAuth />}>
-            <Route index element={<UserPage />} />
-            <Route path="order/:orderId" element={<OrderPage />} />
+            <Route path="user/main" element={<UserAuth />}>
+              <Route index element={<UserPage />} />
+              <Route path="order/:orderId" element={<OrderPage />} />
+            </Route>
           </Route>
-        </Route>
-        <Route path="admin/main" element={<AdminAuth />}>
-          <Route index element={<Admin />} />
-        </Route>
-        <Route path="*" element={<h1>Page 404 - Not Found</h1>} />
-      </Routes>
-    </Router>
+          <Route path="admin/main" element={<AdminAuth />}>
+            <Route index element={<Admin />} />
+          </Route>
+          <Route path="*" element={<h1>Page 404 - Not Found</h1>} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 

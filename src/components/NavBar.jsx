@@ -15,6 +15,7 @@ import Badge from "react-bootstrap/Badge";
 import Cookies from "js-cookie";
 import CustomLink from "./supportComponents/CustomLink";
 import ForgotPassword from "./sign-up-login/ForgotPassword";
+import { useAuth } from "./supportComponents/AuthProvider";
 
 const AccountAuth = ({ handleModalShow }) => {
   return (
@@ -26,8 +27,6 @@ const AccountAuth = ({ handleModalShow }) => {
       >
         Sign up
       </Button>
-
-      {/* Temp button */}
       <Button
         variant="primary"
         onClick={() => handleModalShow("login")}
@@ -40,7 +39,6 @@ const AccountAuth = ({ handleModalShow }) => {
 };
 
 const NavBar = () => {
-  // Login modal window control
   const [showModal, setShowLogin] = useState({
     login: false,
     singUp: false,
@@ -52,18 +50,13 @@ const NavBar = () => {
   const handleModalShow = (modalName) => {
     setShowLogin((prevValue) => ({ ...prevValue, [modalName]: true }));
   };
-
-  const [userName, setUserName] = useState("");
-
-  useEffect(() => {
-    const openDataCookie = Cookies.get("openData");
-    if (openDataCookie != "undefined") {
-      const username = openDataCookie;
-      setUserName(username);
-    }
-  }, [showModal.login]);
-
   const navigate = useNavigate();
+  const handleLogOut = () => {
+    logout();
+    navigate("/");
+  };
+
+  const { user, logout } = useAuth();
 
   return (
     <>
@@ -98,15 +91,14 @@ const NavBar = () => {
                   About us
                 </Nav.Link>
               </Nav>
-              {userName ? (
-                <CustomLink
-                  to={"/user/main"}
-                  children={
-                    <h6 className="mx-2" as={Button}>
-                      {JSON.parse(userName)}
-                    </h6>
-                  }
-                />
+              {user ? (
+                <>
+                  <CustomLink
+                    to={"/user/main"}
+                    children={<h6 className="mx-2">{user.email}</h6>}
+                  />
+                  <Button onClick={handleLogOut}>Log out</Button>
+                </>
               ) : (
                 <AccountAuth handleModalShow={handleModalShow} />
               )}

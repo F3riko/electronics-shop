@@ -7,7 +7,8 @@ import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { loginUser } from "../../services/api/signIn-api";
-import ForgotPassword from "./ForgotPassword";
+import { useAuth } from "../supportComponents/AuthProvider";
+import Cookies from "js-cookie";
 
 const LoginForm = ({ showInitial, handleClose, showResetPassword }) => {
   const defaultLoginData = {
@@ -42,6 +43,8 @@ const LoginForm = ({ showInitial, handleClose, showResetPassword }) => {
     }));
   };
 
+  const { login } = useAuth();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -51,8 +54,16 @@ const LoginForm = ({ showInitial, handleClose, showResetPassword }) => {
       console.log("Server response status:", status);
 
       if (status === 200) {
-        navigate("/user/main");
-        handleClose();
+        const openDataCookie = Cookies.get("openData");
+        if (openDataCookie != "undefined") {
+          const email = JSON.parse(openDataCookie);
+          const userData = { email };
+          login(userData);
+          navigate("/user/main");
+          handleClose();
+        } else {
+          //
+        }
       } else {
         setLoginData((prevData) => ({ ...prevData, validationError: true }));
       }
