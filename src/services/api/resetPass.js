@@ -1,23 +1,19 @@
-// Add name submission
-// Add error handling
-
 import axios from "axios";
 
-export const loginUser = async (userJson) => {
+export const resetPass = async (newUserPassowrd, resetToken) => {
   axios.defaults.withCredentials = true;
   try {
     const response = await axios.post(
-      "http://localhost:3100/api/auth/user",
-      JSON.stringify(userJson),
+      "http://localhost:3100/user/passReset/",
+      { newUserPassowrd, resetToken },
       {
         headers: {
           "Content-Type": "application/json",
         },
       }
     );
-
-    const result = response.data;
-    return { status: response.status, data: result };
+      
+    return { status: response.status };
   } catch (error) {
     console.error("Error:", error);
     throw error;

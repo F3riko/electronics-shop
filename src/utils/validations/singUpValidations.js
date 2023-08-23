@@ -5,7 +5,7 @@ const isAlphabetic = (inputString) => {
   return false;
 };
 
-const isLengthAppropriate = (value, min, max) => {
+export const isLengthAppropriate = (value, min, max) => {
   if ((value && value.length < min) || value.length > max) {
     return `Should be between ${min} and ${max} characters`;
   }
@@ -21,7 +21,7 @@ const isEmailCorrect = (email) => {
   return false;
 };
 
-const isAlphanumericAndAllowedChars = (inputString) => {
+export const isAlphanumericAndAllowedChars = (inputString) => {
   if (inputString && !/^[a-zA-Z0-9_\-!*]+$/.test(inputString)) {
     return "Should contain only letters, digits and _, -, ! or *";
   }

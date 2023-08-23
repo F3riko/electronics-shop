@@ -13,6 +13,7 @@ import ProductPage from "./components/pages/productPage/ProductPage";
 import Cart from "./components/pages/cart/Cart";
 import OrderPage from "./components/pages/orderPage/OrderPage";
 import UserPage from "./components/pages/userPage/UserPage";
+import ResetPassword from "./components/sign-up-login/ResetPassword";
 
 // Temporary components
 
@@ -51,6 +52,10 @@ function App() {
           <Route path="about" element={<About />} />
           <Route path="product/:productId" element={<ProductPage />} />
           <Route path="cart" element={<Cart />} />
+
+          {/* Temporary route */}
+          <Route path="user/passReset" element={<ResetPassword />} />
+
           <Route path="user/main" element={<UserAuth />}>
             <Route index element={<UserPage />} />
             <Route path="order/:orderId" element={<OrderPage />} />

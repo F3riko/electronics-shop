@@ -7,8 +7,11 @@ const UserPage = () => {
   const [userName, setUserName] = useState("");
 
   useEffect(() => {
-    const openDataCookie = JSON.parse(Cookies.get("openData"));
-    if (openDataCookie) setUserName(openDataCookie);
+    const openDataCookie = Cookies.get("openData");
+    if (openDataCookie) {
+      const username = JSON.parse(Cookies.get("openData"));
+      setUserName(username);
+    }
     // setLoading(false)
   });
 

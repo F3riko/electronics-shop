@@ -14,6 +14,7 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import Badge from "react-bootstrap/Badge";
 import Cookies from "js-cookie";
 import CustomLink from "./supportComponents/CustomLink";
+import ForgotPassword from "./sign-up-login/ForgotPassword";
 
 const AccountAuth = ({ handleModalShow }) => {
   return (
@@ -40,7 +41,11 @@ const AccountAuth = ({ handleModalShow }) => {
 
 const NavBar = () => {
   // Login modal window control
-  const [showModal, setShowLogin] = useState({ login: false, singUp: false });
+  const [showModal, setShowLogin] = useState({
+    login: false,
+    singUp: false,
+    forgotPassword: false,
+  });
   const handleModalClose = (modalName) => {
     setShowLogin((prevValue) => ({ ...prevValue, [modalName]: false }));
   };
@@ -52,7 +57,10 @@ const NavBar = () => {
 
   useEffect(() => {
     const openDataCookie = Cookies.get("openData");
-    if (openDataCookie) setUserName(openDataCookie);
+    if (openDataCookie != "undefined") {
+      const username = openDataCookie;
+      setUserName(username);
+    }
   }, [showModal.login]);
 
   const navigate = useNavigate();
@@ -122,10 +130,17 @@ const NavBar = () => {
       <LoginForm
         showInitial={showModal.login}
         handleClose={() => handleModalClose("login")}
+        showResetPassword={() => handleModalShow("forgotPassword")}
       />
       <SignUpForm
         showInitial={showModal.singUp}
         handleClose={() => handleModalClose("singUp")}
+      />
+      <ForgotPassword
+        showInitial={showModal.forgotPassword}
+        handleClose={() => {
+          handleModalClose("forgotPassword");
+        }}
       />
       <Outlet />
     </>
