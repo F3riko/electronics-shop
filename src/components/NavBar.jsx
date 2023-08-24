@@ -16,6 +16,7 @@ import Cookies from "js-cookie";
 import CustomLink from "./supportComponents/CustomLink";
 import ForgotPassword from "./sign-up-login/ForgotPassword";
 import { useAuth } from "./supportComponents/AuthProvider";
+import { logOutUser } from "../services/api/logOut-api";
 
 const AccountAuth = ({ handleModalShow }) => {
   return (
@@ -51,9 +52,14 @@ const NavBar = () => {
     setShowLogin((prevValue) => ({ ...prevValue, [modalName]: true }));
   };
   const navigate = useNavigate();
-  const handleLogOut = () => {
-    logout();
-    navigate("/");
+  const handleLogOut = async () => {
+    const status = await logOutUser();
+    if (status) {
+      logout();
+      navigate("/");
+    } else {
+      console.error(new Error("Server error during user logout process"));
+    }
   };
 
   const { user, logout } = useAuth();
