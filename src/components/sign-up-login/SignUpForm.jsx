@@ -14,6 +14,8 @@ import { nanoid } from "nanoid";
 import ReCAPTCHA from "react-google-recaptcha";
 import { submitUser } from "../../services/api/signUp-api";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../supportComponents/AuthProvider";
+import Cookies from "js-cookie";
 
 // const secretKey = process.env.REACT_APP_SECRET_KEY;
 // const siteKey = process.env.REACT_APP_SITE_KEY;
@@ -24,6 +26,8 @@ import { useNavigate } from "react-router-dom";
 // 3. Save the keys into the env file
 
 function SignUpForm({ showInitial, handleClose }) {
+  const { login } = useAuth();
+
   const navigate = useNavigate();
   const [confirmationShow, setConfirmationShow] = useState(false);
   // Form data
@@ -120,8 +124,15 @@ function SignUpForm({ showInitial, handleClose }) {
       };
       const response = await submitUser(newUser);
       if (response.status === 200) {
-        navigate("/user/main");
-        handleClose();
+        const openDataCookie = Cookies.get("openData");
+        if (openDataCookie !== "undefined") {
+          const email = JSON.parse(openDataCookie);
+          const userData = { email };
+          login(userData);
+          navigate("/user/main");
+          handleClose();
+        }
+
         // For future email confirmation - pop up window
         // setConfirmationShow(true);
       } else {

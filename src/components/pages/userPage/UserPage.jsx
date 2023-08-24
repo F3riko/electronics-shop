@@ -15,7 +15,7 @@ const UserPage = () => {
       setUserName(username);
     }
     // setLoading(false)
-  });
+  }, []);
 
   // Testing sessions
   const [counter, setCounter] = useState(0);
