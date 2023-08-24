@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -16,14 +16,8 @@ const LoginForm = ({ showInitial, handleClose, showResetPassword }) => {
     password: "",
     validationError: false,
   };
-  const [loginData, setLoginData] = useState(defaultLoginData);
+  const [loginData, setLoginData] = useState({});
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!showInitial) {
-      setLoginData(defaultLoginData);
-    }
-  }, [showInitial]);
 
   const ValidationErrorElement = () => {
     return (
@@ -32,6 +26,11 @@ const LoginForm = ({ showInitial, handleClose, showResetPassword }) => {
         your password or sign up.
       </Alert>
     );
+  };
+
+  const handleCloseLogin = () => {
+    setLoginData(defaultLoginData);
+    handleClose();
   };
 
   const handleChange = (e) => {
@@ -55,12 +54,12 @@ const LoginForm = ({ showInitial, handleClose, showResetPassword }) => {
 
       if (status === 200) {
         const openDataCookie = Cookies.get("openData");
-        if (openDataCookie != "undefined") {
+        if (openDataCookie !== "undefined") {
           const email = JSON.parse(openDataCookie);
           const userData = { email };
           login(userData);
           navigate("/user/main");
-          handleClose();
+          handleCloseLogin();
         } else {
           //
         }
@@ -74,7 +73,7 @@ const LoginForm = ({ showInitial, handleClose, showResetPassword }) => {
 
   return (
     <>
-      <Modal show={showInitial} onHide={handleClose}>
+      <Modal show={showInitial} onHide={handleCloseLogin}>
         <Modal.Header closeButton className="justify-content-between">
           <Modal.Title>Log in</Modal.Title>
         </Modal.Header>
@@ -120,7 +119,7 @@ const LoginForm = ({ showInitial, handleClose, showResetPassword }) => {
               variant="link"
               className="p-0"
               onClick={() => {
-                handleClose();
+                handleCloseLogin();
                 showResetPassword();
               }}
             >

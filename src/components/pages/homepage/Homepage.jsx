@@ -16,12 +16,17 @@ const Homepage = () => {
   // Initial data fetching
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [activeCategory, setActiveCategory] = useState({});
+  const [activeCategory, setActiveCategory] = useState(null);
 
   useEffect(() => {
     (async () => {
-      if (activeCategory && activeCategory !== 0) {
-        const products = await getProductsByCategory(activeCategory.id);
+      if (activeCategory) {
+        let products;
+        if (activeCategory.id === 0) {
+          products = await getProducts();
+        } else {
+          products = await getProductsByCategory(activeCategory.id);
+        }
         setProducts(products);
       }
     })();
@@ -29,9 +34,7 @@ const Homepage = () => {
 
   useEffect(() => {
     (async () => {
-      const products = await getProducts();
       const categories = await getCategoriesList();
-      setProducts(products);
       setCategories(categories);
       setActiveCategory(categories[0]);
     })();
@@ -39,9 +42,6 @@ const Homepage = () => {
 
   // Logic to filter products based on the category
   // Note: do I have to change url here or it's not necessary for SPA?
-  // Basic fetch for all of the products can also be done with category func
-  // Make fetch for children categories of the active one
-  // Order of fetching and unnecessary calls
 
   return (
     <HomeContext.Provider value={categories}>

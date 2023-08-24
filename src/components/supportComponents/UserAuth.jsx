@@ -22,7 +22,7 @@ const UserAuth = () => {
     };
 
     checkAuthentication();
-  }, []);
+  });
 
   return <Outlet />;
 };
