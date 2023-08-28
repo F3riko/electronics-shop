@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
-import ProductPreviewCard from "../ProductPreviewCard";
+import ProductPreviewCard from "./ProductPreviewCard";
 import GalleryPagination from "./GalleryPagination";
 import NoProductsCard from "./NoProductsCard";
 

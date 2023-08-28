@@ -2,41 +2,21 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { Outlet, NavLink, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import LoginForm from "./sign-up-login/LoginForm";
 import { useState } from "react";
 import SignUpForm from "./sign-up-login/SignUpForm";
 import Image from "react-bootstrap/Image";
-import Row from "react-bootstrap/esm/Row";
-import Col from "react-bootstrap/esm/Col";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCartShopping,
+  faRightToBracket,
+} from "@fortawesome/free-solid-svg-icons";
 import Badge from "react-bootstrap/Badge";
 import CustomLink from "./supportComponents/CustomLink";
 import ForgotPassword from "./sign-up-login/ForgotPassword";
 import { useAuth } from "./supportComponents/AuthProvider";
 import { logOutUser } from "../services/api/logOut-api";
-
-const AccountAuth = ({ handleModalShow }) => {
-  return (
-    <>
-      <Button
-        variant="primary"
-        onClick={() => handleModalShow("singUp")}
-        className="mx-3"
-      >
-        Sign up
-      </Button>
-      <Button
-        variant="primary"
-        onClick={() => handleModalShow("login")}
-        className="mx-3"
-      >
-        Sign in
-      </Button>
-    </>
-  );
-};
 
 const NavBar = () => {
   const [showModal, setShowLogin] = useState({
@@ -44,13 +24,19 @@ const NavBar = () => {
     singUp: false,
     forgotPassword: false,
   });
+
+  const { user, logout } = useAuth();
+
   const handleModalClose = (modalName) => {
     setShowLogin((prevValue) => ({ ...prevValue, [modalName]: false }));
   };
+
   const handleModalShow = (modalName) => {
     setShowLogin((prevValue) => ({ ...prevValue, [modalName]: true }));
   };
+
   const navigate = useNavigate();
+
   const handleLogOut = async () => {
     const status = await logOutUser();
     if (status) {
@@ -61,8 +47,6 @@ const NavBar = () => {
     }
   };
 
-  const { user, logout } = useAuth();
-
   return (
     <>
       <Navbar
@@ -71,56 +55,72 @@ const NavBar = () => {
         className="bg-body-tertiary nav-bar-bootstrap-component sticky-top"
       >
         <Navbar.Brand onClick={() => navigate("/")}>
-          <Image src="electroverse-logo.png" className="nav-bar-logo" />
+          <Image
+            src="electroverse-logo.png"
+            className="nav-bar-logo nav-bar-logo-large"
+          />
+          <Image
+            src="small-logo.png"
+            className="nav-bar-logo nav-bar-logo-small"
+          />
         </Navbar.Brand>
+
+        <Form className="d-flex nav-bar-search-field nav-bar-search-full-width">
+          <Form.Control
+            type="search"
+            placeholder="Search Electroverse"
+            className="me-2"
+            aria-label="Search"
+          />
+          <Button variant="outline-success">Search</Button>
+        </Form>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Row className="w-100">
-            <Col md={6}>
-              <Form className="d-flex nav-bar-search-field">
-                <Form.Control
-                  type="search"
-                  placeholder="Search Electroverse"
-                  className="me-2"
-                  aria-label="Search"
-                />
-                <Button variant="outline-success">Search</Button>
-              </Form>
-            </Col>
-            <Col
-              md={6}
-              className="d-flex justify-content-md-end align-items-center"
+          <Nav className="ms-auto">
+            <Button
+              onClick={() => navigate("cart")}
+              className="nav-bar-cart-button"
             >
-              <Nav className="me-auto">
-                <Nav.Link as={NavLink} to={"about"} className="me-3">
-                  About us
-                </Nav.Link>
-              </Nav>
-              {user ? (
-                <>
-                  <CustomLink
-                    to={"/user/main"}
-                    children={<h6 className="mx-2">{user.email}</h6>}
-                  />
-                  <Button onClick={handleLogOut}>Log out</Button>
-                </>
-              ) : (
-                <AccountAuth handleModalShow={handleModalShow} />
-              )}
-
-              <Button onClick={() => navigate("cart")}>
-                <span>Cart</span>
+              <span>Cart</span>
+              <FontAwesomeIcon
+                icon={faCartShopping}
+                style={{ color: "#ffffff" }}
+                className="nav-bar-cart-icon"
+              />
+              <Badge bg="light" text="dark" className="nav-bar-cart-badge">
+                9
+              </Badge>
+            </Button>
+            {user ? (
+              <>
+                <CustomLink
+                  to={"/user/main"}
+                  children={
+                    <h6 className="mx-2 nav-bar-user-email">{user.email}</h6>
+                  }
+                />
+                <Button
+                  onClick={handleLogOut}
+                  className="nav-bar-logout-button"
+                >
+                  Log out
+                </Button>
+              </>
+            ) : (
+              <Button
+                variant="primary"
+                onClick={() => handleModalShow("login")}
+                className="mx-3 nav-bar-login-button"
+              >
+                Sign in
                 <FontAwesomeIcon
-                  icon={faCartShopping}
+                  icon={faRightToBracket}
                   style={{ color: "#ffffff" }}
                   className="nav-bar-cart-icon"
                 />
-                <Badge bg="light" text="dark" className="nav-bar-cart-badge">
-                  9
-                </Badge>
               </Button>
-            </Col>
-          </Row>
+            )}
+          </Nav>
         </Navbar.Collapse>
       </Navbar>
 
@@ -128,6 +128,7 @@ const NavBar = () => {
         showInitial={showModal.login}
         handleClose={() => handleModalClose("login")}
         showResetPassword={() => handleModalShow("forgotPassword")}
+        showSignUpForm={() => handleModalShow("singUp")}
       />
       <SignUpForm
         showInitial={showModal.singUp}
