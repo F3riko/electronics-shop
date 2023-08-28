@@ -10,7 +10,12 @@ import { loginUser } from "../../services/api/signIn-api";
 import { useAuth } from "../supportComponents/AuthProvider";
 import Cookies from "js-cookie";
 
-const LoginForm = ({ showInitial, handleClose, showResetPassword }) => {
+const LoginForm = ({
+  showInitial,
+  handleClose,
+  showResetPassword,
+  showSignUpForm,
+}) => {
   const defaultLoginData = {
     email: "",
     password: "",
@@ -125,7 +130,14 @@ const LoginForm = ({ showInitial, handleClose, showResetPassword }) => {
             >
               Can't sign in?
             </Button>
-            <Button variant="link" className="p-0">
+            <Button
+              variant="link"
+              className="p-0"
+              onClick={() => {
+                handleCloseLogin();
+                showSignUpForm();
+              }}
+            >
               Don't have an account?
             </Button>
           </Modal.Footer>

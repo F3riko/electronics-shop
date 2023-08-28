@@ -2,14 +2,14 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+// import Button from "react-bootstrap/Button";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import BootstrapSwitchButton from "bootstrap-switch-button-react";
-import { useState } from "react";
+// import { useState } from "react";
 
 const DeliveryForm = () => {
   // If there's user's data -> get it here
-  const [deliveryFormData, setDeliveryFormData] = useState({});
+  // const [deliveryFormData, setDeliveryFormData] = useState({});
 
   return (
     <Container className="address-form-wrapper">

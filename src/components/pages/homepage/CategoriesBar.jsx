@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import ListGroupItem from "react-bootstrap/ListGroupItem";
+import Spinner from "react-bootstrap/Spinner";
 import {
   getCategoriesByParent,
   categoryHasChildren,
@@ -39,11 +40,22 @@ const CategoriesBar = ({ activeCategory, setActiveCategory }) => {
   }, [categories, activeCategory]);
 
   if (categoriesToDisplay.length === 0) {
-    return <p>Loading categories...</p>;
+    return (
+      <div className="d-flex justify-content-center mt-5">
+        <Spinner
+          animation="border"
+          role="status"
+          variant="primary"
+          className="mt-5"
+        >
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
+    );
   }
 
   return (
-    <ListGroup>
+    <ListGroup className="categories-bar">
       {categoriesToDisplay.map((category) => (
         <ListGroupItem
           key={category.id}

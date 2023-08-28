@@ -2,13 +2,13 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import OrderPaymentMethods from "./OrderPaymentMethods";
 import CheckoutPlate from "../../generalComponents/CheckoutPlate";
 import DeliveryForm from "./DeliveryForm";
 
 const OrderPage = () => {
-  const { orderId } = useParams();
+  // const { orderId } = useParams();
   const [orderData, setOrderData] = useState({
     paymentMethodId: "",
     deliveryType: "",

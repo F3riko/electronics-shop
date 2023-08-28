@@ -6,7 +6,8 @@
 /* Product tile */
 
 .product-tile-thubmnail-wrapper {
-  padding: 0 !important;
+  background-color: #f8f9fa;
+  border-radius: 25px;
   display: flex;
   justify-content: center;
 }
@@ -27,10 +28,67 @@
   margin-top: 20px;
 }
 
+.price-font {
+  font-family: "Bruno Ace SC", cursive;
+  font-family: "Signika Negative", sans-serif;
+  font-size: 22px;
+}
+
+.price-discount {
+  color: #f91155;
+}
+
+.price-without-discount {
+  color: #9fa8b2;
+  text-decoration: line-through;
+  font-size: 18px;
+}
+
+.discount {
+  color: #fa5082;
+  font-size: 18px;
+}
+
+.cart-text {
+  font-family: "Cabin", sans-serif;
+  font-size: 18px;
+}
+
+.cart-quantity-text {
+  font-weight: 500;
+}
+
+.cart-secondary-text {
+  color: #83909c;
+}
+
+.product-tile-wrapper {
+  min-width: 205px;
+  padding: 10px 0;
+  border-bottom: 3px #f8f9fa solid;
+}
+
+.product-title-text {
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .product-tile-wrapper .middle-column {
+    display: none;
+  }
+  .product-tile-wrapper .product-title-text {
+    text-align: center;
+  }
+}
 /* Product gallery -> no items found component */
 
 .no-products-card-body {
   height: 80vh;
+}
+
+/* Categories bar */
+.categories-bar {
+  margin: 10px 0 0 15px;
 }
 
 /* Navbar */
@@ -44,6 +102,8 @@
 .nav-bar-bootstrap-component {
   margin: 0 !important;
   padding: 0 !important;
+  padding-right: 15px !important;
+  min-width: 375px;
 }
 
 .nav-bar-cart-icon {
@@ -55,6 +115,75 @@
   padding: 2px 8px !important;
 }
 
+.navbar-collapse .nav-bar-logout-button {
+  margin-top: 0.25rem;
+}
+
+.nav-bar-search-full-width {
+  width: calc(100% - 700px);
+  max-width: calc(100% - 200px);
+  margin-right: auto;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 991.98px) {
+  .nav-bar-search-full-width {
+    width: calc(100% - 70px);
+    max-width: 70%;
+    text-align: center;
+  }
+
+  .navbar-collapse .nav-bar-cart-button {
+    margin: 16px;
+  }
+  .navbar-collapse .nav-bar-user-email,
+  .navbar-collapse .nav-bar-logout-button,
+  .navbar-collapse .nav-bar-cart-button,
+  .navbar-collapse,
+  .nav-bar-login-button {
+    width: 98%;
+    padding-bottom: 10px;
+    text-align: center;
+  }
+}
+
+/* Media query for the smallest screens */
+@media (max-width: 533px) {
+  .nav-bar-search-full-width {
+    width: calc(100% - 70px);
+    max-width: 53%;
+  }
+}
+
+.nav-bar-logo {
+  height: 60px;
+  margin: 5px 15px;
+}
+
+.nav-bar-logo.nav-bar-logo-large {
+  width: 300px;
+  display: block;
+}
+
+.nav-bar-logo.nav-bar-logo-small {
+  width: 60px;
+  height: 60px;
+  margin-right: 0;
+  display: none;
+}
+
+@media (max-width: 991.98px) {
+  .nav-bar-logo.nav-bar-logo-large {
+    display: none;
+  }
+  .nav-bar-logo.nav-bar-logo-small {
+    display: block;
+    text-align: center;
+  }
+}
+
+/* Custom link */
+
 .custom-link {
   text-decoration-line: none !important;
   color: black;
@@ -63,6 +192,8 @@
 .custom-link:hover {
   color: #0e59e2;
 }
+
+/* Product page */
 
 .product-page-cart-block-discount,
 .product-page-cart-block-price {
