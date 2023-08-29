@@ -19,14 +19,19 @@ const Cart = () => {
   const { cart } = useAuth();
   const [selectedProducts, setSelectedProducts] = useState([]);
 
+  const getSelectedAll = (cart) => {
+    const selected = [];
+    for (const item of Object.values(cart.items)) {
+      selected.push(item.id);
+    }
+    return selected;
+  };
+
   useEffect(() => {
     if (cart.itemsQuantity !== 0) {
-      const selected = [];
-      for (const item of Object.values(cart.items)) {
-        selected.push(item.id);
-      }
+      const selected = getSelectedAll(cart);
       setSelectedProducts(selected);
-    }
+    } 
   }, []);
 
   const handleSelect = (id) => {
@@ -39,8 +44,17 @@ const Cart = () => {
     });
   };
 
+  const handleSelectAll = () => {
+    if (selectedProducts.length > 0) {
+      setSelectedProducts([]);
+    } else {
+      const selected = getSelectedAll(cart);
+      setSelectedProducts(selected);
+    }
+  };
+
   return (
-    <Container className="mt-3" fluid>
+    <Container className="mt-3 cart-wrapper" fluid>
       {cart.itemsQuantity !== 0 ? (
         <>
           <Row>
@@ -49,29 +63,27 @@ const Cart = () => {
           <Row>
             <Col xs={12} md={8}>
               <Row>
-                <p>Select all</p>
-                <Form.Check.Input
-                  type="checkbox"
-                  className="cart-custom-check-box"
-                />
-              </Row>
-              <Row>
+                <Col className="cart-select-all-wrapper">
+                  <Form.Check type="checkbox" id="all">
+                    <Form.Check.Input
+                      type="checkbox"
+                      className="cart-custom-check-box-all"
+                      checked={selectedProducts.length > 0}
+                      onChange={handleSelectAll}
+                    />
+                  </Form.Check>
+                  <span className="ps-3">Select all</span>
+                </Col>
                 <ProductPreviewCardCart
                   productData={sample}
                   selected={selectedProducts.includes(sample.id)}
                   handleSelect={handleSelect}
                 />
-                {/* <ProductPreviewCardCart
-              productData={dummyData["LkxpsH1QWbtBjeyuJcN60"]}
-            />
-            <ProductPreviewCardCart
-              productData={dummyData["LkxpsH1QWbtBjeyuJcN60"]}
-            /> */}
               </Row>
             </Col>
 
             <Col xs={12} md={4}>
-              <CheckoutPlate />
+              <CheckoutPlate cart={cart} selected={selectedProducts} />
             </Col>
           </Row>
         </>

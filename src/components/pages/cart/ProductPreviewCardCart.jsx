@@ -3,20 +3,16 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Image from "react-bootstrap/Image";
-import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import CustomLink from "../../supportComponents/CustomLink";
 import Form from "react-bootstrap/Form";
 import { useAuth } from "../../supportComponents/AuthProvider";
 import Counter from "../../supportComponents/Counter";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import PriceBlock from "../../supportComponents/PriceBlock";
-import { getCategoryNameById } from "../../../utils/categoryUtils";
-import {
-  faHeart as faHeartSolid,
-  faStar,
-} from "@fortawesome/free-solid-svg-icons";
+// import { getCategoryNameById } from "../../../utils/categoryUtils";
+import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 
 const ProductPreviewCardCart = ({ productData, selected, handleSelect }) => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
@@ -53,21 +49,6 @@ const ProductPreviewCardCart = ({ productData, selected, handleSelect }) => {
       </Row>
     );
   };
-  // const handleSelectItem = (e) => {
-  //   const id = parseInt(e.target.id);
-  //   handleSelect((prevValue) => {
-  //     const newValue = prevValue;
-  //     if (newValue.includes(id)) {
-  //       newValue.splice(newValue.indexOf(id));
-  //     } else {
-  //       newValue.push(id);
-  //     }
-  //     // console.log(newValue);
-  //     return newValue;
-  //   });
-  //   console.log(selected);
-  // };
-  // console.log(selected);
   const { cart, handleCart } = useAuth();
   return (
     <Container fluid className="cart-pr-tile-wrapper">
