@@ -25,7 +25,7 @@ const NavBar = () => {
     forgotPassword: false,
   });
 
-  const { user, logout } = useAuth();
+  const { user, logout, cart } = useAuth();
 
   const handleModalClose = (modalName) => {
     setShowLogin((prevValue) => ({ ...prevValue, [modalName]: false }));
@@ -88,7 +88,7 @@ const NavBar = () => {
                 className="nav-bar-cart-icon"
               />
               <Badge bg="light" text="dark" className="nav-bar-cart-badge">
-                9
+                {cart.itemsQuantity || 0}
               </Badge>
             </Button>
             {user ? (

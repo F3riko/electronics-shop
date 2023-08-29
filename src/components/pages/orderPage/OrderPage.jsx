@@ -4,7 +4,7 @@ import Container from "react-bootstrap/Container";
 import { useState } from "react";
 // import { useParams } from "react-router-dom";
 import OrderPaymentMethods from "./OrderPaymentMethods";
-import CheckoutPlate from "../../generalComponents/CheckoutPlate";
+import CheckoutPlate from "../../supportComponents/CheckoutPlate";
 import DeliveryForm from "./DeliveryForm";
 
 const OrderPage = () => {

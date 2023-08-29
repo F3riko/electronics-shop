@@ -17,7 +17,6 @@ const ProductPage = () => {
 
   useEffect(() => {
     setProduct(dummyData[productId]);
-    console.log(product);
   }, [productId]);
 
   return (
@@ -47,7 +46,11 @@ const ProductPage = () => {
           <a href="#description">View details</a>
         </Col>
         <Col xs={12} md={4}>
-          <CartBlock price={product.price} discount={"200"} />
+          <CartBlock
+            price={product.price}
+            discount={"200"}
+            itemId={productId}
+          />
         </Col>
       </Row>
       <Row>

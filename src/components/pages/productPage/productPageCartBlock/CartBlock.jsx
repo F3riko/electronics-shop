@@ -9,18 +9,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { useAuth } from "../../../supportComponents/AuthProvider";
 
-const CartBlock = ({ price, discount }) => {
-  const [cartQuantity, setCartQuantity] = useState(0);
+const CartBlock = ({ price, discount, itemId }) => {
   const [liked, setLiked] = useState(false);
-
-  const handleCart = (action) => {
-    if (action === "+") {
-      setCartQuantity((prevValue) => prevValue + 1);
-    } else {
-      setCartQuantity((prevValue) => prevValue - 1);
-    }
-  };
+  const { cart, handleCart } = useAuth();
 
   const handleLike = () => {
     setLiked((prevValue) => !prevValue);
@@ -51,19 +44,23 @@ const CartBlock = ({ price, discount }) => {
       </Row>
       <Row>
         <Col>
-          {cartQuantity === 0 ? (
+          {cart.items[itemId] === undefined ? (
             <Button
               variant="primary"
               className="mb-2 w-100"
               onClick={() => {
-                handleCart("+");
+                handleCart(itemId, "incr");
               }}
             >
               <FontAwesomeIcon icon={faCartShopping} />
               <span className="cart-text ms-1">Cart</span>
             </Button>
           ) : (
-            <Counter handleCounter={handleCart} cartState={cartQuantity} />
+            <Counter
+              handleCounter={handleCart}
+              cartState={cart.items[itemId].quantity}
+              itemId={itemId}
+            />
           )}
         </Col>
       </Row>
