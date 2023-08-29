@@ -3,12 +3,17 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import ProductPreviewCardCart from "./ProductPreviewCardCart";
-import CheckoutPlate from "../../generalComponents/CheckoutPlate";
-
-// Dummy data
-import dummyData from "../../dummydata/electronicsData";
+import CheckoutPlate from "../../supportComponents/CheckoutPlate";
 
 const Cart = () => {
+  const sample = {
+    id: 1,
+    name: "Sony Xperia L4",
+    category: 2,
+    price: 199,
+    year_of_production: 2020,
+  };
+
   return (
     <Container className="mt-3" fluid>
       <Row>
@@ -24,15 +29,13 @@ const Cart = () => {
             />
           </Row>
           <Row>
-            <ProductPreviewCardCart
+            <ProductPreviewCardCart productData={sample} />
+            {/* <ProductPreviewCardCart
               productData={dummyData["LkxpsH1QWbtBjeyuJcN60"]}
             />
             <ProductPreviewCardCart
               productData={dummyData["LkxpsH1QWbtBjeyuJcN60"]}
-            />
-            <ProductPreviewCardCart
-              productData={dummyData["LkxpsH1QWbtBjeyuJcN60"]}
-            />
+            /> */}
           </Row>
         </Col>
 

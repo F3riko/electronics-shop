@@ -8,10 +8,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import CustomLink from "../../supportComponents/CustomLink";
 import Form from "react-bootstrap/Form";
+import { useAuth } from "../../supportComponents/AuthProvider";
+import Counter from "../../supportComponents/Counter";
 
 const ProductPreviewCardCart = ({ productData }) => {
+  const { cart, handleCart } = useAuth();
+
   return (
     <Container fluid className="bg-light">
+      <Counter
+        handleCounter={handleCart}
+        cartState={cart.items[productData.id].quantity}
+        itemId={productData.id}
+      />
       <Row>
         <CustomLink to={`/product/${productData.id}`}>
           <p className="text-center mb-2">{productData.name}</p>

@@ -18,10 +18,10 @@ import { HomeContext } from "../Homepage";
 import { getCategoryNameById } from "../../../../utils/categoryUtils";
 import Counter from "../../../supportComponents/Counter";
 import PriceBlock from "../../../supportComponents/PriceBlock";
+import { useAuth } from "../../../supportComponents/AuthProvider";
 
 const ProductPreviewCard = ({ productData }) => {
   const [liked, setLiked] = useState(false);
-  const [cartQuantity, setCartQuantity] = useState(0);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const categories = useContext(HomeContext);
   const categoryName = getCategoryNameById(categories, productData.category_id);
@@ -30,6 +30,7 @@ const ProductPreviewCard = ({ productData }) => {
   // const discount =
   //   (productData.discount && parseInt(productData.discount)) || null;
   const discount = 25;
+  const { handleCart, cart } = useAuth();
 
   useEffect(() => {
     const handleResize = () => {
@@ -54,14 +55,6 @@ const ProductPreviewCard = ({ productData }) => {
 
   const handleLike = () => {
     setLiked((prevValue) => !prevValue);
-  };
-
-  const handleCart = (action) => {
-    if (action === "+") {
-      setCartQuantity((prevValue) => prevValue + 1);
-    } else {
-      setCartQuantity((prevValue) => prevValue - 1);
-    }
   };
 
   return (
@@ -128,19 +121,23 @@ const ProductPreviewCard = ({ productData }) => {
               )}
             </Col>
           </Row>
-          {cartQuantity === 0 ? (
+          {cart.items[productData.id] === undefined ? (
             <Button
               variant="primary"
               className="mb-2"
               onClick={() => {
-                handleCart("+");
+                handleCart(productData.id, "incr");
               }}
             >
               <FontAwesomeIcon icon={faCartShopping} />
               <span className="cart-text ms-1">Cart</span>
             </Button>
           ) : (
-            <Counter handleCounter={handleCart} cartState={cartQuantity} />
+            <Counter
+              handleCounter={handleCart}
+              cartState={cart.items[productData.id].quantity}
+              itemId={productData.id}
+            />
           )}
         </Col>
       </Row>

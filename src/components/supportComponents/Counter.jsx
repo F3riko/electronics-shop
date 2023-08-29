@@ -2,7 +2,7 @@ import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
-const Counter = ({ handleCounter, cartState }) => {
+const Counter = ({ handleCounter, cartState, itemId }) => {
   return (
     <div className="d-flex justify-content-between align-items-center mb-2">
       <Button
@@ -10,7 +10,7 @@ const Counter = ({ handleCounter, cartState }) => {
         variant="light"
         style={{ backgroundColor: "#ebf7ff" }}
         onClick={() => {
-          handleCounter("-");
+          handleCounter(itemId, "decr");
         }}
       >
         <FontAwesomeIcon icon={faMinus} style={{ color: "#1969ff" }} />
@@ -21,7 +21,7 @@ const Counter = ({ handleCounter, cartState }) => {
         variant="light"
         style={{ backgroundColor: "#ebf7ff" }}
         onClick={() => {
-          handleCounter("+");
+          handleCounter(itemId, "incr");
         }}
       >
         <FontAwesomeIcon icon={faPlus} style={{ color: "#1969ff" }} />
