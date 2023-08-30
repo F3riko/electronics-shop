@@ -1,10 +1,19 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { getCategoriesList } from "../../services/homepage-api";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [cart, setCart] = useState({ items: {}, itemsQuantity: 0 });
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const categories = await getCategoriesList();
+      setCategories(categories);
+    })();
+  }, []);
 
   const handleCart = (itemId, action) => {
     setCart((prevCart) => {
@@ -42,7 +51,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, cart, handleCart }}>
+    <AuthContext.Provider
+      value={{ user, login, logout, cart, handleCart, categories }}
+    >
       {children}
     </AuthContext.Provider>
   );

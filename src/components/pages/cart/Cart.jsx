@@ -8,16 +8,15 @@ import { useAuth } from "../../supportComponents/AuthProvider";
 import { useEffect, useState } from "react";
 
 const Cart = () => {
-  const sample = {
-    id: 1,
-    title: "Sony Xperia L4",
-    category: 2,
-    price: 199,
-    year_of_production: 2020,
-  };
-
   const { cart } = useAuth();
   const [selectedProducts, setSelectedProducts] = useState([]);
+
+  useEffect(() => {
+    if (cart.itemsQuantity !== 0) {
+      const selected = getSelectedAll(cart);
+      setSelectedProducts(selected);
+    }
+  }, []);
 
   const getSelectedAll = (cart) => {
     const selected = [];
@@ -26,13 +25,6 @@ const Cart = () => {
     }
     return selected;
   };
-
-  useEffect(() => {
-    if (cart.itemsQuantity !== 0) {
-      const selected = getSelectedAll(cart);
-      setSelectedProducts(selected);
-    } 
-  }, []);
 
   const handleSelect = (id) => {
     setSelectedProducts((prevValue) => {
@@ -74,11 +66,16 @@ const Cart = () => {
                   </Form.Check>
                   <span className="ps-3">Select all</span>
                 </Col>
-                <ProductPreviewCardCart
-                  productData={sample}
-                  selected={selectedProducts.includes(sample.id)}
-                  handleSelect={handleSelect}
-                />
+                {Object.values(cart.items).map((item) => {
+                  return (
+                    <ProductPreviewCardCart
+                      itemId={item.id}
+                      selected={selectedProducts.includes(item.id)}
+                      handleSelect={handleSelect}
+                      key={item.id}
+                    />
+                  );
+                })}
               </Row>
             </Col>
 
