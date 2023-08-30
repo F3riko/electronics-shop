@@ -43,7 +43,7 @@ const ProductPreviewCardCart = ({ productData, selected, handleSelect }) => {
   const ProductTitle = () => {
     return (
       <Row className="mb-2 cart-product-title-text">
-        <CustomLink to={`product/${productData.id}`}>
+        <CustomLink to={`/product/${productData.id}`}>
           <Col>{productData.title}</Col>
         </CustomLink>
       </Row>

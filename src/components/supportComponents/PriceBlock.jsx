@@ -1,5 +1,5 @@
 const PriceBlock = ({ price, discount }) => {
-  return discount !== null ? (
+  return discount > 0 ? (
     <span className="price-font">
       <span className="me-2 price-font price-discount">
         {price - discount}$
@@ -8,7 +8,7 @@ const PriceBlock = ({ price, discount }) => {
       <span className="discount">-{Math.round((discount / price) * 100)}%</span>
     </span>
   ) : (
-    <span className="price-font">{price.toFixed(0)} $</span>
+    <span className="price-font">{parseInt(price).toFixed(0)} $</span>
   );
 };
 
