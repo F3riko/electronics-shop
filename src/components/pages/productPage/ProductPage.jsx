@@ -6,17 +6,21 @@ import Container from "react-bootstrap/Container";
 import Image from "react-bootstrap/Image";
 import Carousel from "react-bootstrap/Carousel";
 import CartBlock from "./productPageCartBlock/CartBlock";
-
-// Dummy data
-import dummyData from "../../dummydata/electronicsData";
+import { getProduct } from "../../../services/api/getProduct-api";
 
 const ProductPage = () => {
   const { productId } = useParams();
-
   const [product, setProduct] = useState({});
 
   useEffect(() => {
-    setProduct(dummyData[productId]);
+    (async () => {
+      const productData = await getProduct(productId);
+      if (productData) {
+        setProduct(productData);
+      } else {
+        // Manage here bad response
+      }
+    })();
   }, [productId]);
 
   return (
@@ -48,7 +52,7 @@ const ProductPage = () => {
         <Col xs={12} md={4}>
           <CartBlock
             price={product.price}
-            discount={"200"}
+            discount={product.discount}
             itemId={productId}
           />
         </Col>
