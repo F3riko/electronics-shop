@@ -220,13 +220,11 @@ function SignUpForm({ showInitial, handleClose }) {
               </Form.Text>
             </Form.Group>
 
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" className="w-100 p-3 mt-2">
               Submit
             </Button>
           </Form>
         </Modal.Body>
-
-        <Modal.Footer className="justify-content-between"></Modal.Footer>
       </Modal>
       <SignUpConfirmation
         showInitial={confirmationShow}

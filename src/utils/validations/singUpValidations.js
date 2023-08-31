@@ -1,4 +1,4 @@
-const isAlphabetic = (inputString) => {
+export const isAlphabetic = (inputString) => {
   if (inputString && !/^[a-zA-Z]+$/.test(inputString)) {
     return "Should contain only letters";
   }
@@ -12,7 +12,7 @@ export const isLengthAppropriate = (value, min, max) => {
   return false;
 };
 
-const isEmailCorrect = (email) => {
+export const isEmailCorrect = (email) => {
   const regexPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   if (email && !regexPattern.test(email)) {
