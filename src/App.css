@@ -362,3 +362,51 @@
 .profile-placeholder-image-caption {
   font-size: larger;
 }
+
+/* Footer */
+.ftr-wrapper {
+  margin-top: 15px;
+}
+
+.ftr-link-wrapper {
+  background-color: #f8f9fa;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  border-bottom: gray 1px solid;
+  padding: 30px 0;
+}
+
+.ftr-link {
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.ftr-link .ftr-link-text {
+  text-decoration: none;
+  color: black;
+}
+
+.ftr-link {
+  margin-bottom: 10px;
+}
+
+.ftr-link-text:hover {
+  color: lightblue;
+}
+
+.ftr-copyright {
+  color: white;
+  padding: 20px;
+  text-align: center;
+  background-color: darkgray;
+}
+
+.ftr-slogan {
+  text-align: center;
+  text-shadow: #83909c;
+  padding: 30px;
+  color: #131313;
+  font-style: italic;
+}

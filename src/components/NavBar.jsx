@@ -17,6 +17,7 @@ import CustomLink from "./supportComponents/CustomLink";
 import ForgotPassword from "./sign-up-login/ForgotPassword";
 import { useAuth } from "./supportComponents/AuthProvider";
 import { logOutUser } from "../services/api/logOut-api";
+import Footer from "./Footer";
 
 const NavBar = () => {
   const [showModal, setShowLogin] = useState({
@@ -143,6 +144,7 @@ const NavBar = () => {
         }}
       />
       <Outlet />
+      <Footer />
     </>
   );
 };
