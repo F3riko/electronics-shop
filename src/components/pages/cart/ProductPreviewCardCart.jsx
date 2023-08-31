@@ -11,18 +11,28 @@ import { useAuth } from "../../supportComponents/AuthProvider";
 import Counter from "../../supportComponents/Counter";
 import { useState, useEffect } from "react";
 import PriceBlock from "../../supportComponents/PriceBlock";
-// import { getCategoryNameById } from "../../../utils/categoryUtils";
+import { getCategoryNameById } from "../../../utils/categoryUtils";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import useFetch from "../../../utils/useFetch";
 import { getProduct } from "../../../services/api/getProduct-api";
+import { getProductImg } from "../../../services/api/getProductImg-api";
 
 const ProductPreviewCardCart = ({ selected, handleSelect, itemId }) => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [liked, setLiked] = useState(false);
-  const { data, loading, error } = useFetch(getProduct, [itemId]);
-  const { cart, handleCart } = useAuth();
-  // const categories = useContext(HomeContext);
-  // const categoryName = getCategoryNameById(categories, productData.category_id);
+  const {
+    data: productData,
+    loading: productLoading,
+    error: productError,
+  } = useFetch(getProduct, itemId);
+
+  const {
+    data: imgData,
+    loading: imgLoading,
+    error: imgError,
+  } = useFetch(getProductImg, itemId);
+
+  const { cart, handleCart, categories } = useAuth();
 
   useEffect(() => {
     const handleResize = () => {
@@ -42,8 +52,8 @@ const ProductPreviewCardCart = ({ selected, handleSelect, itemId }) => {
   const ProductTitle = () => {
     return (
       <Row className="mb-2 cart-product-title-text">
-        <CustomLink to={`/product/${data.id}`}>
-          <Col>{data.title}</Col>
+        <CustomLink to={`/product/${productData.id}`}>
+          <Col>{productData.title}</Col>
         </CustomLink>
       </Row>
     );
@@ -51,8 +61,8 @@ const ProductPreviewCardCart = ({ selected, handleSelect, itemId }) => {
 
   return (
     <Container fluid className="cart-pr-tile-wrapper">
-      {loading && <h5>Loading...</h5>}
-      {data && (
+      {productLoading && <h5>Loading...</h5>}
+      {productData && (
         <>
           <Row>
             <Col
@@ -60,21 +70,25 @@ const ProductPreviewCardCart = ({ selected, handleSelect, itemId }) => {
               xs={1}
               className="d-flex flex-column align-items-center justify-content-center px-0"
             >
-              <Form.Check type="checkbox" id={data.id}>
+              <Form.Check type="checkbox" id={productData.id}>
                 <Form.Check.Input
                   type="checkbox"
                   className="cart-custom-check-box"
                   checked={selected}
-                  onChange={() => handleSelect(data.id)}
+                  onChange={() => handleSelect(productData.id)}
                 />
               </Form.Check>
             </Col>
 
             <Col xs={12} md={3} className="cart-product-tile-thubmnail-wrapper">
-              <Link to={`/product/${data.id}`}>
+              <Link to={`/product/${productData.id}`}>
                 <Image
-                  src="/placeholder1.png"
-                  className="cart-product-tile-thubmnail"
+                  src={imgLoading || !imgData ? "/placeholder1.png" : imgData}
+                  className={
+                    imgLoading || !imgData
+                      ? "product-tile-thubmnail"
+                      : "product-tile-thubmnail-image"
+                  }
                 />
               </Link>
             </Col>
@@ -82,9 +96,11 @@ const ProductPreviewCardCart = ({ selected, handleSelect, itemId }) => {
             <Col className="mt-1 cart-middle-column">
               <ProductTitle />
               <span>
-                <span className="cart-secondary-text">Category</span>:{" "}
-                {/* {categoryName} */}
+                <span className="cart-secondary-text">Category</span>:
+                {productData?.category_id &&
+                  getCategoryNameById(categories, productData.category_id)}
               </span>
+
               {/* No description here, only list of specs from db */}
 
               {/* <span>Description: {productData.description}</span> */}
@@ -103,8 +119,10 @@ const ProductPreviewCardCart = ({ selected, handleSelect, itemId }) => {
               <Row>
                 <Col className="px-4 d-flex justify-content-between align-items-center">
                   <PriceBlock
-                    price={data.price * cart.items[itemId].quantity}
-                    discount={data.discount * cart.items[itemId].quantity}
+                    price={productData.price * cart.items[itemId].quantity}
+                    discount={
+                      productData.discount * cart.items[itemId].quantity
+                    }
                   />
                   {liked ? (
                     <FontAwesomeIcon
@@ -128,7 +146,7 @@ const ProductPreviewCardCart = ({ selected, handleSelect, itemId }) => {
               <Counter
                 handleCounter={handleCart}
                 cartState={cart.items[itemId].quantity}
-                itemId={data.id}
+                itemId={productData.id}
               />
             </Col>
           </Row>
