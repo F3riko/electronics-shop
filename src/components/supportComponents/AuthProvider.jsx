@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { getCategoriesList } from "../../services/homepage-api";
+import Cookies from "js-cookie";
 
 const AuthContext = createContext();
 
@@ -13,6 +14,14 @@ export const AuthProvider = ({ children }) => {
       const categories = await getCategoriesList();
       setCategories(categories);
     })();
+    // Getting user name here
+    const openDataCookie = Cookies.get("openData");
+    console.log(openDataCookie);
+    if (openDataCookie !== undefined) {
+      const email = JSON.parse(openDataCookie);
+      const userData = { email };
+      login(userData);
+    }
   }, []);
 
   const handleCart = (itemId, action) => {
