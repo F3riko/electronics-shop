@@ -19,17 +19,15 @@ import { getCategoryNameById } from "../../../../utils/categoryUtils";
 import Counter from "../../../supportComponents/Counter";
 import PriceBlock from "../../../supportComponents/PriceBlock";
 import { useAuth } from "../../../supportComponents/AuthProvider";
+import useFetch from "../../../../utils/useFetch";
+import { getProductImg } from "../../../../services/api/getProductImg-api";
 
 const ProductPreviewCard = ({ productData }) => {
   const [liked, setLiked] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const categories = useContext(HomeContext);
   const categoryName = getCategoryNameById(categories, productData.category_id);
-  const price = parseInt(productData.price);
-  // Testing for discount
-  // const discount =
-  //   (productData.discount && parseInt(productData.discount)) || null;
-  const discount = 25;
+  const { data, loading, error } = useFetch(getProductImg, productData.id);
   const { handleCart, cart } = useAuth();
 
   useEffect(() => {
@@ -62,7 +60,10 @@ const ProductPreviewCard = ({ productData }) => {
       <Row>
         <Col xs={12} md={3} className="product-tile-thubmnail-wrapper">
           <Link to={`product/${productData.id}`}>
-            <Image src="/placeholder1.png" className="product-tile-thubmnail" />
+            <Image
+              src={loading || !data ? "/placeholder1.png" : data}
+              className={loading || !data ? "product-tile-thubmnail" : "product-tile-thubmnail-image"}
+            />
           </Link>
         </Col>
 
@@ -102,7 +103,10 @@ const ProductPreviewCard = ({ productData }) => {
         >
           <Row>
             <Col className="d-flex justify-content-between align-items-center">
-              <PriceBlock price={price} discount={discount} />
+              <PriceBlock
+                price={productData.price}
+                discount={productData.discount}
+              />
               {liked ? (
                 <FontAwesomeIcon
                   icon={faHeartSolid}

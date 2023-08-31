@@ -6,29 +6,44 @@ import Image from "react-bootstrap/Image";
 import Carousel from "react-bootstrap/Carousel";
 import CartBlock from "./productPageCartBlock/CartBlock";
 import { getProduct } from "../../../services/api/getProduct-api";
+import { getProductImg } from "../../../services/api/getProductImg-api";
 import useFetch from "../../../utils/useFetch";
 import { useAuth } from "../../supportComponents/AuthProvider";
 
 const ProductPage = () => {
   const { productId } = useParams();
-  const { data, loading, error } = useFetch(getProduct, [productId]);
+  const {
+    data: productData,
+    loading: productLoading,
+    error: productError,
+  } = useFetch(getProduct, productId);
+
+  const {
+    data: imgData,
+    loading: imgLoading,
+    error: imgError,
+  } = useFetch(getProductImg, productId);
   const { categories } = useAuth();
 
   return (
     <Container>
-      {loading && <h1>Wait</h1>}
-      {data && (
+      {productLoading && <h1>Wait</h1>}
+      {productData && (
         <>
           <Row>
-            <h4 className="text-center mt-3">{data.name}</h4>
+            <h4 className="text-center mt-3">{productData.title}</h4>
           </Row>
           <Row>
             <Col xs={12} md={3} className="pr-page-gallery-wrapper">
               <Carousel fade variant="dark">
                 <Carousel.Item className="text-center">
                   <Image
-                    src="/placeholder1.png"
-                    className="pr-page-main-image"
+                    src={imgLoading || !imgData ? "/placeholder1.png" : imgData}
+                    className={
+                      imgLoading || !imgData
+                        ? "product-tile-thubmnail"
+                        : "product-tile-thubmnail-image"
+                    }
                   />
                 </Carousel.Item>
                 <Carousel.Item className="text-center">
@@ -50,19 +65,21 @@ const ProductPage = () => {
               md={5}
               className="pr-page-short-specs d-flex flex-column"
             >
-              {categories && categories[data.category_id]?.name && (
-                <span>Category: {categories[data.category_id].name}</span>
+              {categories && categories[productData.category_id]?.name && (
+                <span>
+                  Category: {categories[productData.category_id].name}
+                </span>
               )}
 
-              <span>Year of production: {data.year_of_production}</span>
-              <span>Weight: {data.weight}g</span>
-              <span>In stock: {data.stock_quantity}</span>
+              <span>Year of production: {productData.year_of_production}</span>
+              <span>Weight: {productData.weight}g</span>
+              <span>In stock: {productData.stock_quantity}</span>
               <a href="#description">View details</a>
             </Col>
             <Col xs={12} md={4}>
               <CartBlock
-                price={data.price}
-                discount={data.discount}
+                price={productData.price}
+                discount={productData.discount}
                 itemId={productId}
               />
             </Col>

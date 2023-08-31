@@ -50,8 +50,15 @@
 /* Product preview card */
 
 .product-tile-thubmnail,
-.cart-product-tile-thubmnail {
+.cart-product-tile-thubmnail,
+.product-tile-thubmnail-image {
   margin: 20px 0;
+}
+
+.product-tile-thubmnail-image {
+  width: 171px;
+  height: 180px;
+  border-radius: 25px;
 }
 
 .product-tile-thubmnail-wrapper,

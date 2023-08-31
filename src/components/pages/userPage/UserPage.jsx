@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Figure, Button } from "react-bootstrap";
-import { useAuth } from "../../supportComponents/AuthProvider";
+import React from "react";
+import { Container, Row, Col, Figure } from "react-bootstrap";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import useFetch from "../../../utils/useFetch";
