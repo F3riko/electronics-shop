@@ -96,7 +96,9 @@ const NavBar = () => {
                 <CustomLink
                   to={"/user/main"}
                   children={
-                    <h6 className="mx-2 nav-bar-user-email">{user.email}</h6>
+                    <h6 className="mx-2 mt-2 nav-bar-user-email">
+                      {user.email}
+                    </h6>
                   }
                 />
                 <Button
