@@ -2,27 +2,19 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
+import { useAuth } from "./AuthProvider";
 
-const CheckoutPlate = ({ cart, orderPageFlag, selected }) => {
+const CheckoutPlate = ({ orderPageFlag, clickHandler }) => {
+  
+  const { cart } = useAuth();
   const buttonText = orderPageFlag ? "Create order" : "Check out";
-  const quantity = (() => {
-    let itemsQuantity = 0;
-    if (cart.items) {
-      for (const item of Object.values(cart.items)) {
-        if (selected.includes(item.id)) {
-          itemsQuantity += item.quantity;
-        }
-      }
-    }
-    return itemsQuantity;
-  })();
-
-  const additionalS = quantity !== 1 ? "s" : "";
+  const additionalS = cart.itemsSelectedcart !== 1 ? "s" : "";
+  
   return (
     <Container>
       <div className="cart-checkout-wrapper">
         <Row className="justify-content-center cart-checkout-button-wrapper">
-          <Button className="cart-checkout-button">
+          <Button className="cart-checkout-button" onClick={clickHandler}>
             <span className="cart-text">{buttonText}</span>
           </Button>
         </Row>
@@ -31,13 +23,13 @@ const CheckoutPlate = ({ cart, orderPageFlag, selected }) => {
           <Col xs={6}>
             <p className="cart-checkout-info-p">Your cart</p>
             <p className="cart-checkout-info-p">
-              Item{additionalS}: {quantity}
+              Item{additionalS}: {cart.itemsSelectedQuantity}
             </p>
             <p className="cart-checkout-info-p">Total price</p>
           </Col>
           <Col xs={6}>
             <p className="cart-checkout-info-p">
-              {quantity} item{additionalS}
+              {cart.itemsSelectedQuantity} item{additionalS}
             </p>
             <p className="cart-checkout-info-p">0,26kg</p>
             <p className="cart-checkout-info-p">268$</p>

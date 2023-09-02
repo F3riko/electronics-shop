@@ -17,7 +17,7 @@ import useFetch from "../../../utils/useFetch";
 import { getProduct } from "../../../services/api/getProduct-api";
 import { getProductImg } from "../../../services/api/getProductImg-api";
 
-const ProductPreviewCardCart = ({ selected, handleSelect, itemId }) => {
+const ProductPreviewCardCart = ({ itemId }) => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [liked, setLiked] = useState(false);
   const {
@@ -32,7 +32,7 @@ const ProductPreviewCardCart = ({ selected, handleSelect, itemId }) => {
     error: imgError,
   } = useFetch(getProductImg, itemId);
 
-  const { cart, handleCart, categories } = useAuth();
+  const { cart, handleCart, categories, handleSelectCart } = useAuth();
 
   useEffect(() => {
     const handleResize = () => {
@@ -74,8 +74,8 @@ const ProductPreviewCardCart = ({ selected, handleSelect, itemId }) => {
                 <Form.Check.Input
                   type="checkbox"
                   className="cart-custom-check-box"
-                  checked={selected}
-                  onChange={() => handleSelect(productData.id)}
+                  checked={cart.items[itemId].selected}
+                  onChange={() => handleSelectCart(itemId)}
                 />
               </Form.Check>
             </Col>

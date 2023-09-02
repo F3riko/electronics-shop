@@ -6,7 +6,11 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [cart, setCart] = useState({ items: {}, itemsQuantity: 0 });
+  const [cart, setCart] = useState({
+    items: {},
+    itemsQuantity: 0,
+    itemsSelectedQuantity: 0,
+  });
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -33,18 +37,68 @@ export const AuthProvider = ({ children }) => {
         if (action === "incr") {
           item.quantity++;
           updatedCart.itemsQuantity++;
+          if (item.selected) {
+            updatedCart.itemsSelectedQuantity++;
+          }
         } else if (action === "decr") {
           if (item.quantity === 1) {
             delete updatedCart.items[itemId];
             updatedCart.itemsQuantity--;
+            if (item.selected) {
+              updatedCart.itemsSelectedQuantity--;
+            }
           } else {
             item.quantity--;
             updatedCart.itemsQuantity--;
+            if (item.selected) {
+              updatedCart.itemsSelectedQuantity--;
+            }
           }
         }
       } else if (action === "incr") {
-        updatedCart.items[itemId] = { id: itemId, quantity: 1 };
+        updatedCart.items[itemId] = { id: itemId, quantity: 1, selected: true };
         updatedCart.itemsQuantity++;
+        updatedCart.itemsSelectedQuantity++;
+      }
+      return updatedCart;
+    });
+  };
+
+  const handleSelectCart = (itemId) => {
+    setCart((prevCart) => {
+      const updatedCart = { ...prevCart };
+      const item = updatedCart.items[itemId];
+
+      if (item) {
+        if (item.selected) {
+          item.selected = false;
+          updatedCart.itemsSelectedQuantity -= item.quantity;
+        } else {
+          item.selected = true;
+          updatedCart.itemsSelectedQuantity += item.quantity;
+        }
+      }
+
+      return updatedCart;
+    });
+  };
+
+  const handleSelectAll = () => {
+    setCart((prevCart) => {
+      const updatedCart = { ...prevCart };
+      const items = Object.values(updatedCart.items);
+
+      const newSelectedState =
+        updatedCart.itemsSelectedQuantity !== updatedCart.itemsQuantity;
+
+      items.forEach((item) => {
+        item.selected = newSelectedState;
+      });
+
+      if (newSelectedState) {
+        updatedCart.itemsSelectedQuantity = updatedCart.itemsQuantity;
+      } else {
+        updatedCart.itemsSelectedQuantity = 0;
       }
 
       return updatedCart;
@@ -61,7 +115,16 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, login, logout, cart, handleCart, categories }}
+      value={{
+        user,
+        login,
+        logout,
+        cart,
+        handleSelectCart,
+        handleCart,
+        categories,
+        handleSelectAll,
+      }}
     >
       {children}
     </AuthContext.Provider>
