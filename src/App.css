@@ -270,6 +270,7 @@
 
 .cart-wrapper {
   padding: 0 100px !important;
+  min-height: 85vh;
 }
 
 @media (max-width: 991.98px) {
@@ -314,12 +315,31 @@
 }
 
 /* Order page */
+.order-wrapper {
+  min-height: 85vh;
+}
+
 /* Order page Payment choice */
-.order-page-payment-card-wrapper {
+.order-page-payment-card-wrapper,
+.order-page-payment-card-wrapper-selected {
   margin: 10px 0 25px 25px !important;
-  border: 1px solid black;
+  border: 1px solid #0e59e2;
   width: fit-content !important;
   border-radius: 15px;
+  width: 130px !important;
+  background-color: #e9eef4;
+}
+
+.order-page-payment-card-wrapper:hover {
+  background-color: #0e59e2;
+  color: white;
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.order-page-payment-card-wrapper-selected {
+  background-color: #0e59e2;
+  color: white;
 }
 
 .order-page-payment-card-text {
@@ -336,20 +356,23 @@
 }
 
 .order-page-payment-header {
-  margin: 5px 20px 0 12px !important;
-  width: fit-content !important;
+  margin: 10px 20px 5px 15px !important;
 }
 
 /* Address form */
 .address-form-textarea {
   resize: none;
+  height: 100px !important;
 }
 
 .address-form-wrapper {
-  margin-top: 20px;
-  /* Temp */
   background-color: #f5f5f5;
-  border-radius: 15px;
+  padding: 25px !important;
+  border-radius: 25px;
+}
+
+.address-form-field {
+  padding: 0 15px 10px 10px;
 }
 
 /* User page */
@@ -409,4 +432,53 @@
   padding: 30px;
   color: #131313;
   font-style: italic;
+}
+
+/* Address plate */
+.addrs-plate-wrapper,
+.addrs-plate-wrapper-selected,
+.order-page-new-address-wrapper {
+  border-radius: 15px;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+}
+
+.addrs-plate-wrapper,
+.order-page-new-address-wrapper {
+  border: 1px solid #0e59e2;
+  background-color: #e9eef4;
+}
+
+.addrs-plate-wrapper-selected,
+.addrs-plate-wrapper:hover,
+.order-page-new-address-wrapper:hover {
+  color: white;
+  background-color: #0e59e2;
+  border: 1px solid #e9eef4;
+}
+
+.addrs-plate-wrapper:hover,
+.order-page-new-address-wrapper:hover {
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.order-page-new-address-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.order-page-new-address-wrapper:hover {
+  cursor: pointer;
+}
+
+.addrs-plate-info-title {
+  font-weight: bold;
+}
+
+.addrs-plate-wrapper:hover .addrs-plate-icon {
+  color: #e9eef4;
 }

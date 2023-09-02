@@ -5,49 +5,15 @@ import Form from "react-bootstrap/Form";
 import ProductPreviewCardCart from "./ProductPreviewCardCart";
 import CheckoutPlate from "../../supportComponents/CheckoutPlate";
 import { useAuth } from "../../supportComponents/AuthProvider";
-import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const { cart } = useAuth();
-  const [selectedProducts, setSelectedProducts] = useState([]);
-
-  useEffect(() => {
-    if (cart.itemsQuantity !== 0) {
-      const selected = getSelectedAll(cart);
-      setSelectedProducts(selected);
-    }
-  }, []);
-
-  const getSelectedAll = (cart) => {
-    const selected = [];
-    for (const item of Object.values(cart.items)) {
-      selected.push(item.id);
-    }
-    return selected;
-  };
-
-  const handleSelect = (id) => {
-    setSelectedProducts((prevValue) => {
-      if (prevValue.includes(id)) {
-        return prevValue.filter((productId) => productId !== id);
-      } else {
-        return [...prevValue, id];
-      }
-    });
-  };
-
-  const handleSelectAll = () => {
-    if (selectedProducts.length > 0) {
-      setSelectedProducts([]);
-    } else {
-      const selected = getSelectedAll(cart);
-      setSelectedProducts(selected);
-    }
-  };
+  const navigate = useNavigate();
+  const { cart, handleSelectAll } = useAuth();
 
   return (
     <Container className="mt-3 cart-wrapper" fluid>
-      {cart.itemsQuantity !== 0 ? (
+      {Object.values(cart.items).length !== 0 ? (
         <>
           <Row>
             <h3 className="text-center">Your cart</h3>
@@ -60,7 +26,9 @@ const Cart = () => {
                     <Form.Check.Input
                       type="checkbox"
                       className="cart-custom-check-box-all"
-                      checked={selectedProducts.length > 0}
+                      checked={
+                        cart.itemsSelectedQuantity === cart.itemsQuantity
+                      }
                       onChange={handleSelectAll}
                     />
                   </Form.Check>
@@ -68,19 +36,16 @@ const Cart = () => {
                 </Col>
                 {Object.values(cart.items).map((item) => {
                   return (
-                    <ProductPreviewCardCart
-                      itemId={item.id}
-                      selected={selectedProducts.includes(item.id)}
-                      handleSelect={handleSelect}
-                      key={item.id}
-                    />
+                    <ProductPreviewCardCart itemId={item.id} key={item.id} />
                   );
                 })}
               </Row>
             </Col>
 
             <Col xs={12} md={4}>
-              <CheckoutPlate cart={cart} selected={selectedProducts} />
+              <CheckoutPlate
+                clickHandler={() => navigate("/user/main/order/1")}
+              />
             </Col>
           </Row>
         </>
