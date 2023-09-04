@@ -16,7 +16,6 @@ export const getProductImg = async (id) => {
       const imageBuffer = response.data;
       const base64Image = Buffer.from(imageBuffer).toString("base64");
       const dataUrl = `data:image/jpeg;base64,${base64Image}`;
-      console.log(dataUrl);
       return dataUrl;
     } else {
       return false;
