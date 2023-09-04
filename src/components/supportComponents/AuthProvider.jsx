@@ -1,6 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { getCategoriesList } from "../../services/homepage-api";
 import Cookies from "js-cookie";
+import { getCart } from "../../services/api/getCart-api";
+import { addItem } from "../../services/api/apiAddItem";
+import { delItem } from "../../services/api/apiDelItem";
 
 const AuthContext = createContext();
 
@@ -13,6 +16,65 @@ export const AuthProvider = ({ children }) => {
   });
   const [categories, setCategories] = useState([]);
 
+  const updateCartFromServer = async (updatedCart) => {
+    try {
+      let updatedCartData;
+      if (!updatedCart) {
+        updatedCartData = await getCart();
+      } else {
+        updatedCartData = updatedCart;
+      }
+      console.log(updatedCartData);
+      setCart((prevCart) => {
+        const updatedCart = { ...prevCart };
+        const allIDsItemsServer = [];
+        // Modifying quantity or adding item if doesn't exist
+        for (const item of updatedCartData) {
+          allIDsItemsServer.push(item.item_id);
+          const oldItem = updatedCart.items[item.item_id];
+          if (oldItem) {
+            updatedCart.itemsQuantity -= oldItem.quantity;
+            if (oldItem.selected) {
+              updatedCart.itemsSelectedQuantity -= oldItem.quantity;
+            }
+            oldItem.quantity = item.item_quantity;
+            if (oldItem.selected) {
+              updatedCart.itemsSelectedQuantity += item.item_quantity;
+            }
+            updatedCart.itemsQuantity += item.item_quantity;
+          } else {
+            const itemId = item.item_id;
+            updatedCart.items[itemId] = {
+              id: itemId,
+              quantity: item.item_quantity,
+              selected: true,
+            };
+            updatedCart.itemsQuantity += item.item_quantity;
+            updatedCart.itemsSelectedQuantity += item.item_quantity;
+          }
+        }
+        // Deleting non present in the server's list
+        for (const item of Object.keys(updatedCart.items)) {
+          const quantity = updatedCart.items[item].quantity;
+          if (!allIDsItemsServer.includes(parseInt(item))) {
+            updatedCart.itemsQuantity -= quantity;
+            if (item.selected) {
+              updatedCart.itemsSelectedQuantity -= quantity;
+            }
+            delete updatedCart.items[item];
+          }
+        }
+        return updatedCart;
+      });
+    } catch (error) {
+      console.error("Error updating cart from server:", error);
+    }
+  };
+
+  useEffect(() => {
+    updateCartFromServer();
+  }, [user]);
+
   useEffect(() => {
     (async () => {
       const categories = await getCategoriesList();
@@ -20,7 +82,6 @@ export const AuthProvider = ({ children }) => {
     })();
     // Getting user name here
     const openDataCookie = Cookies.get("openData");
-    console.log(openDataCookie);
     if (openDataCookie !== undefined) {
       const email = JSON.parse(openDataCookie);
       const userData = { email };
@@ -28,40 +89,14 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const handleCart = (itemId, action) => {
-    setCart((prevCart) => {
-      const updatedCart = { ...prevCart };
-      const item = updatedCart.items[itemId];
-
-      if (item) {
-        if (action === "incr") {
-          item.quantity++;
-          updatedCart.itemsQuantity++;
-          if (item.selected) {
-            updatedCart.itemsSelectedQuantity++;
-          }
-        } else if (action === "decr") {
-          if (item.quantity === 1) {
-            delete updatedCart.items[itemId];
-            updatedCart.itemsQuantity--;
-            if (item.selected) {
-              updatedCart.itemsSelectedQuantity--;
-            }
-          } else {
-            item.quantity--;
-            updatedCart.itemsQuantity--;
-            if (item.selected) {
-              updatedCart.itemsSelectedQuantity--;
-            }
-          }
-        }
-      } else if (action === "incr") {
-        updatedCart.items[itemId] = { id: itemId, quantity: 1, selected: true };
-        updatedCart.itemsQuantity++;
-        updatedCart.itemsSelectedQuantity++;
-      }
-      return updatedCart;
-    });
+  const handleCart = async (itemId, action) => {
+    if (action === "incr") {
+      const newCartData = await addItem(itemId);
+      await updateCartFromServer(newCartData);
+    } else if (action === "decr") {
+      const newCartData = await delItem(itemId);
+      await updateCartFromServer(newCartData);
+    }
   };
 
   const handleSelectCart = (itemId) => {
