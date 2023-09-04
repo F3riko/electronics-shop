@@ -3,13 +3,21 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import { useAuth } from "./AuthProvider";
+import useFetch from "../../utils/useFetch";
+import { getCalcCart } from "../../services/api/getCalcCart";
+import { useEffect } from "react";
 
 const CheckoutPlate = ({ orderPageFlag, clickHandler }) => {
-  
   const { cart } = useAuth();
   const buttonText = orderPageFlag ? "Create order" : "Check out";
   const additionalS = cart.itemsSelectedcart !== 1 ? "s" : "";
-  
+
+  const { data, loading, error, refetch } = useFetch(getCalcCart);
+
+  useEffect(() => {
+    refetch();
+  }, [cart, refetch]);
+
   return (
     <Container>
       <div className="cart-checkout-wrapper">
@@ -31,8 +39,14 @@ const CheckoutPlate = ({ orderPageFlag, clickHandler }) => {
             <p className="cart-checkout-info-p">
               {cart.itemsSelectedQuantity} item{additionalS}
             </p>
-            <p className="cart-checkout-info-p">0,26kg</p>
-            <p className="cart-checkout-info-p">268$</p>
+            <p className="cart-checkout-info-p">
+              {(data && data.totalWeight) / 1000 ||
+                (loading && <span>Loading...</span>)}{" "}
+              kg
+            </p>
+            <p className="cart-checkout-info-p">
+              {(data && data.totalSum) || (loading && <span>Loading...</span>)}$
+            </p>
           </Col>
           {orderPageFlag && (
             <Col md={6}>
