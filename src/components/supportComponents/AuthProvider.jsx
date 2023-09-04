@@ -24,7 +24,6 @@ export const AuthProvider = ({ children }) => {
       } else {
         updatedCartData = updatedCart;
       }
-      console.log(updatedCartData);
       setCart((prevCart) => {
         const updatedCart = { ...prevCart };
         const allIDsItemsServer = [];
