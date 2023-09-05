@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import AddressPlate from "./AddressPlate";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { nanoid } from "nanoid";
 
 const OrderPage = () => {
   const { orderId } = useParams();
@@ -132,7 +133,7 @@ const OrderPage = () => {
           <Row>
             {addressDataArray.map((address) => {
               return (
-                <Col md={6} xs={12}>
+                <Col md={6} xs={12} key={nanoid()}>
                   <AddressPlate
                     addressData={address}
                     selected={address.id === orderData.deliveryMethodId}

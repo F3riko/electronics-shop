@@ -158,6 +158,7 @@ export const AuthProvider = ({ children }) => {
         handleCart,
         categories,
         handleSelectAll,
+        updateCartFromServer,
       }}
     >
       {children}
