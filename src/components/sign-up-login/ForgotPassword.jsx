@@ -23,7 +23,6 @@ const ForgotPassword = ({ handleClose, showInitial }) => {
     try {
       const { status, data } = await resetPassMsg(emailForgotPass);
       console.log("Server response status:", status);
-      console.log(data);
       if (status === 200) {
         navigate(data);
         handleClose();
@@ -33,21 +32,6 @@ const ForgotPassword = ({ handleClose, showInitial }) => {
     } catch (error) {
       console.error("Error:", error);
     }
-
-    // try {
-    //   const { status } = await loginUser(loginData);
-    //   // Testing
-    //   console.log("Server response status:", status);
-
-    //   if (status === 200) {
-    //     navigate("/user/main");
-    //     handleClose();
-    //   } else {
-    //     setLoginData((prevData) => ({ ...prevData, validationError: true }));
-    //   }
-    // } catch (error) {
-    //   console.error("Error:", error);
-    // }
   };
 
   return (
