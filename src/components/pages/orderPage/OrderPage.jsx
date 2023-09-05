@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import OrderPaymentMethods from "./OrderPaymentMethods";
 import CheckoutPlate from "../../supportComponents/CheckoutPlate";
 import DeliveryForm from "./DeliveryForm";
-import { useAuth } from "../../supportComponents/AuthProvider";
 import BootstrapSwitchButton from "bootstrap-switch-button-react";
 import { useParams } from "react-router-dom";
 import AddressPlate from "./AddressPlate";

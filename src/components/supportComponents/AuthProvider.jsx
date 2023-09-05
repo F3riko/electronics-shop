@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }) => {
           const quantity = updatedCart.items[item].quantity;
           if (!allIDsItemsServer.includes(parseInt(item))) {
             updatedCart.itemsQuantity -= quantity;
-            if (item.selected) {
+            if (updatedCart.items[item].selected) {
               updatedCart.itemsSelectedQuantity -= quantity;
             }
             delete updatedCart.items[item];
