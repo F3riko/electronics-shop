@@ -6,10 +6,29 @@ import ProductPreviewCardCart from "./ProductPreviewCardCart";
 import CheckoutPlate from "../../supportComponents/CheckoutPlate";
 import { useAuth } from "../../supportComponents/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import prepareCartForOrder from "../../../utils/cartOp";
+import { createOrder } from "../../../services/api/newOrder-api";
 
 const Cart = () => {
   const navigate = useNavigate();
-  const { cart, handleSelectAll } = useAuth();
+  const { cart, handleSelectAll, updateCartFromServer } = useAuth();
+
+  const handleNewOrder = async () => {
+    try {
+      const orderDataCart = await prepareCartForOrder(
+        cart,
+        updateCartFromServer
+      );
+      const orderId = await createOrder(orderDataCart);
+      if (orderId) {
+        navigate(`/order/${orderId}`);
+      } else {
+        // Error handling
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Container className="mt-3 cart-wrapper" fluid>
@@ -43,9 +62,7 @@ const Cart = () => {
             </Col>
 
             <Col xs={12} md={4}>
-              <CheckoutPlate
-                clickHandler={() => navigate("/user/main/order/1")}
-              />
+              <CheckoutPlate clickHandler={handleNewOrder} />
             </Col>
           </Row>
         </>

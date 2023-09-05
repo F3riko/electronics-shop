@@ -16,6 +16,7 @@ import UserPage from "./components/pages/userPage/UserPage";
 import ResetPassword from "./components/sign-up-login/ResetPassword";
 import { AuthProvider } from "./components/supportComponents/AuthProvider";
 import UserAuth from "./components/supportComponents/UserAuth";
+import OrderAuth from "./components/supportComponents/OrderAuth";
 
 // Temporary components
 
@@ -50,9 +51,13 @@ function App() {
             {/* Temporary route */}
             <Route path="user/passReset" element={<ResetPassword />} />
 
+            <Route path="order" element={<OrderAuth />}>
+              <Route path=":orderId" element={<OrderPage />} />
+            </Route>
+
             <Route path="user/main" element={<UserAuth />}>
               <Route index element={<UserPage />} />
-              <Route path="order/:orderId" element={<OrderPage />} />
+              {/* <Route path="order/:orderId" element={<OrderPage />} /> */}
             </Route>
           </Route>
           <Route path="admin/main" element={<AdminAuth />}>
