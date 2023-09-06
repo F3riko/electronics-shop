@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { getCategoriesList } from "../../services/homepage-api";
+import { getCategoriesList } from "../services/homepage-api";
 import Cookies from "js-cookie";
-import { getCart } from "../../services/api/getCart-api";
-import { addItem } from "../../services/api/apiAddItem";
-import { delItem } from "../../services/api/apiDelItem";
+import { getCart } from "../services/api/cartApi/getCartApi";
+import { addItem } from "../services/api/cartApi/addItemApi";
+import { delItem } from "../services/api/cartApi/deleteItemApi";
 
 const AuthContext = createContext();
 

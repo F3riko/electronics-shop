@@ -12,15 +12,15 @@ import {
   faHeart as faHeartSolid,
   faStar,
 } from "@fortawesome/free-solid-svg-icons";
-import CustomLink from "../../../supportComponents/CustomLink";
+import CustomLink from "../../../shared/CustomLink";
 import { useContext, useState, useEffect } from "react";
 import { HomeContext } from "../Homepage";
-import { getCategoryNameById } from "../../../../utils/categoryUtils";
-import Counter from "../../../supportComponents/Counter";
-import PriceBlock from "../../../supportComponents/PriceBlock";
-import { useAuth } from "../../../supportComponents/AuthProvider";
-import useFetch from "../../../../utils/useFetch";
-import { getProductImg } from "../../../../services/api/getProductImg-api";
+import { getCategoryNameById } from "../../../../utils/categoriesOprations/categoryUtils";
+import Counter from "../../../shared/Counter";
+import PriceBlock from "../../../shared/PriceBlock";
+import { useAuth } from "../../../../contextProviders/AuthProvider";
+import useFetch from "../../../../utils/customHooks/useFetch";
+import { getProductImg } from "../../../../services/api/productApi/getProductImgApi";
 
 const ProductPreviewCard = ({ productData }) => {
   const [liked, setLiked] = useState(false);
@@ -61,8 +61,16 @@ const ProductPreviewCard = ({ productData }) => {
         <Col xs={12} md={3} className="product-tile-thubmnail-wrapper">
           <Link to={`product/${productData.id}`}>
             <Image
-              src={loading || !data ? "/placeholder1.png" : data}
-              className={loading || !data ? "product-tile-thubmnail" : "product-tile-thubmnail-image"}
+              src={
+                loading || !data
+                  ? "/images/other/placeholder-171-180.png"
+                  : data
+              }
+              className={
+                loading || !data
+                  ? "product-tile-thubmnail"
+                  : "product-tile-thubmnail-image"
+              }
             />
           </Link>
         </Col>

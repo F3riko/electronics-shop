@@ -4,10 +4,10 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { validateInput } from "../../utils/validations/singUpValidations";
-import { defaultContactUsData } from "../../utils/validations/contactUsValidations";
+import { validateInput } from "../../../utils/validations/singUpValidations";
+import { defaultContactUsData } from "../../../utils/validations/contactUsValidations";
 import { nanoid } from "nanoid";
-import { useAuth } from "../supportComponents/AuthProvider";
+import { useAuth } from "../../../contextProviders/AuthProvider";
 
 function ContactUsForm({ showInitial, handleClose }) {
   const { user } = useAuth();

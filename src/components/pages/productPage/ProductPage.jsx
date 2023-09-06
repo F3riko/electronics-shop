@@ -4,11 +4,11 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Image from "react-bootstrap/Image";
 import Carousel from "react-bootstrap/Carousel";
-import CartBlock from "./productPageCartBlock/CartBlock";
-import { getProduct } from "../../../services/api/getProduct-api";
-import { getProductImg } from "../../../services/api/getProductImg-api";
-import useFetch from "../../../utils/useFetch";
-import { useAuth } from "../../supportComponents/AuthProvider";
+import CartBlock from "./CartBlock";
+import { getProduct } from "../../../services/api/productApi/getProductApi";
+import { getProductImg } from "../../../services/api/productApi/getProductImgApi";
+import useFetch from "../../../utils/customHooks/useFetch";
+import { useAuth } from "../../../contextProviders/AuthProvider";
 
 const ProductPage = () => {
   const { productId } = useParams();
@@ -38,7 +38,11 @@ const ProductPage = () => {
               <Carousel fade variant="dark">
                 <Carousel.Item className="text-center">
                   <Image
-                    src={imgLoading || !imgData ? "/placeholder1.png" : imgData}
+                    src={
+                      imgLoading || !imgData
+                        ? "/images/other/placeholder-171-180.png"
+                        : imgData
+                    }
                     className={
                       imgLoading || !imgData
                         ? "product-tile-thubmnail"
@@ -48,13 +52,13 @@ const ProductPage = () => {
                 </Carousel.Item>
                 <Carousel.Item className="text-center">
                   <Image
-                    tesrc="/placeholder1.png"
+                    tesrc="/images/other/placeholder-171-180.png"
                     className="pr-page-main-image"
                   />
                 </Carousel.Item>
                 <Carousel.Item className="text-center">
                   <Image
-                    src="/placeholder1.png"
+                    src="/images/other/placeholder-171-180.png"
                     className="pr-page-main-image"
                   />
                 </Carousel.Item>

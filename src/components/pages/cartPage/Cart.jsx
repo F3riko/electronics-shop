@@ -3,11 +3,11 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import ProductPreviewCardCart from "./ProductPreviewCardCart";
-import CheckoutPlate from "../../supportComponents/CheckoutPlate";
-import { useAuth } from "../../supportComponents/AuthProvider";
+import CheckoutPlate from "../../shared/CheckoutPlate";
+import { useAuth } from "../../../contextProviders/AuthProvider";
 import { useNavigate } from "react-router-dom";
-import prepareCartForOrder from "../../../utils/cartOp";
-import { createOrder } from "../../../services/api/newOrder-api";
+import prepareCartForOrder from "../../../utils/cartOperations/cartOp";
+import { createOrder } from "../../../services/api/orderApi/createNewOderApi";
 
 const Cart = () => {
   const navigate = useNavigate();

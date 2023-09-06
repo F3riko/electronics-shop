@@ -5,7 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
-import { resetPassMsg } from "../../services/api/resetPassMsg-api";
+import { resetPassMsg } from "../../../services/authService/userAuth/authentication/getResetPassMsg";
 
 const ForgotPassword = ({ handleClose, showInitial }) => {
   const navigate = useNavigate();

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { authUser } from "../../services/api/userAuth-api";
-import { useAuth } from "./AuthProvider";
+import { authUser } from "../../services/authService/userAuth/authorization/userPageAuth";
+import { useAuth } from "../../contextProviders/AuthProvider";
 import { useNavigate, Outlet } from "react-router-dom";
 
 const UserAuth = () => {

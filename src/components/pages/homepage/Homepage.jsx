@@ -1,4 +1,4 @@
-import ProductPreviewGallery from "./Product Preview Gallery/ProductPreviewGallery";
+import ProductPreviewGallery from "./productPreviewGallery/ProductPreviewGallery";
 import CategoriesBar from "./CategoriesBar";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
@@ -13,7 +13,6 @@ import {
 export const HomeContext = createContext();
 
 const Homepage = () => {
-  // Initial data fetching
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState(null);

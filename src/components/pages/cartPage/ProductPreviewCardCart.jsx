@@ -5,17 +5,17 @@ import Col from "react-bootstrap/Col";
 import Image from "react-bootstrap/Image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import CustomLink from "../../supportComponents/CustomLink";
+import CustomLink from "../../shared/CustomLink";
 import Form from "react-bootstrap/Form";
-import { useAuth } from "../../supportComponents/AuthProvider";
-import Counter from "../../supportComponents/Counter";
+import { useAuth } from "../../../contextProviders/AuthProvider";
+import Counter from "../../shared/Counter";
 import { useState, useEffect } from "react";
-import PriceBlock from "../../supportComponents/PriceBlock";
-import { getCategoryNameById } from "../../../utils/categoryUtils";
+import PriceBlock from "../../shared/PriceBlock";
+import { getCategoryNameById } from "../../../utils/categoriesOprations/categoryUtils";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
-import useFetch from "../../../utils/useFetch";
-import { getProduct } from "../../../services/api/getProduct-api";
-import { getProductImg } from "../../../services/api/getProductImg-api";
+import useFetch from "../../../utils/customHooks/useFetch";
+import { getProduct } from "../../../services/api/productApi/getProductApi";
+import { getProductImg } from "../../../services/api/productApi/getProductImgApi";
 
 const ProductPreviewCardCart = ({ itemId }) => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
@@ -83,7 +83,11 @@ const ProductPreviewCardCart = ({ itemId }) => {
             <Col xs={12} md={3} className="cart-product-tile-thubmnail-wrapper">
               <Link to={`/product/${productData.id}`}>
                 <Image
-                  src={imgLoading || !imgData ? "/placeholder1.png" : imgData}
+                  src={
+                    imgLoading || !imgData
+                      ? "/images/other/placeholder-171-180.png"
+                      : imgData
+                  }
                   className={
                     imgLoading || !imgData
                       ? "product-tile-thubmnail"

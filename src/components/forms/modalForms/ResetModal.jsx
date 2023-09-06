@@ -4,14 +4,14 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { resetPass } from "../../services/api/resetPass";
+import { resetPass } from "../../../services/authService/userAuth/authentication/userResetPass";
 import { useNavigate, useLocation } from "react-router-dom";
 import { nanoid } from "nanoid";
-import { resetPassword } from "../../utils/validations/resetPassValidations";
+import { resetPassword } from "../../../utils/validations/resetPassValidations";
 import {
   arePasswordsSame,
   validateInput,
-} from "../../utils/validations/singUpValidations";
+} from "../../../utils/validations/singUpValidations";
 
 const ForgotPassword = () => {
   const [resetPassData, setResetPassData] = useState(resetPassword);
