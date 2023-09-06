@@ -2,8 +2,8 @@ import React from "react";
 import { Container, Row, Col, Figure } from "react-bootstrap";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import useFetch from "../../../utils/useFetch";
-import { getProfileInfo } from "../../../services/api/userProfile-api";
+import useFetch from "../../../utils/customHooks/useFetch";
+import { getProfileInfo } from "../../../services/api/userApi/getUserInfoApi";
 
 const UserPage = () => {
   const { data, loading, error } = useFetch(getProfileInfo);
@@ -24,7 +24,7 @@ const UserPage = () => {
               <Col md={3} xs={12} className="d-flex justify-content-center">
                 <Figure>
                   <Figure.Image
-                    src="/user.png"
+                    src="/images/other/user.png"
                     roundedCircle
                     className="profile-placeholder-image"
                   />

@@ -3,20 +3,13 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import ContactUsForm from "./ContactUsForm";
+import ContactUsForm from "../forms/modalForms/ContactUsModal";
+import { handleModalClose, handleModalShow } from "../../utils/modals/modalHelpers";
 
 const Footer = () => {
   const [showModal, setShowModal] = useState({
     contactUs: false,
   });
-
-  const handleModalClose = (modalName) => {
-    setShowModal((prevValue) => ({ ...prevValue, [modalName]: false }));
-  };
-
-  const handleModalShow = (modalName) => {
-    setShowModal((prevValue) => ({ ...prevValue, [modalName]: true }));
-  };
 
   return (
     <>
@@ -36,7 +29,7 @@ const Footer = () => {
             <h6 className="ftr-link">
               <Link
                 className="ftr-link-text"
-                onClick={() => handleModalShow("contactUs")}
+                onClick={() => handleModalShow("contactUs", setShowModal)}
               >
                 Contact us
               </Link>
@@ -55,7 +48,7 @@ const Footer = () => {
         </Row>
       </Container>
       <ContactUsForm
-        handleClose={() => handleModalClose("contactUs")}
+        handleClose={() => handleModalClose("contactUs", setShowModal)}
         showInitial={showModal.contactUs}
       />
     </>

@@ -2,9 +2,9 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-import { useAuth } from "./AuthProvider";
-import useFetch from "../../utils/useFetch";
-import { getCalcCart } from "../../services/api/getCalcCart";
+import { useAuth } from "../../contextProviders/AuthProvider";
+import useFetch from "../../utils/customHooks/useFetch";
+import { getCalcCart } from "../../services/api/cartApi/calcCartApi";
 import { useEffect } from "react";
 
 const CheckoutPlate = ({ orderPageFlag, clickHandler }) => {

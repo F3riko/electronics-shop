@@ -5,7 +5,7 @@ import Spinner from "react-bootstrap/Spinner";
 import {
   getCategoriesByParent,
   categoryHasChildren,
-} from "../../../utils/categoryUtils";
+} from "../../../utils/categoriesOprations/categoryUtils";
 import { HomeContext } from "./Homepage";
 
 const CategoriesBar = ({ activeCategory, setActiveCategory }) => {

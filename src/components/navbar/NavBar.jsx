@@ -3,9 +3,9 @@ import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Outlet, useNavigate } from "react-router-dom";
-import LoginForm from "./sign-up-login/LoginForm";
+import LoginForm from "../forms/modalForms/LoginModal";
 import { useState } from "react";
-import SignUpForm from "./sign-up-login/SignUpForm";
+import SignUpForm from "../forms/modalForms/SignUpModal";
 import Image from "react-bootstrap/Image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,11 +13,15 @@ import {
   faRightToBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import Badge from "react-bootstrap/Badge";
-import CustomLink from "./supportComponents/CustomLink";
-import ForgotPassword from "./sign-up-login/ForgotPassword";
-import { useAuth } from "./supportComponents/AuthProvider";
-import { logOutUser } from "../services/api/logOut-api";
-import Footer from "./footer/Footer";
+import CustomLink from "../shared/CustomLink";
+import ForgotPassword from "../forms/modalForms/ForgotPasswordModal";
+import { useAuth } from "../../contextProviders/AuthProvider";
+import { logOutUser } from "../../services/authService/userAuth/authentication/userLogOut";
+import Footer from "../footer/Footer";
+import {
+  handleModalClose,
+  handleModalShow,
+} from "../../utils/modals/modalHelpers";
 
 const NavBar = () => {
   const [showModal, setShowLogin] = useState({
@@ -27,14 +31,6 @@ const NavBar = () => {
   });
 
   const { user, logout, cart } = useAuth();
-
-  const handleModalClose = (modalName) => {
-    setShowLogin((prevValue) => ({ ...prevValue, [modalName]: false }));
-  };
-
-  const handleModalShow = (modalName) => {
-    setShowLogin((prevValue) => ({ ...prevValue, [modalName]: true }));
-  };
 
   const navigate = useNavigate();
 
@@ -57,11 +53,11 @@ const NavBar = () => {
       >
         <Navbar.Brand onClick={() => navigate("/")}>
           <Image
-            src="electroverse-logo.png"
+            src="images/logo/big-logo.png"
             className="nav-bar-logo nav-bar-logo-large"
           />
           <Image
-            src="small-logo.png"
+            src="images/logo/small-logo.png"
             className="nav-bar-logo nav-bar-logo-small"
           />
         </Navbar.Brand>
@@ -112,7 +108,7 @@ const NavBar = () => {
             ) : (
               <Button
                 variant="primary"
-                onClick={() => handleModalShow("login")}
+                onClick={() => handleModalShow("login", setShowLogin)}
                 className="mx-3 nav-bar-login-button"
               >
                 Sign in
@@ -129,18 +125,18 @@ const NavBar = () => {
 
       <LoginForm
         showInitial={showModal.login}
-        handleClose={() => handleModalClose("login")}
-        showResetPassword={() => handleModalShow("forgotPassword")}
-        showSignUpForm={() => handleModalShow("singUp")}
+        handleClose={() => handleModalClose("login", setShowLogin)}
+        showResetPassword={() => handleModalShow("forgotPassword", setShowLogin)}
+        showSignUpForm={() => handleModalShow("singUp", setShowLogin)}
       />
       <SignUpForm
         showInitial={showModal.singUp}
-        handleClose={() => handleModalClose("singUp")}
+        handleClose={() => handleModalClose("singUp", setShowLogin)}
       />
       <ForgotPassword
         showInitial={showModal.forgotPassword}
         handleClose={() => {
-          handleModalClose("forgotPassword");
+          handleModalClose("forgotPassword", setShowLogin);
         }}
       />
       <Outlet />

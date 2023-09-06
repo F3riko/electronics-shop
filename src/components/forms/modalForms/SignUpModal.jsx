@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import SignUpConfirmation from "./SignUpConfirmation";
+import SignUpConfirmation from "./SignUpConfirmationModal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -9,12 +9,12 @@ import {
   arePasswordsSame,
   defaultSignUpData,
   validateInput,
-} from "../../utils/validations/singUpValidations";
+} from "../../../utils/validations/singUpValidations";
 import { nanoid } from "nanoid";
 import ReCAPTCHA from "react-google-recaptcha";
-import { submitUser } from "../../services/api/signUp-api";
+import { submitUser } from "../../../services/authService/userAuth/authentication/userSignUp";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../supportComponents/AuthProvider";
+import { useAuth } from "../../../contextProviders/AuthProvider";
 import Cookies from "js-cookie";
 
 // const secretKey = process.env.REACT_APP_SECRET_KEY;

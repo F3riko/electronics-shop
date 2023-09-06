@@ -2,14 +2,14 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
-import Counter from "../../../supportComponents/Counter";
-import PriceBlock from "../../../supportComponents/PriceBlock";
+import Counter from "../../shared/Counter";
+import PriceBlock from "../../shared/PriceBlock";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { useAuth } from "../../../supportComponents/AuthProvider";
+import { useAuth } from "../../../contextProviders/AuthProvider";
 
 const CartBlock = ({ price, discount, itemId }) => {
   const [liked, setLiked] = useState(false);

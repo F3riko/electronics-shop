@@ -7,16 +7,16 @@ import {
   Navigate,
 } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import NavBar from "./components/NavBar";
-import Homepage from "./components/pages/homepage/Homepage";
+import NavBar from "./components/navbar/NavBar";
+import Homepage from "./components/pages/homePage/Homepage";
 import ProductPage from "./components/pages/productPage/ProductPage";
-import Cart from "./components/pages/cart/Cart";
+import Cart from "./components/pages/cartPage/Cart";
 import OrderPage from "./components/pages/orderPage/OrderPage";
 import UserPage from "./components/pages/userPage/UserPage";
-import ResetPassword from "./components/sign-up-login/ResetPassword";
-import { AuthProvider } from "./components/supportComponents/AuthProvider";
-import UserAuth from "./components/supportComponents/UserAuth";
-import OrderAuth from "./components/supportComponents/OrderAuth";
+import ResetPassword from "./components/forms/modalForms/ResetModal";
+import { AuthProvider } from "./contextProviders/AuthProvider";
+import UserAuth from "./components/layout/UserAuth";
+import OrderAuth from "./components/layout/OrderAuth";
 
 // Temporary components
 

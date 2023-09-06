@@ -1,4 +1,4 @@
-import { getCart } from "../services/api/getCart-api";
+import { getCart } from "../../services/api/cartApi/getCartApi";
 
 // This function will prepare the order data (items):
 // It will retrieve the cart object from the server, verify the consistency of

@@ -6,8 +6,8 @@ import Alert from "react-bootstrap/Alert";
 import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { loginUser } from "../../services/api/signIn-api";
-import { useAuth } from "../supportComponents/AuthProvider";
+import { loginUser } from "../../../services/authService/userAuth/authentication/userLogIn";
+import { useAuth } from "../../../contextProviders/AuthProvider";
 import Cookies from "js-cookie";
 
 const LoginForm = ({

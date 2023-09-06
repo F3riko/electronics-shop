@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { useAuth } from "./AuthProvider";
+import { useAuth } from "../../contextProviders/AuthProvider";
 import { useNavigate, Outlet } from "react-router-dom";
-import { orderAuth } from "../../services/api/orderAuth-api";
+import { orderAuth } from "../../services/authService/orderPageAuth";
 import { useParams } from "react-router-dom";
 
 const OrderAuth = () => {
