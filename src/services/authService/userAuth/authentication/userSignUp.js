@@ -8,7 +8,7 @@ export const submitUser = async (userJson) => {
   try {
     axios.defaults.withCredentials = true;
     const response = await axios.post(
-      "http://localhost:3100/api/add/user",
+      "http://localhost:3100/auth/register",
       JSON.stringify(userJson),
       {
         headers: {
