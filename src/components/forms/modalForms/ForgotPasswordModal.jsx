@@ -24,7 +24,7 @@ const ForgotPassword = ({ handleClose, showInitial }) => {
       const { status, data } = await resetPassMsg(emailForgotPass);
       console.log("Server response status:", status);
       if (status === 200) {
-        navigate(data);
+        // Show modal: email has been sent
         handleClose();
       } else {
         // Temp
