@@ -4,7 +4,7 @@ export const resetPass = async (newUserPassowrd, resetToken) => {
   axios.defaults.withCredentials = true;
   try {
     const response = await axios.post(
-      "http://localhost:3100/user/passReset/",
+      "http://localhost:3100/auth/passReset/",
       { newUserPassowrd, resetToken },
       {
         headers: {

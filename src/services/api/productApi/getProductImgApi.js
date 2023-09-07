@@ -4,7 +4,7 @@ import { Buffer } from "buffer";
 export const getProductImg = async (id) => {
   try {
     const response = await axios.get(
-      `http://localhost:3100/api/products/product/img?id=${id}`,
+      `http://localhost:3100/products/img?id=${id}`,
       {
         responseType: "arraybuffer",
         headers: {

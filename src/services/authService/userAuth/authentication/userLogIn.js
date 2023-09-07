@@ -7,7 +7,7 @@ export const loginUser = async (userJson) => {
   axios.defaults.withCredentials = true;
   try {
     const response = await axios.post(
-      "http://localhost:3100/api/auth/user",
+      "http://localhost:3100/auth/login",
       JSON.stringify(userJson),
       {
         headers: {

@@ -4,7 +4,7 @@ export const createOrder = async (cartDataObj) => {
   try {
     axios.defaults.withCredentials = true;
     const response = await axios.post(
-      "http://localhost:3100/api/newOrder",
+      "http://localhost:3100/order/new",
       cartDataObj,
       {
         headers: {

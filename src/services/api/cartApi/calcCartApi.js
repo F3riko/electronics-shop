@@ -3,7 +3,7 @@ import axios from "axios";
 export const getCalcCart = async () => {
   try {
     const response = await axios.get(
-      `http://localhost:3100/api/cart/getCartDetails`,
+      `http://localhost:3100/cart/getCartDetails`,
       {
         withCredentials: true,
       }
