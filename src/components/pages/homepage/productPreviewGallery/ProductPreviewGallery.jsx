@@ -4,8 +4,9 @@ import Row from "react-bootstrap/esm/Row";
 import ProductPreviewCard from "./ProductPreviewCard";
 import GalleryPagination from "./GalleryPagination";
 import NoProductsCard from "./NoProductsCard";
+import LoadingSinner from "../../../shared/LoadingSpinner";
 
-const ProductPreviewGallery = ({ productsData }) => {
+const ProductPreviewGallery = ({ productsData, loading }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
 
@@ -37,14 +38,17 @@ const ProductPreviewGallery = ({ productsData }) => {
           </Row>
         </>
       );
-    } else {
-      return <NoProductsCard />;
     }
   };
 
   return (
     <Container>
-      <ProductsToRender />
+      {loading && <LoadingSinner />}
+      {productsData.length === 0 && !loading ? (
+        <NoProductsCard />
+      ) : (
+        <ProductsToRender />
+      )}
     </Container>
   );
 };

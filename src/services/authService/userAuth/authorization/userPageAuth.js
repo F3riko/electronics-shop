@@ -11,10 +11,9 @@ export const authUser = async () => {
     if (response.status === 200) {
       return true;
     } else {
-      return false;
+      throw new Error("Bad response");
     }
   } catch (error) {
-    console.error("Error:", error);
-    return false;
+    throw error;
   }
 };

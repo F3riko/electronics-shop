@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCartShopping,
   faRightToBracket,
+  // faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import Badge from "react-bootstrap/Badge";
 import CustomLink from "../shared/CustomLink";
@@ -35,12 +36,12 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   const handleLogOut = async () => {
-    const status = await logOutUser();
-    if (status) {
+    try {
+      await logOutUser();
+    } catch (error) {
+    } finally {
       logout();
       navigate("/");
-    } else {
-      console.error(new Error("Server error during user logout process"));
     }
   };
 
@@ -90,6 +91,15 @@ const NavBar = () => {
             </Button>
             {user ? (
               <>
+                {/* <Button
+                  variant="outline-primary"
+                  className="nav-bar-user-email"
+                  onClick={() => {
+                    navigate("user/main");
+                  }}
+                >
+                  <FontAwesomeIcon icon={faUser} />
+                </Button> */}
                 <CustomLink
                   to={"/user/main"}
                   children={
@@ -126,7 +136,9 @@ const NavBar = () => {
       <LoginForm
         showInitial={showModal.login}
         handleClose={() => handleModalClose("login", setShowLogin)}
-        showResetPassword={() => handleModalShow("forgotPassword", setShowLogin)}
+        showResetPassword={() =>
+          handleModalShow("forgotPassword", setShowLogin)
+        }
         showSignUpForm={() => handleModalShow("singUp", setShowLogin)}
       />
       <SignUpForm

@@ -10,7 +10,6 @@ export const getCart = async () => {
     });
     return response.data.contents;
   } catch (error) {
-    console.error("Error:", error);
     throw error;
   }
 };

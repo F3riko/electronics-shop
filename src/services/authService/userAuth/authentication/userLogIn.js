@@ -19,7 +19,6 @@ export const loginUser = async (userJson) => {
     const result = response.data;
     return { status: response.status, data: result };
   } catch (error) {
-    console.error("Error:", error);
     throw error;
   }
 };

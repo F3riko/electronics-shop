@@ -14,7 +14,6 @@ export const addItem = async (itemId) => {
     );
     return response.data.contents;
   } catch (error) {
-    console.error("Error:", error);
     throw error;
   }
 };

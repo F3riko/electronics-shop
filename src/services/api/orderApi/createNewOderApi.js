@@ -12,14 +12,8 @@ export const createOrder = async (cartDataObj) => {
         },
       }
     );
-
-    if (response.status === 200) {
-      return response.data.orderId;
-    } else {
-      return false;
-    }
+    return response.data.orderId;
   } catch (error) {
-    console.error("Error:", error);
-    return false;
+    throw error;
   }
 };

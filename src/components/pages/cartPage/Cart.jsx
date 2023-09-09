@@ -8,13 +8,20 @@ import { useAuth } from "../../../contextProviders/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import prepareCartForOrder from "../../../utils/cartOperations/cartOp";
 import { createOrder } from "../../../services/api/orderApi/createNewOderApi";
+import NoProductsCardCart from "./NoProductsCardCart";
+import { useState } from "react";
 
 const Cart = () => {
   const navigate = useNavigate();
   const { cart, handleSelectAll, updateCartFromServer } = useAuth();
+  const [fetchState, setFetchState] = useState({
+    newOrderLoading: false,
+    newOrderError: false,
+  });
 
   const handleNewOrder = async () => {
     try {
+      setFetchState((prevValue) => ({ ...prevValue, newOrderLoading: true }));
       const orderDataCart = await prepareCartForOrder(
         cart,
         updateCartFromServer
@@ -23,10 +30,12 @@ const Cart = () => {
       if (orderId) {
         navigate(`/order/${orderId}`);
       } else {
-        // Error handling
+        throw new Error("Order id was't received from the server");
       }
     } catch (error) {
-      console.log(error);
+      setFetchState((prevValue) => ({ ...prevValue, newOrderError: true }));
+    } finally {
+      setFetchState((prevValue) => ({ ...prevValue, newOrderLoading: false }));
     }
   };
 
@@ -62,12 +71,15 @@ const Cart = () => {
             </Col>
 
             <Col xs={12} md={4}>
-              <CheckoutPlate clickHandler={handleNewOrder} />
+              <CheckoutPlate
+                clickHandler={handleNewOrder}
+                loadingHandler={fetchState.newOrderError}
+              />
             </Col>
           </Row>
         </>
       ) : (
-        <h3>No items yet</h3>
+        <NoProductsCardCart />
       )}
     </Container>
   );

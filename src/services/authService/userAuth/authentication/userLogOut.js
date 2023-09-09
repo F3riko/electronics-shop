@@ -8,10 +8,8 @@ export const logOutUser = async () => {
       },
       withCredentials: true,
     });
-    console.log(response.status);
     return response.status;
   } catch (error) {
-    console.error("Error:", error);
     throw error;
   }
 };

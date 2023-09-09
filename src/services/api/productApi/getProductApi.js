@@ -10,13 +10,8 @@ export const getProduct = async (id) => {
         },
       }
     );
-    if (response.status === 200) {
-      return response.data;
-    } else {
-      return false;
-    }
+    return response.data;
   } catch (error) {
-    console.error("Error:", error);
-    return false;
+    throw error;
   }
 };

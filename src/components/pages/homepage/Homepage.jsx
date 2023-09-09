@@ -8,6 +8,7 @@ import {
   getProducts,
   getProductsByCategory,
 } from "../../../services/homepage-api";
+import NoDataError from "../../shared/NoDataError";
 
 // Context for homepage components
 export const HomeContext = createContext();
@@ -16,26 +17,46 @@ const Homepage = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState(null);
+  const [fetchStatus, setFetchStatus] = useState({
+    productsError: false,
+    categoriesError: false,
+    productsLoading: false,
+  });
 
   useEffect(() => {
     (async () => {
-      if (activeCategory) {
-        let products;
-        if (activeCategory.id === 0) {
-          products = await getProducts();
-        } else {
-          products = await getProductsByCategory(activeCategory.id);
+      try {
+        if (activeCategory) {
+          let products;
+          setFetchStatus((prevData) => ({
+            ...prevData,
+            productsLoading: true,
+          }));
+          if (activeCategory.id === 0) {
+            products = await getProducts();
+          } else {
+            products = await getProductsByCategory(activeCategory.id);
+          }
+          if (!products) throw new Error("No products data");
+          setProducts(products);
         }
-        setProducts(products);
+      } catch (error) {
+        setFetchStatus((prevData) => ({ ...prevData, productsError: true }));
+      } finally {
+        setFetchStatus((prevData) => ({ ...prevData, productsLoading: false }));
       }
     })();
   }, [activeCategory]);
 
   useEffect(() => {
     (async () => {
-      const categories = await getCategoriesList();
-      setCategories(categories);
-      setActiveCategory(categories[0]);
+      try {
+        const categories = await getCategoriesList();
+        setCategories(categories);
+        setActiveCategory(categories[0]);
+      } catch (error) {
+        setFetchStatus((prevData) => ({ ...prevData, categoriesError: true }));
+      }
     })();
   }, []);
 
@@ -44,17 +65,24 @@ const Homepage = () => {
 
   return (
     <HomeContext.Provider value={categories}>
-      <Row>
-        <Col md={2}>
-          <CategoriesBar
-            activeCategory={activeCategory}
-            setActiveCategory={setActiveCategory}
-          />
-        </Col>
-        <Col md={9}>
-          <ProductPreviewGallery productsData={products} />
-        </Col>
-      </Row>
+      {!fetchStatus.productsError && !fetchStatus.categoriesError ? (
+        <Row>
+          <Col md={2}>
+            <CategoriesBar
+              activeCategory={activeCategory}
+              setActiveCategory={setActiveCategory}
+            />
+          </Col>
+          <Col md={9}>
+            <ProductPreviewGallery
+              productsData={products}
+              loading={fetchStatus.productsLoading}
+            />
+          </Col>
+        </Row>
+      ) : (
+        <NoDataError />
+      )}
     </HomeContext.Provider>
   );
 };

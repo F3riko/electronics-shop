@@ -16,7 +16,6 @@ export const orderAuth = async (orderId) => {
       return { userOk, orderOk };
     }
   } catch (error) {
-    console.error("Error:", error);
     return { userOk: false, orderOk: false };
   }
 };

@@ -15,7 +15,6 @@ export const resetPassMsg = async (userEmail) => {
     const result = response.data;
     return { status: response.status, data: result };
   } catch (error) {
-    console.error("Error:", error);
     throw error;
   }
 };

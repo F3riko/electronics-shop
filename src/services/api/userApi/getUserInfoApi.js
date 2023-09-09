@@ -8,13 +8,8 @@ export const getProfileInfo = async () => {
         "Content-Type": "application/json",
       },
     });
-    if (response.status === 200) {
-      return response.data[0];
-    } else {
-      return false;
-    }
+    return response.data[0];
   } catch (error) {
-    console.error("Error:", error);
-    return false;
+    throw error;
   }
 };
