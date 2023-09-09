@@ -22,7 +22,7 @@ const OrderAuth = () => {
           // Some message here - no access - you don't have this one on your acc
         }
       } catch (error) {
-        console.error("Error:", error);
+        throw error;
       }
     };
 

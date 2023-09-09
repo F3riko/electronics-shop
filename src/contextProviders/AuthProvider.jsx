@@ -8,13 +8,19 @@ import { delItem } from "../services/api/cartApi/deleteItemApi";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [cart, setCart] = useState({
+  const defaultCart = {
     items: {},
     itemsQuantity: 0,
     itemsSelectedQuantity: 0,
-  });
+  };
+  const [user, setUser] = useState(null);
+  const [cart, setCart] = useState(defaultCart);
   const [categories, setCategories] = useState([]);
+  const [fetchStatus, setfetchStatus] = useState({
+    cartError: false,
+    categoriesError: false,
+    cartCounterError: false,
+  });
 
   const updateCartFromServer = async (updatedCart) => {
     try {
@@ -66,19 +72,29 @@ export const AuthProvider = ({ children }) => {
         return updatedCart;
       });
     } catch (error) {
-      console.error("Error updating cart from server:", error);
+      throw error;
     }
   };
 
   useEffect(() => {
-    updateCartFromServer();
+    try {
+      if (fetchStatus.cartError)
+        setfetchStatus((prevValue) => ({ ...prevValue, cartError: false }));
+      updateCartFromServer();
+    } catch (error) {
+      setfetchStatus((prevValue) => ({ ...prevValue, cartError: true }));
+    }
   }, [user]);
 
   useEffect(() => {
-    (async () => {
-      const categories = await getCategoriesList();
-      setCategories(categories);
-    })();
+    try {
+      (async () => {
+        const categories = await getCategoriesList();
+        setCategories(categories);
+      })();
+    } catch (error) {
+      setfetchStatus((prevValue) => ({ ...prevValue, categoriesError: true }));
+    }
     // Getting user name here
     const openDataCookie = Cookies.get("openData");
     if (openDataCookie !== undefined) {
@@ -89,12 +105,21 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const handleCart = async (itemId, action) => {
-    if (action === "incr") {
-      const newCartData = await addItem(itemId);
-      await updateCartFromServer(newCartData);
-    } else if (action === "decr") {
-      const newCartData = await delItem(itemId);
-      await updateCartFromServer(newCartData);
+    try {
+      if (fetchStatus.cartCounterError)
+        setfetchStatus((prevValue) => ({
+          ...prevValue,
+          cartCounterError: false,
+        }));
+      if (action === "incr") {
+        const newCartData = await addItem(itemId);
+        await updateCartFromServer(newCartData);
+      } else if (action === "decr") {
+        const newCartData = await delItem(itemId);
+        await updateCartFromServer(newCartData);
+      }
+    } catch (error) {
+      setfetchStatus((prevValue) => ({ ...prevValue, cartCounterError: true }));
     }
   };
 
@@ -159,6 +184,7 @@ export const AuthProvider = ({ children }) => {
         categories,
         handleSelectAll,
         updateCartFromServer,
+        fetchStatus,
       }}
     >
       {children}

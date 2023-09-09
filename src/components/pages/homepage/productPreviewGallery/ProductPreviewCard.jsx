@@ -2,11 +2,8 @@ import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Image from "react-bootstrap/Image";
-import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment } from "@fortawesome/free-regular-svg-icons";
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import {
   faHeart as faHeartSolid,
@@ -21,6 +18,8 @@ import PriceBlock from "../../../shared/PriceBlock";
 import { useAuth } from "../../../../contextProviders/AuthProvider";
 import useFetch from "../../../../utils/customHooks/useFetch";
 import { getProductImg } from "../../../../services/api/productApi/getProductImgApi";
+import ThumbnailRender from "../../../shared/ThumbnailRender";
+import CartButton from "../../../shared/CartButton";
 
 const ProductPreviewCard = ({ productData }) => {
   const [liked, setLiked] = useState(false);
@@ -28,7 +27,7 @@ const ProductPreviewCard = ({ productData }) => {
   const categories = useContext(HomeContext);
   const categoryName = getCategoryNameById(categories, productData.category_id);
   const { data, loading, error } = useFetch(getProductImg, productData.id);
-  const { handleCart, cart } = useAuth();
+  const { handleCart, cart, fetchStatus } = useAuth();
 
   useEffect(() => {
     const handleResize = () => {
@@ -60,18 +59,7 @@ const ProductPreviewCard = ({ productData }) => {
       <Row>
         <Col xs={12} md={3} className="product-tile-thubmnail-wrapper">
           <Link to={`product/${productData.id}`}>
-            <Image
-              src={
-                loading || !data
-                  ? "/images/other/placeholder-171-180.png"
-                  : data
-              }
-              className={
-                loading || !data
-                  ? "product-tile-thubmnail"
-                  : "product-tile-thubmnail-image"
-              }
-            />
+            <ThumbnailRender data={data} loading={loading} error={error} />
           </Link>
         </Col>
 
@@ -82,22 +70,31 @@ const ProductPreviewCard = ({ productData }) => {
               <span className="cart-secondary-text">Category</span>:{" "}
               {categoryName}
             </span>
-            {/* No description here, only list of specs from db */}
-
-            {/* <span>Description: {productData.description}</span> */}
-            {/* <span>Year of production: {productData.year_of_production}</span> */}
-            {/* <span>Weight: {productData.weight}g</span> */}
-            {/* <span>In stock: {productData.stock_quantity}</span> */}
+            <span>
+              <span className="cart-secondary-text">Year of production</span>:{" "}
+              {productData.production_year}
+            </span>
+            <span>
+              <span className="cart-secondary-text">Weight</span>:{" "}
+              {Math.round(productData.weight)}g
+            </span>
+            <span>
+              <span className="cart-secondary-text">In stock</span>:{" "}
+              {productData.quantity -
+                (cart.items[productData.id]?.quantity || 0)}
+            </span>
           </Row>
           <Row>
             <Col>
               <span className="me-2">
                 <FontAwesomeIcon icon={faStar} style={{ color: "fbce2d" }} />
-                <span className="mx-1">9</span>
+                <span className="mx-1">
+                  {parseFloat(productData.item_rating).toFixed(1)}
+                </span>
               </span>
               <span>
                 <FontAwesomeIcon icon={faComment} />
-                <span className="mx-1">9</span>
+                <span className="mx-1">{productData.reviews_quantity}</span>
               </span>
             </Col>
           </Row>
@@ -134,21 +131,13 @@ const ProductPreviewCard = ({ productData }) => {
             </Col>
           </Row>
           {cart.items[productData.id] === undefined ? (
-            <Button
-              variant="primary"
-              className="mb-2"
-              onClick={() => {
-                handleCart(productData.id, "incr");
-              }}
-            >
-              <FontAwesomeIcon icon={faCartShopping} />
-              <span className="cart-text ms-1">Cart</span>
-            </Button>
+            <CartButton id={productData.id} />
           ) : (
             <Counter
               handleCounter={handleCart}
               cartState={cart.items[productData.id].quantity}
               itemId={productData.id}
+              error={fetchStatus.cartCounterError}
             />
           )}
         </Col>

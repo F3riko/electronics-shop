@@ -12,16 +12,11 @@ export const getProductImg = async (id) => {
         },
       }
     );
-    if (response.status === 200) {
-      const imageBuffer = response.data;
-      const base64Image = Buffer.from(imageBuffer).toString("base64");
-      const dataUrl = `data:image/jpeg;base64,${base64Image}`;
-      return dataUrl;
-    } else {
-      return false;
-    }
+    const imageBuffer = response.data;
+    const base64Image = Buffer.from(imageBuffer).toString("base64");
+    const dataUrl = `data:image/jpeg;base64,${base64Image}`;
+    return dataUrl;
   } catch (error) {
-    console.error("Error:", error);
-    return false;
+    throw error;
   }
 };

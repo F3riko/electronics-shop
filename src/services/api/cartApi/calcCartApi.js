@@ -10,7 +10,6 @@ export const getCalcCart = async () => {
     );
     return response.data.info;
   } catch (error) {
-    console.error("Error:", error);
     throw error;
   }
 };

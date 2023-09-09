@@ -9,6 +9,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { loginUser } from "../../../services/authService/userAuth/authentication/userLogIn";
 import { useAuth } from "../../../contextProviders/AuthProvider";
 import Cookies from "js-cookie";
+import Spinner from "react-bootstrap/Spinner";
 
 const LoginForm = ({
   showInitial,
@@ -48,15 +49,15 @@ const LoginForm = ({
   };
 
   const { login } = useAuth();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const { status } = await loginUser(loginData);
-      // Testing
-      console.log("Server response status:", status);
-
+      setLoading(true);
+      const { status, error } = await loginUser(loginData);
+      setLoading(false);
       if (status === 200) {
         const openDataCookie = Cookies.get("openData");
         if (openDataCookie !== "undefined") {
@@ -68,7 +69,7 @@ const LoginForm = ({
         } else {
           //
         }
-      } else {
+      } else if (error) {
         setLoginData((prevData) => ({ ...prevData, validationError: true }));
       }
     } catch (error) {
@@ -116,7 +117,11 @@ const LoginForm = ({
               </FloatingLabel>
             </Form.Group>
             <Button variant="primary" type="submit" className="w-100 py-3">
-              Sign In
+              {loading ? (
+                <Spinner animation="border" variant="light" />
+              ) : (
+                "Sign In"
+              )}
             </Button>
           </Modal.Body>
           <Modal.Footer className="justify-content-between">

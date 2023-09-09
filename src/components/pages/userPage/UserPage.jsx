@@ -4,15 +4,29 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import useFetch from "../../../utils/customHooks/useFetch";
 import { getProfileInfo } from "../../../services/api/userApi/getUserInfoApi";
+import LoadingSpinner from "../../shared/LoadingSpinner";
+import NoDataError from "../../shared/NoDataError";
+import { useAuth } from "../../../contextProviders/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const UserPage = () => {
   const { data, loading, error } = useFetch(getProfileInfo);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  if (error) {
+    console.log(error);
+    setTimeout(() => {
+      logout();
+      navigate("/");
+    }, 1000);
+  }
 
   return (
     <Container fluid>
-      {loading ? (
-        <h6>Wait for page loading...</h6>
-      ) : data && data.email ? (
+      {loading && <LoadingSpinner />}
+      {error && <NoDataError />}
+      {data && data.email && (
         <Tabs
           defaultActiveKey="profile"
           id="justify-tab-example"
@@ -45,8 +59,6 @@ const UserPage = () => {
             In this tab you can manage your delivery address and payment methods
           </Tab>
         </Tabs>
-      ) : (
-        <h6>No user data available.</h6>
       )}
     </Container>
   );

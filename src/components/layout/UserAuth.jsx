@@ -11,13 +11,12 @@ const UserAuth = () => {
     const checkAuthentication = async () => {
       try {
         const isAuthenticated = await authUser();
-        console.log(isAuthenticated);
         if (!isAuthenticated) {
           logout();
           navigate("/");
         }
       } catch (error) {
-        console.error("Error:", error);
+        throw error;
       }
     };
 
