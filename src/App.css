@@ -550,3 +550,8 @@
 .data-error-li {
   margin-bottom: 10px;
 }
+
+/* Sort bar */
+.sort-by-button {
+  display: flex;
+}
