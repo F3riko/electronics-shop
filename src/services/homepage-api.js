@@ -21,15 +21,43 @@ export const getProductsByCategory = async (categoryId) => {
   }
 };
 
-// export const getProductsFiltered = (filteredBy, order) => {
-//   order = order === "desc" ? "desc" : "asc";
-//     const products = await fetch (`http://localhost:3100/api/products/?`)
-// };
+export const getProductsSorted = async (sortQuery) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:3100/products/sorted${sortQuery}`
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getProductsByQuery = async (searchQuery) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:3100/products/search?searchQuery=${searchQuery}`
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const getCategoriesList = async () => {
   try {
     const response = await axios.get(
       "http://localhost:3100/products/categories"
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getPriceRange = async (categoryId) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:3100/products/price-range?category=${categoryId}`
     );
     return response.data;
   } catch (error) {

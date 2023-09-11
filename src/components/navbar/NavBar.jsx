@@ -2,9 +2,9 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import LoginForm from "../forms/modalForms/LoginModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SignUpForm from "../forms/modalForms/SignUpModal";
 import Image from "react-bootstrap/Image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -23,14 +23,16 @@ import {
   handleModalClose,
   handleModalShow,
 } from "../../utils/modals/modalHelpers";
+import { addQueryParams } from "../../utils/navigation/urlParsing";
 
 const NavBar = () => {
+  const location = useLocation();
   const [showModal, setShowLogin] = useState({
     login: false,
     singUp: false,
     forgotPassword: false,
   });
-
+  const [searchQuery, setSearchQuery] = useState("");
   const { user, logout, cart } = useAuth();
 
   const navigate = useNavigate();
@@ -42,6 +44,13 @@ const NavBar = () => {
     } finally {
       logout();
       navigate("/");
+    }
+  };
+
+  const handleSearch = () => {
+    if (searchQuery) {
+      addQueryParams({ searchQuery: searchQuery }, location, navigate);
+      setSearchQuery(""); // Doens't work now
     }
   };
 
@@ -69,8 +78,12 @@ const NavBar = () => {
             placeholder="Search Electroverse"
             className="me-2"
             aria-label="Search"
+            onChange={(e) => setSearchQuery(e.target.value)}
+            defaultValue={searchQuery}
           />
-          <Button variant="outline-success">Search</Button>
+          <Button variant="outline-success" onClick={handleSearch}>
+            Search
+          </Button>
         </Form>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
