@@ -117,7 +117,7 @@ const NavBar = () => {
                   to={"/user/main"}
                   children={
                     <h6 className="mx-2 mt-2 nav-bar-user-email">
-                      {user.email}
+                      {user.name}
                     </h6>
                   }
                 />

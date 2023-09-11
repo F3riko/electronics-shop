@@ -555,3 +555,12 @@
 .sort-by-button {
   display: flex;
 }
+
+/* Like button */
+.like-btn-overlay {
+  background-color: #0e59e2;
+  color: #e9eef4;
+  padding: 4px 6px;
+  border-radius: 25px;
+  margin-top: 10px;
+}

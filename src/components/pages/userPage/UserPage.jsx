@@ -8,14 +8,14 @@ import LoadingSpinner from "../../shared/LoadingSpinner";
 import NoDataError from "../../shared/NoDataError";
 import { useAuth } from "../../../contextProviders/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import UserWishList from "./UserWishList";
 
 const UserPage = () => {
   const { data, loading, error } = useFetch(getProfileInfo);
-  const { logout } = useAuth();
+  const { logout, wishList } = useAuth();
   const navigate = useNavigate();
 
   if (error) {
-    console.log(error);
     setTimeout(() => {
       logout();
       navigate("/");
@@ -50,7 +50,7 @@ const UserPage = () => {
             </Row>
           </Tab>
           <Tab eventKey="wishlist" title="Liked items">
-            In this tab you can see the items you liked
+            <UserWishList />
           </Tab>
           <Tab eventKey="orderhistory" title="Order history">
             In this tab you can monitor your order status and order history

@@ -4,11 +4,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment } from "@fortawesome/free-regular-svg-icons";
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import {
-  faHeart as faHeartSolid,
-  faStar,
-} from "@fortawesome/free-solid-svg-icons";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 import CustomLink from "../../../shared/CustomLink";
 import { useContext, useState, useEffect } from "react";
 import { HomeContext } from "../Homepage";
@@ -20,12 +16,12 @@ import useFetch from "../../../../utils/customHooks/useFetch";
 import { getProductImg } from "../../../../services/api/productApi/getProductImgApi";
 import ThumbnailRender from "../../../shared/ThumbnailRender";
 import CartButton from "../../../shared/CartButton";
+import LikeButton from "../../../shared/LikeButton";
 
 const ProductPreviewCard = ({ productData }) => {
-  const [liked, setLiked] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const categories = useContext(HomeContext);
-  const categoryName = getCategoryNameById(categories, productData.category_id);
+  // const categories = useContext(HomeContext);
+  // const categoryName = getCategoryNameById(categories, productData.category_id);
   const { data, loading, error } = useFetch(getProductImg, productData.id);
   const { handleCart, cart, fetchStatus } = useAuth();
 
@@ -50,10 +46,6 @@ const ProductPreviewCard = ({ productData }) => {
     );
   };
 
-  const handleLike = () => {
-    setLiked((prevValue) => !prevValue);
-  };
-
   return (
     <Container fluid className="product-tile-wrapper">
       <Row>
@@ -66,10 +58,10 @@ const ProductPreviewCard = ({ productData }) => {
         <Col className="mt-1 middle-column">
           <ProductTitle />
           <Row>
-            <span>
+            {/* <span>
               <span className="cart-secondary-text">Category</span>:{" "}
               {categoryName}
-            </span>
+            </span> */}
             <span>
               <span className="cart-secondary-text">Year of production</span>:{" "}
               {productData.production_year}
@@ -112,22 +104,7 @@ const ProductPreviewCard = ({ productData }) => {
                 price={productData.price}
                 discount={productData.discount}
               />
-              {liked ? (
-                <FontAwesomeIcon
-                  icon={faHeartSolid}
-                  style={{ color: "#f8104b" }}
-                  size="lg"
-                  onClick={handleLike}
-                  className="me-1"
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={faHeart}
-                  onClick={handleLike}
-                  size="lg"
-                  className="me-1"
-                />
-              )}
+              <LikeButton productId={productData.id} />
             </Col>
           </Row>
           {cart.items[productData.id] === undefined ? (

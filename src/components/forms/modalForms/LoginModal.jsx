@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { loginUser } from "../../../services/authService/userAuth/authentication/userLogIn";
 import { useAuth } from "../../../contextProviders/AuthProvider";
-import Cookies from "js-cookie";
 import Spinner from "react-bootstrap/Spinner";
 
 const LoginForm = ({
@@ -59,16 +58,9 @@ const LoginForm = ({
       const { status, error } = await loginUser(loginData);
       setLoading(false);
       if (status === 200) {
-        const openDataCookie = Cookies.get("openData");
-        if (openDataCookie !== "undefined") {
-          const email = JSON.parse(openDataCookie);
-          const userData = { email };
-          login(userData);
-          navigate("/user/main");
-          handleCloseLogin();
-        } else {
-          //
-        }
+        login();
+        navigate("/user/main");
+        handleCloseLogin();
       } else if (error) {
         setLoginData((prevData) => ({ ...prevData, validationError: true }));
       }

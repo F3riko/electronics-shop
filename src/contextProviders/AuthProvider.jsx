@@ -4,6 +4,8 @@ import Cookies from "js-cookie";
 import { getCart } from "../services/api/cartApi/getCartApi";
 import { addItem } from "../services/api/cartApi/addItemApi";
 import { delItem } from "../services/api/cartApi/deleteItemApi";
+import { getWishList } from "../services/authService/userAuth/authorization/userWishList";
+import { updateWishList } from "../services/authService/userAuth/authorization/updateWishList";
 
 const AuthContext = createContext();
 
@@ -21,6 +23,7 @@ export const AuthProvider = ({ children }) => {
     categoriesError: false,
     cartCounterError: false,
   });
+  const [wishList, setWishList] = useState([]);
 
   const updateCartFromServer = async (updatedCart) => {
     try {
@@ -76,6 +79,16 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateWishListFromServer = async (userId) => {
+    const wishListResult = await getWishList(userId);
+    setWishList(wishListResult);
+  };
+
+  const handleLikeDislike = async (userId, productId, actionType) => {
+    await updateWishList(userId, productId, actionType);
+    updateWishListFromServer(userId);
+  };
+
   useEffect(() => {
     try {
       if (fetchStatus.cartError)
@@ -83,6 +96,16 @@ export const AuthProvider = ({ children }) => {
       updateCartFromServer();
     } catch (error) {
       setfetchStatus((prevValue) => ({ ...prevValue, cartError: true }));
+    }
+    if (user) {
+      (async () => {
+        try {
+          updateWishListFromServer(user.id);
+        } catch (error) {}
+      })();
+    }
+    if (!user) {
+      setWishList([])
     }
   }, [user]);
 
@@ -95,13 +118,7 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       setfetchStatus((prevValue) => ({ ...prevValue, categoriesError: true }));
     }
-    // Getting user name here
-    const openDataCookie = Cookies.get("openData");
-    if (openDataCookie !== undefined) {
-      const email = JSON.parse(openDataCookie);
-      const userData = { email };
-      login(userData);
-    }
+    login();
   }, []);
 
   const handleCart = async (itemId, action) => {
@@ -164,8 +181,12 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
-  const login = (userData) => {
-    setUser(userData);
+  const login = () => {
+    const openDataCookie = Cookies.get("openData");
+    if (openDataCookie !== undefined) {
+      const openDataObj = JSON.parse(openDataCookie);
+      setUser(openDataObj);
+    }
   };
 
   const logout = () => {
@@ -185,6 +206,8 @@ export const AuthProvider = ({ children }) => {
         handleSelectAll,
         updateCartFromServer,
         fetchStatus,
+        wishList,
+        handleLikeDislike,
       }}
     >
       {children}
