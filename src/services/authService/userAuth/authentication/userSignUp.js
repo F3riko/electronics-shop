@@ -1,12 +1,7 @@
-// Add name submission
-// Add error handling
-// Do I need cookies here?
-
 import axios from "axios";
 
 export const submitUser = async (userJson) => {
   try {
-    console.log("pop");
     axios.defaults.withCredentials = true;
     const response = await axios.post(
       "http://localhost:3100/auth/register",

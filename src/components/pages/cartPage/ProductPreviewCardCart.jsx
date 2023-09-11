@@ -3,8 +3,6 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Image from "react-bootstrap/Image";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import CustomLink from "../../shared/CustomLink";
 import Form from "react-bootstrap/Form";
 import { useAuth } from "../../../contextProviders/AuthProvider";
@@ -12,14 +10,13 @@ import Counter from "../../shared/Counter";
 import { useState, useEffect } from "react";
 import PriceBlock from "../../shared/PriceBlock";
 import { getCategoryNameById } from "../../../utils/categoriesOprations/categoryUtils";
-import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import useFetch from "../../../utils/customHooks/useFetch";
 import { getProduct } from "../../../services/api/productApi/getProductApi";
 import { getProductImg } from "../../../services/api/productApi/getProductImgApi";
+import LikeButton from "../../shared/LikeButton";
 
 const ProductPreviewCardCart = ({ itemId }) => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const [liked, setLiked] = useState(false);
   const {
     data: productData,
     loading: productLoading,
@@ -44,10 +41,6 @@ const ProductPreviewCardCart = ({ itemId }) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  const handleLike = () => {
-    setLiked((prevValue) => !prevValue);
-  };
 
   const ProductTitle = () => {
     return (
@@ -128,22 +121,7 @@ const ProductPreviewCardCart = ({ itemId }) => {
                       productData.discount * cart.items[itemId].quantity
                     }
                   />
-                  {liked ? (
-                    <FontAwesomeIcon
-                      icon={faHeartSolid}
-                      style={{ color: "#f8104b" }}
-                      size="lg"
-                      onClick={handleLike}
-                      className="me-1"
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faHeart}
-                      onClick={handleLike}
-                      size="lg"
-                      className="me-1"
-                    />
-                  )}
+                  <LikeButton productId={productData.id} />
                 </Col>
               </Row>
 
