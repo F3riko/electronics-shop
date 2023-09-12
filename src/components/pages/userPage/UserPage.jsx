@@ -9,10 +9,11 @@ import NoDataError from "../../shared/NoDataError";
 import { useAuth } from "../../../contextProviders/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import UserWishList from "./UserWishList";
+import OrderHistory from "./OrderHistory";
 
 const UserPage = () => {
   const { data, loading, error } = useFetch(getProfileInfo);
-  const { logout, wishList } = useAuth();
+  const { logout } = useAuth();
   const navigate = useNavigate();
 
   if (error) {
@@ -53,7 +54,7 @@ const UserPage = () => {
             <UserWishList />
           </Tab>
           <Tab eventKey="orderhistory" title="Order history">
-            In this tab you can monitor your order status and order history
+            <OrderHistory />
           </Tab>
           <Tab eventKey="billing" title="Address and payments">
             In this tab you can manage your delivery address and payment methods

@@ -4,7 +4,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import LoginForm from "../forms/modalForms/LoginModal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SignUpForm from "../forms/modalForms/SignUpModal";
 import Image from "react-bootstrap/Image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

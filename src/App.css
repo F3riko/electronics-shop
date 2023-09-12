@@ -564,3 +564,42 @@
   border-radius: 25px;
   margin-top: 10px;
 }
+
+/* Receipt */
+.invoice-wrapper {
+  padding-top: 10px !important;
+}
+
+.receipt-header-info-wrapper,
+.receipt-items-header-title,
+.receipt-bottom-info-wrapper,
+.receipt-total {
+  font-weight: bold;
+}
+
+.receipt-items-header-title,
+.receipt-bottom-info-wrapper {
+  border-top: 1px solid gray;
+  border-bottom: 1px solid gray;
+  margin-top: 10px !important;
+  padding: 5px 0;
+}
+
+.receipt-total {
+  margin-top: 10px !important;
+}
+
+/* Order history tab */
+.o-history-header {
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-bottom: 1px solid gray;
+  padding-bottom: 5px;
+}
+
+.o-history-order {
+  text-align: center;
+  padding: 5px 0;
+  border-bottom: 1px dotted gray;
+}
