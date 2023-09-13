@@ -3,8 +3,6 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Outlet,
-  Navigate,
 } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavBar from "./components/navbar/NavBar";
@@ -18,33 +16,13 @@ import { AuthProvider } from "./contextProviders/AuthProvider";
 import UserAuth from "./components/layout/UserAuth";
 import OrderAuth from "./components/layout/OrderAuth";
 
-// Temporary components
-
-const About = () => {
-  return <h1>About</h1>;
-};
-
-const Admin = () => {
-  return <h1>Admin</h1>;
-};
-
-const AdminAuth = () => {
-  const isAuthenticated = true;
-  if (isAuthenticated) {
-    return <Outlet />;
-  } else {
-    <Navigate to={"/"} />;
-  }
-};
-
 function App() {
   return (
     <AuthProvider>
       <Router>
         <Routes>
           <Route path="/" element={<NavBar />}>
-            <Route index element={<Homepage />} />
-            <Route path="about" element={<About />} />
+            <Route index element={<Homepage />} />Z
             <Route path="product/:productId" element={<ProductPage />} />
             <Route path="cart" element={<Cart />} />
 
@@ -59,9 +37,6 @@ function App() {
               <Route index element={<UserPage />} />
               {/* <Route path="order/:orderId" element={<OrderPage />} /> */}
             </Route>
-          </Route>
-          <Route path="admin/main" element={<AdminAuth />}>
-            <Route index element={<Admin />} />
           </Route>
           <Route path="*" element={<h1>Page 404 - Not Found</h1>} />
         </Routes>

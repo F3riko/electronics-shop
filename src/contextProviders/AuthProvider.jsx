@@ -5,6 +5,7 @@ import { getCart } from "../services/api/cartApi/getCartApi";
 import { addItem } from "../services/api/cartApi/addItemApi";
 import { delItem } from "../services/api/cartApi/deleteItemApi";
 import { getWishList } from "../services/authService/userAuth/authorization/userWishList";
+import { getOrderHistory } from "../services/authService/userAuth/authorization/getOrderHistory";
 import { updateWishList } from "../services/authService/userAuth/authorization/updateWishList";
 
 const AuthContext = createContext();
@@ -24,6 +25,7 @@ export const AuthProvider = ({ children }) => {
     cartCounterError: false,
   });
   const [wishList, setWishList] = useState([]);
+  const [orderHistory, setOrderHistory] = useState([]);
 
   const updateCartFromServer = async (updatedCart) => {
     try {
@@ -84,6 +86,11 @@ export const AuthProvider = ({ children }) => {
     setWishList(wishListResult);
   };
 
+  const updateOrderHistoryFromServer = async (userId) => {
+    const orderHistory = await getOrderHistory(userId);
+    setOrderHistory(orderHistory);
+  };
+
   const handleLikeDislike = async (userId, productId, actionType) => {
     await updateWishList(userId, productId, actionType);
     updateWishListFromServer(userId);
@@ -100,12 +107,14 @@ export const AuthProvider = ({ children }) => {
     if (user) {
       (async () => {
         try {
-          updateWishListFromServer(user.id);
+          await updateWishListFromServer(user.id);
+          await updateOrderHistoryFromServer(user.id);
         } catch (error) {}
       })();
     }
     if (!user) {
-      setWishList([])
+      setWishList([]);
+      setOrderHistory([]);
     }
   }, [user]);
 
@@ -208,6 +217,8 @@ export const AuthProvider = ({ children }) => {
         fetchStatus,
         wishList,
         handleLikeDislike,
+        orderHistory,
+        updateOrderHistoryFromServer,
       }}
     >
       {children}
