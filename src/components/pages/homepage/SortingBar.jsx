@@ -2,26 +2,29 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
+import Alert from "react-bootstrap/Alert";
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
-import {
-  getPriceRange,
-} from "../../../services/homepage-api";
+import { getPriceRange } from "../../../services/homepage-api";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   addQueryParams,
-  resetQueryParams,
+  deleteQueryParam,
+  deleteSortingParams,
+  getAllQueryParams,
 } from "../../../utils/navigation/urlParsing";
 
 const SortingBar = ({ activeCategory }) => {
+  const defaultSortOptions = {
+    minPrice: "",
+    maxPrice: "",
+    sortBy: "",
+  };
   const navigate = useNavigate();
   const location = useLocation();
   const [pricesLimit, setPricesLimit] = useState({ min: 0, max: 0 });
-  const [sortOptions, setSortOptions] = useState({
-    minPrice: null,
-    maxPrice: null,
-    sortBy: null,
-  });
+  const [sortOptions, setSortOptions] = useState(defaultSortOptions);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     try {
@@ -37,28 +40,44 @@ const SortingBar = ({ activeCategory }) => {
     }
   }, [activeCategory]);
 
-  const handleSort = async () => {
-    if (activeCategory.id > 0) {
-      setSortOptions((prevValue) => ({
-        ...prevValue,
-        category: activeCategory.id,
-      }));
+  useEffect(() => {
+    const queryParams = getAllQueryParams(location);
+    if (queryParams.searchQuery) {
+      setSearchQuery(queryParams.searchQuery);
     }
+  }, [location.search]);
 
+  const handleSort = async () => {
     const queryParams = Object.keys(sortOptions)
-      .filter((key) => sortOptions[key] !== null && sortOptions[key] !== false)
+      .filter((key) => sortOptions[key] !== "")
       .reduce((acc, key) => {
         acc[key] = sortOptions[key];
         return acc;
       }, {});
+    if (Object.values(queryParams).length) {
+      addQueryParams(queryParams, location, navigate);
+    }
+  };
 
-    addQueryParams(queryParams, location, navigate);
+  const handleReset = () => {
+    for (const sortParam of Object.values(sortOptions)) {
+      if (sortParam) {
+        deleteSortingParams(sortOptions, location, navigate);
+        setSortOptions(defaultSortOptions);
+        break;
+      }
+    }
+  };
+
+  const handleResetSearch = () => {
+    deleteQueryParam("searchQuery", location, navigate);
+    setSearchQuery("");
   };
 
   return (
     <Container className="mt-3 mb-2">
-      <Row className="d-flex align-items-center">
-        <Col className="sort-bar-sortOptions-range-wrapper">
+      <Row className="d-flex align-items-center ">
+        <Col xs={12} md={4} className="sort-bar-sortOptions-range-wrapper mb-1">
           <Row>
             <Col className="px-0">
               <Form.Control
@@ -71,7 +90,7 @@ const SortingBar = ({ activeCategory }) => {
                 min={pricesLimit.min}
                 type="number"
                 placeholder={`from ${pricesLimit.min}$`}
-                defaultValue={sortOptions.minPrice}
+                value={sortOptions.minPrice}
               />
             </Col>
             <Col xs={1}>-</Col>
@@ -87,15 +106,15 @@ const SortingBar = ({ activeCategory }) => {
                 max={pricesLimit.max}
                 type="number"
                 placeholder={`to ${pricesLimit.max}$`}
-                defaultValue={sortOptions.maxPrice}
+                value={sortOptions.maxPrice}
               />
             </Col>
           </Row>
         </Col>
-        <Col className="sort-bar-sort-by">
+        <Col xs={12} md={4} className="sort-bar-sort-by mb-1">
           <Form.Control
             as="select"
-            defaultValue={sortOptions.sortBy}
+            value={sortOptions.sortBy}
             onChange={(e) =>
               setSortOptions((prevValue) => ({
                 ...prevValue,
@@ -110,17 +129,35 @@ const SortingBar = ({ activeCategory }) => {
             <option value="rating">Rating</option>
           </Form.Control>
         </Col>
-        <Col className="sort-by-button">
+        <Col xs={12} md={4} className="sort-by-button mb-1">
           <Button onClick={handleSort}>Apply filters</Button>
           <Button
-            onClick={() => resetQueryParams(navigate)}
+            onClick={handleReset}
             variant="danger"
-            className="ms-3"
+            className="ms-3 sort-button"
           >
             Reset
           </Button>
         </Col>
       </Row>
+      {searchQuery && (
+        <Row>
+          <Col className="sort-search-query-wrapper">
+            <Alert variant="light" className="sort-search-query-alert">
+              <span>
+                Here are the results for your search query: "{searchQuery}"
+              </span>
+              <Button
+                variant="danger"
+                onClick={handleResetSearch}
+                className="sort-button"
+              >
+                Clear
+              </Button>
+            </Alert>
+          </Col>
+        </Row>
+      )}
     </Container>
   );
 };

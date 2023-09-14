@@ -3,21 +3,16 @@ import CategoriesBar from "./CategoriesBar";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import { createContext, useEffect, useState } from "react";
-import {
-  getCategoriesList,
-  getProducts,
-  getProductsByCategory,
-  getProductsByQuery,
-} from "../../../services/homepage-api";
+import { getCategoriesList, getProducts } from "../../../services/homepage-api";
 import NoDataError from "../../shared/NoDataError";
 import SortingBar from "./SortingBar";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   addQueryParams,
+  deleteQueryParam,
   getAllQueryParams,
   resetQueryParams,
 } from "../../../utils/navigation/urlParsing";
-import { getProductsSorted } from "../../../services/homepage-api";
 
 // Context for homepage components
 export const HomeContext = createContext();
@@ -48,37 +43,20 @@ const Homepage = () => {
 
   useEffect(() => {
     if (activeCategory?.id) {
-      navigate(`?category=${activeCategory?.id}`);
+      addQueryParams({ category: activeCategory.id }, location, navigate);
     } else {
-      resetQueryParams(navigate);
+      deleteQueryParam("category", location, navigate);
     }
   }, [activeCategory]);
 
   useEffect(() => {
-    const allParams = getAllQueryParams(location);
     (async () => {
       try {
-        let products;
         setFetchStatus((prevData) => ({
           ...prevData,
           productsLoading: true,
         }));
-        if (Object.values(allParams).length === 0) {
-          products = await getProducts();
-        } else if (
-          allParams?.category &&
-          Object.values(allParams).length === 1
-        ) {
-          products = await getProductsByCategory(allParams.category);
-        } else if (
-          allParams?.searchQuery &&
-          Object.values(allParams).length === 1
-        ) {
-          products = await getProductsByQuery(allParams.searchQuery);
-        } else {
-          const queryParamsString = location.search;
-          products = await getProductsSorted(queryParamsString);
-        }
+        const products = await getProducts(location.search);
         if (!products) throw new Error("No products data");
         setProducts(products);
       } catch (error) {
@@ -88,9 +66,6 @@ const Homepage = () => {
       }
     })();
   }, [location]);
-
-  // Logic to filter products based on the category
-  // Note: do I have to change url here or it's not necessary for SPA?
 
   return (
     <HomeContext.Provider value={categories}>

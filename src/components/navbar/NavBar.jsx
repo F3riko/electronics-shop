@@ -4,7 +4,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import LoginForm from "../forms/modalForms/LoginModal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SignUpForm from "../forms/modalForms/SignUpModal";
 import Image from "react-bootstrap/Image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -49,8 +49,8 @@ const NavBar = () => {
 
   const handleSearch = () => {
     if (searchQuery) {
-      addQueryParams({ searchQuery: searchQuery }, location, navigate);
-      setSearchQuery(""); // Doens't work now
+      setSearchQuery("");
+      navigate(`/?searchQuery=${searchQuery}`);
     }
   };
 
@@ -79,7 +79,8 @@ const NavBar = () => {
             className="me-2"
             aria-label="Search"
             onChange={(e) => setSearchQuery(e.target.value)}
-            defaultValue={searchQuery}
+            // defaultValue={searchQuery}
+            value={searchQuery}
           />
           <Button variant="outline-success" onClick={handleSearch}>
             Search
