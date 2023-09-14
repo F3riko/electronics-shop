@@ -13,6 +13,7 @@ import { nanoid } from "nanoid";
 
 const ReceiptModal = ({ showInitial, handleClose, orderId }) => {
   const { user } = useAuth();
+
   const { data, loading, error } = useFetch(
     getOrderInfoById,
     parseInt(orderId)
@@ -81,7 +82,7 @@ const ReceiptModal = ({ showInitial, handleClose, orderId }) => {
             </Row>
             {data &&
               data.items.map((item) => {
-                return <ProductDataShort productData={item} />;
+                return <ProductDataShort productData={item} key={nanoid()} />;
               })}
             <Row className="receipt-bottom-info-wrapper">
               <Col className="d-flex flex-column">

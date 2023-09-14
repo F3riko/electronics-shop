@@ -7,6 +7,7 @@ import Col from "react-bootstrap/Col";
 import ReceiptModal from "../../shared/ReceiptModal";
 import { useAuth } from "../../../contextProviders/AuthProvider";
 import formatDate from "../../../utils/orderOperations/formatDate";
+import { nanoid } from "nanoid";
 
 const OrderHistory = () => {
   const { orderHistory } = useAuth();
@@ -52,14 +53,17 @@ const OrderHistory = () => {
           </Row>
           {orderHistory &&
             orderHistory.map((order, index) => {
-              return <OrderInfo key={index} index={index} orderInfo={order} />;
+              return (
+                <OrderInfo key={nanoid()} index={index} orderInfo={order} />
+              );
             })}
-
-          <ReceiptModal
-            handleClose={handleCloseReceipt}
-            orderId={receipt.id}
-            showInitial={receipt.show}
-          />
+          {receipt.id && (
+            <ReceiptModal
+              handleClose={handleCloseReceipt}
+              orderId={receipt.id}
+              showInitial={receipt.show}
+            />
+          )}
         </>
       )}
     </Container>

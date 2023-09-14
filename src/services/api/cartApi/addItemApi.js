@@ -2,8 +2,8 @@ import axios from "axios";
 
 export const addItem = async (itemId) => {
   try {
-    const response = await axios.get(
-      `http://localhost:3100/cart/add?id=${itemId}`,
+    const response = await axios.post(
+      `http://localhost:3100/cart?id=${itemId}`,
 
       {
         headers: {

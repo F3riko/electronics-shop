@@ -554,6 +554,26 @@
 /* Sort bar */
 .sort-by-button {
   display: flex;
+  justify-content: end;
+  padding-right: 22px !important;
+}
+
+.sort-search-query-wrapper {
+  padding-left: 0px !important;
+  padding-top: 10px;
+  font-size: 19px;
+}
+
+.sort-search-query-alert {
+  margin-bottom: 0 !important;
+  padding: 10px !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sort-button {
+  width: 100px;
 }
 
 /* Like button */
