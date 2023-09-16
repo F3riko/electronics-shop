@@ -25,17 +25,12 @@ function App() {
             <Route index element={<Homepage />} />Z
             <Route path="product/:productId" element={<ProductPage />} />
             <Route path="cart" element={<Cart />} />
-
-            {/* Temporary route */}
             <Route path="user/passReset" element={<ResetPassword />} />
-
             <Route path="order" element={<OrderAuth />}>
               <Route path=":orderId" element={<OrderPage />} />
             </Route>
-
             <Route path="user/main" element={<UserAuth />}>
               <Route index element={<UserPage />} />
-              {/* <Route path="order/:orderId" element={<OrderPage />} /> */}
             </Route>
           </Route>
           <Route path="*" element={<h1>Page 404 - Not Found</h1>} />

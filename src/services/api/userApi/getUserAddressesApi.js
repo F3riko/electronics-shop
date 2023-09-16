@@ -1,17 +1,17 @@
 import axios from "axios";
 
-export const orderAuth = async (orderId) => {
+export const getUserAddresses = async (userId) => {
   try {
     axios.defaults.withCredentials = true;
     const response = await axios.get(
-      `http://localhost:3100/auth/order?orderId=${orderId}`,
+      `http://localhost:3100/auth/address?userId=${userId}`,
       {
         headers: {
           "Content-Type": "application/json",
         },
       }
     );
-    return response.status;
+    return response.data;
   } catch (error) {
     throw error;
   }

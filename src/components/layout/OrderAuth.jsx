@@ -5,24 +5,27 @@ import { orderAuth } from "../../services/authService/orderPageAuth";
 import { useParams } from "react-router-dom";
 
 const OrderAuth = () => {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const navigate = useNavigate();
   const { orderId } = useParams();
 
   useEffect(() => {
     const checkAuthentication = async () => {
       try {
-        const { userOk, orderOk } = await orderAuth(orderId);
-        console.log(userOk, orderOk);
-        if (!userOk) {
+        if (!orderId) {
+          throw new Error("Order ID is missing");
+        }
+        await orderAuth(orderId);
+      } catch (error) {
+        if (
+          error.response.data.error === "Unauthorized: Token missing" &&
+          user
+        ) {
           logout();
           navigate("/");
-        } else if (!orderOk) {
+        } else {
           navigate("/");
-          // Some message here - no access - you don't have this one on your acc
         }
-      } catch (error) {
-        throw error;
       }
     };
 

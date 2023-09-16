@@ -97,7 +97,7 @@ const AddressPlate = ({
             <Row>
               <Col>
                 <span className="addrs-plate-info-title">Working hours: </span>
-                {addressData.opHrs}
+                {addressData.working_hours}
               </Col>
             </Row>
           )}

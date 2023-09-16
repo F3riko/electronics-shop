@@ -3,28 +3,22 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import ProductPreviewCardCart from "./ProductPreviewCardCart";
-import CheckoutPlate from "../../shared/CheckoutPlate";
+import CheckoutPlateCart from "./CheckoutPlateCart";
 import { useAuth } from "../../../contextProviders/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import prepareCartForOrder from "../../../utils/cartOperations/cartOp";
 import { createOrder } from "../../../services/api/orderApi/createNewOderApi";
 import NoProductsCardCart from "./NoProductsCardCart";
 import { useState } from "react";
-import ReceiptModal from "../../shared/ReceiptModal";
 
 const Cart = () => {
   const navigate = useNavigate();
-  const { cart, handleSelectAll, updateCartFromServer } = useAuth();
+  const { cart, handleSelectAll, updateCartFromServer, handleClearCart } =
+    useAuth();
   const [fetchState, setFetchState] = useState({
     newOrderLoading: false,
     newOrderError: false,
   });
-  const [receipt, setReceipt] = useState({ show: false, id: null });
-
-  const handleCloseReceipt = () => {
-    setReceipt((prevValue) => ({ ...prevValue, show: false }));
-    navigate("/");
-  };
 
   const handleNewOrder = async () => {
     try {
@@ -35,7 +29,8 @@ const Cart = () => {
       );
       const orderId = await createOrder(orderDataCart);
       if (orderId) {
-        setReceipt({ show: true, id: orderId });
+        await handleClearCart();
+        navigate(`/order/${orderId}`);
       } else {
         throw new Error("Order id was't received from the server");
       }
@@ -77,9 +72,8 @@ const Cart = () => {
                   })}
                 </Row>
               </Col>
-
               <Col xs={12} md={4}>
-                <CheckoutPlate
+                <CheckoutPlateCart
                   clickHandler={handleNewOrder}
                   loadingHandler={fetchState.newOrderError}
                 />
@@ -90,11 +84,6 @@ const Cart = () => {
           <NoProductsCardCart />
         )}
       </Container>
-      <ReceiptModal
-        handleClose={handleCloseReceipt}
-        orderId={receipt.id}
-        showInitial={receipt.show}
-      />
     </>
   );
 };
