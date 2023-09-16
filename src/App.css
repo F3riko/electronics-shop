@@ -4,6 +4,10 @@
 }
 
 /* Product page */
+.pr-page-wrapper {
+  margin: 0 50px !important;
+}
+
 .pr-page-gallery-wrapper {
   background-color: #f8f9fa;
   border-radius: 25px;

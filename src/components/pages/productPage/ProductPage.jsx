@@ -30,7 +30,7 @@ const ProductPage = () => {
   const { cart } = useAuth();
 
   return (
-    <Container>
+    <Container fluid className="pr-page-wrapper">
       {productError && <NoDataError />}
       {productLoading && <LoadingSpinner />}
       {productData && (
@@ -72,7 +72,7 @@ const ProductPage = () => {
             </Col>
             <Col
               xs={12}
-              md={6}
+              md={5}
               className="pr-page-short-specs d-flex flex-column"
             >
               {categories && categories[productData.category_id]?.name && (
@@ -126,7 +126,6 @@ const ProductPage = () => {
                       </span>
                     );
                   })} */}
-                  
                 </p>
               </div>
             </Col>
