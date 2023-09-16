@@ -20,8 +20,8 @@ import LikeButton from "../../../shared/LikeButton";
 
 const ProductPreviewCard = ({ productData }) => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
-  // const categories = useContext(HomeContext);
-  // const categoryName = getCategoryNameById(categories, productData.category_id);
+  const { categories } = useAuth()
+  const categoryName = getCategoryNameById(categories, productData.category_id);
   const { data, loading, error } = useFetch(getProductImg, productData.id);
   const { handleCart, cart, fetchStatus } = useAuth();
 
@@ -58,10 +58,10 @@ const ProductPreviewCard = ({ productData }) => {
         <Col className="mt-1 middle-column">
           <ProductTitle />
           <Row>
-            {/* <span>
+            <span>
               <span className="cart-secondary-text">Category</span>:{" "}
               {categoryName}
-            </span> */}
+            </span>
             <span>
               <span className="cart-secondary-text">Year of production</span>:{" "}
               {productData.production_year}
