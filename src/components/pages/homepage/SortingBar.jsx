@@ -45,7 +45,7 @@ const SortingBar = ({ activeCategory }) => {
     if (queryParams.searchQuery) {
       setSearchQuery(queryParams.searchQuery);
     }
-  }, [location.search]);
+  }, [location]);
 
   const handleSort = async () => {
     const queryParams = Object.keys(sortOptions)

@@ -193,19 +193,12 @@
     text-align: center;
   }
 
-  .navbar-collapse .nav-bar-cart-button {
-    margin: 16px;
+  .navbar-collapse .nav-bar-button {
+    margin: 8px 0px 4px 16px !important;
   }
 
-  .navbar-collapse .nav-bar-logout-button {
-    margin-left: 16px;
-  }
-
-  .navbar-collapse .nav-bar-user-email,
-  .navbar-collapse .nav-bar-logout-button,
-  .navbar-collapse .nav-bar-cart-button,
-  .navbar-collapse,
-  .nav-bar-login-button {
+  .navbar-collapse .nav-bar-button,
+  .navbar-collapse {
     width: 98%;
     padding-bottom: 10px;
     text-align: center;
@@ -554,7 +547,7 @@
 /* Sort bar */
 .sort-by-button {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   padding-right: 22px !important;
 }
 

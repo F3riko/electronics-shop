@@ -2,19 +2,18 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import LoginForm from "../forms/modalForms/LoginModal";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import SignUpForm from "../forms/modalForms/SignUpModal";
 import Image from "react-bootstrap/Image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCartShopping,
   faRightToBracket,
-  // faUser,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import Badge from "react-bootstrap/Badge";
-import CustomLink from "../shared/CustomLink";
 import ForgotPassword from "../forms/modalForms/ForgotPasswordModal";
 import { useAuth } from "../../contextProviders/AuthProvider";
 import { logOutUser } from "../../services/authService/userAuth/authentication/userLogOut";
@@ -23,10 +22,8 @@ import {
   handleModalClose,
   handleModalShow,
 } from "../../utils/modals/modalHelpers";
-import { addQueryParams } from "../../utils/navigation/urlParsing";
 
 const NavBar = () => {
-  const location = useLocation();
   const [showModal, setShowLogin] = useState({
     login: false,
     singUp: false,
@@ -79,7 +76,6 @@ const NavBar = () => {
             className="me-2"
             aria-label="Search"
             onChange={(e) => setSearchQuery(e.target.value)}
-            // defaultValue={searchQuery}
             value={searchQuery}
           />
           <Button variant="outline-success" onClick={handleSearch}>
@@ -89,10 +85,7 @@ const NavBar = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ms-auto">
-            <Button
-              onClick={() => navigate("cart")}
-              className="nav-bar-cart-button"
-            >
+            <Button onClick={() => navigate("cart")} className="nav-bar-button">
               <span>Cart</span>
               <FontAwesomeIcon
                 icon={faCartShopping}
@@ -105,27 +98,15 @@ const NavBar = () => {
             </Button>
             {user ? (
               <>
-                {/* <Button
-                  variant="outline-primary"
-                  className="nav-bar-user-email"
-                  onClick={() => {
-                    navigate("user/main");
-                  }}
-                >
-                  <FontAwesomeIcon icon={faUser} />
-                </Button> */}
-                <CustomLink
-                  to={"/user/main"}
-                  children={
-                    <h6 className="mx-2 mt-2 nav-bar-user-email">
-                      {user.name}
-                    </h6>
-                  }
-                />
                 <Button
-                  onClick={handleLogOut}
-                  className="nav-bar-logout-button"
+                  className="nav-bar-button mx-2"
+                  variant="outline-primary"
+                  onClick={() => navigate("user/main")}
                 >
+                  <span className="pe-1">{user.name}</span>
+                  <FontAwesomeIcon icon={faUser} />
+                </Button>
+                <Button onClick={handleLogOut} className="nav-bar-button">
                   Log out
                 </Button>
               </>
@@ -133,7 +114,7 @@ const NavBar = () => {
               <Button
                 variant="primary"
                 onClick={() => handleModalShow("login", setShowLogin)}
-                className="mx-3 nav-bar-login-button"
+                className="mx-3 nav-bar-button"
               >
                 Sign in
                 <FontAwesomeIcon
