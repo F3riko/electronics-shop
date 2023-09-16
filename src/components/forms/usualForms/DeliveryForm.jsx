@@ -4,12 +4,20 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
+import Spinner from "react-bootstrap/Spinner";
 import { defaultAddressData } from "../../../utils/validations/addressValidations";
 import { validateInput } from "../../../utils/validations/singUpValidations";
 import { useState } from "react";
+import { addUserAddress } from "../../../services/api/userApi/addUserAddress";
+import { useAuth } from "../../../contextProviders/AuthProvider";
 
-const DeliveryForm = () => {
+const DeliveryForm = ({ refetch, handleClose }) => {
   const [addressData, setAddressData] = useState(defaultAddressData);
+  const [fetchStatus, setFetchStatus] = useState({
+    loading: false,
+    error: false,
+  });
+  const { user } = useAuth();
 
   const handleFieldChange = (event) => {
     const { id, value } = event.target;
@@ -82,7 +90,20 @@ const DeliveryForm = () => {
         address: addressData.address.value,
         additionalInfo: addressData.additionalInfo.value,
       };
-      console.log(addressDataClean);
+      try {
+        setFetchStatus((prevValue) => ({ ...prevValue, loading: true }));
+        await addUserAddress(user?.id, addressDataClean);
+        refetch();
+        handleClose();
+      } catch (error) {
+        console.log(error);
+        setFetchStatus((prevValue) => ({ ...prevValue, error: true }));
+        setTimeout(() => {
+          setFetchStatus((prevValue) => ({ ...prevValue, error: false }));
+        }, 3000);
+      } finally {
+        setFetchStatus((prevValue) => ({ ...prevValue, loading: false }));
+      }
     }
   };
 
@@ -267,11 +288,12 @@ const DeliveryForm = () => {
           <Col>
             <div className="address-form-field">
               <Button
-                variant="primary"
+                variant={fetchStatus.error ? "danger" : "primary"}
                 type="submit"
                 className="w-100 py-2 mt-2"
               >
-                Submit
+                {fetchStatus.loading && <Spinner size="sm" />}
+                {fetchStatus.error ? "Oops, try again later" : "Submit"}
               </Button>
             </div>
           </Col>

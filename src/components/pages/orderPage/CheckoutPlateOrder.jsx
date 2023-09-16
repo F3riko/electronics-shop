@@ -2,36 +2,32 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-import { useAuth } from "../../contextProviders/AuthProvider";
-import useFetch from "../../utils/customHooks/useFetch";
-import { getCalcCart } from "../../services/api/cartApi/calcCartApi";
-import { useEffect } from "react";
 import Spinner from "react-bootstrap/Spinner";
 import Placeholder from "react-bootstrap/Placeholder";
 import Alert from "react-bootstrap/Alert";
 
-const CheckoutPlate = ({ orderPageFlag, clickHandler, loadingHandler }) => {
-  const { cart } = useAuth();
-  const buttonText = orderPageFlag ? "Create order" : "Check out";
-  const additionalS = cart.itemsSelectedcart !== 1 ? "s" : "";
-
-  const { data, loading, error, refetch } = useFetch(getCalcCart);
-
-  useEffect(() => {
-    refetch();
-  }, [cart, refetch]);
+const CheckoutPlateOrder = ({
+  orderData,
+  itemsQuantity,
+  clickHandler,
+  paymentError,
+  error,
+  loading,
+}) => {
+  const additionalS = itemsQuantity !== 1 ? "s" : "";
 
   return (
     <Container>
       <div className="cart-checkout-wrapper">
         <Row className="justify-content-center cart-checkout-button-wrapper">
-          <Button className="cart-checkout-button" onClick={clickHandler}>
+          <Button
+            className="cart-checkout-button"
+            onClick={clickHandler}
+            variant={paymentError ? "danger" : "primary"}
+            disabled={paymentError && true}
+          >
             <span className="cart-text">
-              {loadingHandler ? (
-                <Spinner animation="border" variant="light" size="sm" />
-              ) : (
-                buttonText
-              )}
+              {paymentError ? `Choose ${paymentError}` : "Pay"}
             </span>
           </Button>
         </Row>
@@ -56,11 +52,11 @@ const CheckoutPlate = ({ orderPageFlag, clickHandler, loadingHandler }) => {
                   </Placeholder>
                 </>
               )}
-              {data && cart && (
+              {orderData && (
                 <>
                   <p className="cart-checkout-info-p">Your cart</p>
                   <p className="cart-checkout-info-p">
-                    Item{additionalS}: {cart.itemsSelectedQuantity}
+                    Item{additionalS}: {itemsQuantity}
                   </p>
                   <p className="cart-checkout-info-p">Total price</p>
                 </>
@@ -80,40 +76,25 @@ const CheckoutPlate = ({ orderPageFlag, clickHandler, loadingHandler }) => {
                   </Placeholder>
                 </>
               )}
-              {data && cart && (
+              {orderData && (
                 <>
                   <p className="cart-checkout-info-p">
-                    {cart.itemsSelectedQuantity} item{additionalS}
+                    {itemsQuantity} item{additionalS}
                   </p>
                   <p className="cart-checkout-info-p">
-                    {data.totalWeight / 100} kg
+                    {orderData.order_weight / 1000} kg
                   </p>
-                  <p className="cart-checkout-info-p">{data.totalSum}$</p>
+                  <p className="cart-checkout-info-p">
+                    {orderData.order_total}$
+                  </p>
                 </>
               )}
             </Col>
-            {orderPageFlag && (
-              <Col md={6}>
-                <p className="cart-checkout-info-p">Delivery fee</p>
-              </Col>
-            )}
           </Row>
-        )}
-
-        {orderPageFlag && (
-          <div>
-            <div>
-              <Row>
-                <Col md={6}>
-                  <p className="cart-checkout-info-p">Total</p>
-                </Col>
-              </Row>
-            </div>
-          </div>
         )}
       </div>
     </Container>
   );
 };
 
-export default CheckoutPlate;
+export default CheckoutPlateOrder;

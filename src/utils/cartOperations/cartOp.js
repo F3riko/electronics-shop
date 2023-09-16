@@ -7,6 +7,7 @@ import { getCart } from "../../services/api/cartApi/getCartApi";
 const prepareCartForOrder = async (cart, updateCartFromServer) => {
   try {
     const cartItems = await getCart();
+    console.log("gues cart here", cartItems);
     const cartItemsId = cartItems.map((item) => item.item_id);
     const orderDataCart = {};
     for (const item of Object.values(cart.items)) {

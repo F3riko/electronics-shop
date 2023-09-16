@@ -7,6 +7,7 @@ import { delItem } from "../services/api/cartApi/deleteItemApi";
 import { getWishList } from "../services/authService/userAuth/authorization/userWishList";
 import { getOrderHistory } from "../services/authService/userAuth/authorization/getOrderHistory";
 import { updateWishList } from "../services/authService/userAuth/authorization/updateWishList";
+import { clearCart } from "../services/api/cartApi/clearCartApi";
 
 const AuthContext = createContext();
 
@@ -148,6 +149,11 @@ export const AuthProvider = ({ children }) => {
       setfetchStatus((prevValue) => ({ ...prevValue, cartCounterError: true }));
     }
   };
+  
+  const handleClearCart = async () => {
+    await clearCart()
+    await updateCartFromServer()
+  }
 
   const handleSelectCart = (itemId) => {
     setCart((prevCart) => {
@@ -219,6 +225,7 @@ export const AuthProvider = ({ children }) => {
         handleLikeDislike,
         orderHistory,
         updateOrderHistoryFromServer,
+        handleClearCart
       }}
     >
       {children}

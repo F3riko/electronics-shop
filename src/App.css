@@ -623,3 +623,31 @@
   padding: 5px 0;
   border-bottom: 1px dotted gray;
 }
+
+/* Payment placeholder */
+.payment-spinner {
+  margin: 100px 0px;
+  width: 50px !important;
+  height: 50px !important;
+}
+
+.payment-text {
+  font-size: 26px;
+  margin-top: 25px;
+  text-align: center;
+}
+
+.payment-text-transaction {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+.payment-icon-success {
+  margin: 50px 0;
+}
+
+.payment-text-countdown {
+  text-align: center;
+  font-size: 18px;
+}
