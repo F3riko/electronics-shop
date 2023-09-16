@@ -576,6 +576,31 @@
   width: 100px;
 }
 
+.sort-min-max-sign {
+  text-align: center;
+  min-width: 6px !important;
+}
+
+@media (max-width: 768px) {
+  .sort-bar-wrapper {
+    margin-left: 25px !important;
+    padding-right: 50px !important;
+  }
+  .sort-bar-sort-by {
+    padding: 0 !important;
+    margin-top: 10px !important;
+  }
+  .sort-by-button {
+    justify-content: space-between;
+    padding: 0 !important;
+    margin-top: 10px !important;
+  }
+  .sort-button,
+  .apply-button-small-screen {
+    width: 50%;
+  }
+}
+
 /* Like button */
 .like-btn-overlay {
   background-color: #0e59e2;

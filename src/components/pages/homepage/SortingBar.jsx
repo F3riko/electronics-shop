@@ -75,7 +75,7 @@ const SortingBar = ({ activeCategory }) => {
   };
 
   return (
-    <Container className="mt-3 mb-2">
+    <Container className="mt-3 mb-2 sort-bar-wrapper">
       <Row className="d-flex align-items-center ">
         <Col xs={12} md={4} className="sort-bar-sortOptions-range-wrapper mb-1">
           <Row>
@@ -93,8 +93,7 @@ const SortingBar = ({ activeCategory }) => {
                 value={sortOptions.minPrice}
               />
             </Col>
-            <Col xs={1}>-</Col>
-            <Col className="px-0">
+            <Col className="pe-0 ps-2">
               <Form.Control
                 onChange={(e) => {
                   setSortOptions((prevValue) => ({
@@ -130,7 +129,9 @@ const SortingBar = ({ activeCategory }) => {
           </Form.Control>
         </Col>
         <Col xs={12} md={4} className="sort-by-button mb-1">
-          <Button onClick={handleSort}>Apply filters</Button>
+          <Button className="apply-button-small-screen" onClick={handleSort}>
+            Apply filters
+          </Button>
           <Button
             onClick={handleReset}
             variant="danger"
