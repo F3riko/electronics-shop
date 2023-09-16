@@ -89,7 +89,6 @@ function ContactUsForm({ showInitial, handleClose }) {
         email: contactUsData.email.value,
         inquiry: contactUsData.inquiry.value,
       };
-      console.log(inquiryData);
     }
   };
 

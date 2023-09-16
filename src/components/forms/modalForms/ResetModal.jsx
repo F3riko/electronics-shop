@@ -92,7 +92,6 @@ const ForgotPassword = () => {
           resetPassData.password.value,
           resetToken
         );
-        console.log("Server response status:", status);
         if (status === 200) {
           navigate(`/user/main`);
           handleClose();
@@ -100,7 +99,6 @@ const ForgotPassword = () => {
           // Temp
         }
       } catch (error) {
-        console.error("Error:", error);
       }
     }
   };

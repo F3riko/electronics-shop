@@ -96,7 +96,6 @@ const DeliveryForm = ({ refetch, handleClose }) => {
         refetch();
         handleClose();
       } catch (error) {
-        console.log(error);
         setFetchStatus((prevValue) => ({ ...prevValue, error: true }));
         setTimeout(() => {
           setFetchStatus((prevValue) => ({ ...prevValue, error: false }));
