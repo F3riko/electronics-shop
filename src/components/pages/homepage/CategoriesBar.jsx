@@ -7,6 +7,9 @@ import {
   categoryHasChildren,
 } from "../../../utils/categoriesOprations/categoryUtils";
 import { HomeContext } from "./Homepage";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircle, faFolder } from "@fortawesome/free-regular-svg-icons";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 const CategoriesBar = ({ activeCategory, setActiveCategory }) => {
   const [categoriesToDisplay, setCategoriesToDisplay] = useState([]);
@@ -58,12 +61,26 @@ const CategoriesBar = ({ activeCategory, setActiveCategory }) => {
     <ListGroup className="categories-bar">
       {categoriesToDisplay.map((category) => (
         <ListGroupItem
+          className="d-flex align-items-center ps-2"
           key={category.id}
           action
           onClick={() => setActiveCategory(category)}
           active={activeCategory.id === category.id}
         >
-          {category.name}
+          {(category.id === activeCategory.id && (
+            <FontAwesomeIcon icon={faArrowRight} />
+          )) ||
+            (category.parent_category_id === 0 && (
+              <span className="ms-2">
+                <FontAwesomeIcon icon={faFolder} size="xs" />
+              </span>
+            )) ||
+            (category.parent_category_id > 0 && (
+              <span className="ms-3">
+                <FontAwesomeIcon icon={faCircle} size="2xs" />
+              </span>
+            ))}
+          <span className="ms-1">{category.name}</span>
         </ListGroupItem>
       ))}
     </ListGroup>

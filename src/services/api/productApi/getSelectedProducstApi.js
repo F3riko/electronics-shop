@@ -12,7 +12,6 @@ export const getSelectedProducts = async (productsIds) => {
         },
       }
     );
-    console.log(response);
     return response.data;
   } catch (error) {
     throw error;

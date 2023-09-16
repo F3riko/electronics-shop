@@ -15,7 +15,6 @@ export const resetPass = async (newUserPassowrd, resetToken) => {
       
     return { status: response.status };
   } catch (error) {
-    console.error("Error:", error);
     throw error;
   }
 };

@@ -17,12 +17,10 @@ const ForgotPassword = ({ handleClose, showInitial }) => {
   };
 
   const handleSubmit = async (e) => {
-    console.log(emailForgotPass);
     e.preventDefault();
 
     try {
       const { status, data } = await resetPassMsg(emailForgotPass);
-      console.log("Server response status:", status);
       if (status === 200) {
         // Show modal: email has been sent
         handleClose();
@@ -30,7 +28,6 @@ const ForgotPassword = ({ handleClose, showInitial }) => {
         // Temp
       }
     } catch (error) {
-      console.error("Error:", error);
     }
   };
 

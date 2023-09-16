@@ -65,7 +65,6 @@ const LoginForm = ({
         setLoginData((prevData) => ({ ...prevData, validationError: true }));
       }
     } catch (error) {
-      console.error("Error:", error);
     }
   };
 
