@@ -402,7 +402,7 @@
 .profile-placeholder-image {
   width: 200px;
   height: 200px;
-  margin-top: 75px;
+  margin-top: 20px;
 }
 
 .profile-placeholder-image-caption {
@@ -460,13 +460,15 @@
 /* Address plate */
 .addrs-plate-wrapper,
 .addrs-plate-wrapper-selected,
-.order-page-new-address-wrapper {
+.order-page-new-address-wrapper,
+.addrs-plate-wrapper-delete {
   border-radius: 15px;
   padding: 10px 15px;
   margin-bottom: 15px;
 }
 
 .addrs-plate-wrapper,
+.addrs-plate-wrapper-delete,
 .order-page-new-address-wrapper {
   border: 1px solid #0e59e2;
   background-color: #e9eef4;
@@ -504,6 +506,19 @@
 
 .addrs-plate-wrapper:hover .addrs-plate-icon {
   color: #e9eef4;
+}
+
+.addrs-plate-wrapper:hover .addrs-plate-icon-trash {
+  display: block;
+}
+
+.addrs-plate-icon-trash {
+  display: none;
+  margin-top: 2px;
+}
+
+.addrs-plate-icon-trash:hover {
+  color: orange;
 }
 
 /* No data error */

@@ -64,7 +64,7 @@ const DeliveryForm = ({ refetch, handleClose }) => {
 
     for (const fieldId in addressData) {
       const fieldValue = addressData[fieldId].value;
-      if (!fieldValue) {
+      if (!fieldValue && fieldId !== "additionalInfo") {
         setAddressData((prevFormData) => ({
           ...prevFormData,
           [fieldId]: {

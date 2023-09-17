@@ -12,3 +12,11 @@ export default function formatDate(inputDateString) {
 
   return formattedDate;
 }
+
+export function calculateDaysTillNow(givenDateStr) {
+  const givenDate = new Date(givenDateStr);
+  const currentDate = new Date();
+  const timeDifferenceMs = currentDate - givenDate;
+  const daysDifference = Math.floor(timeDifferenceMs / (1000 * 60 * 60 * 24));
+  return daysDifference;
+}

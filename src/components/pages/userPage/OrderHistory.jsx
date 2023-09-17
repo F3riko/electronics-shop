@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faReceipt } from "@fortawesome/free-solid-svg-icons";
 import Container from "react-bootstrap/Container";
@@ -10,11 +10,17 @@ import formatDate from "../../../utils/orderOperations/formatDate";
 import { nanoid } from "nanoid";
 
 const OrderHistory = () => {
-  const { orderHistory } = useAuth();
+  const { orderHistory, updateOrderHistoryFromServer, user } = useAuth();
   const [receipt, setReceipt] = useState({ show: false, id: null });
   const handleCloseReceipt = () => {
     setReceipt((prevValue) => ({ ...prevValue, show: false }));
   };
+
+  useEffect(() => {
+    (async () => {
+      await updateOrderHistoryFromServer(user.id);
+    })();
+  }, []);
 
   const OrderInfo = ({ orderInfo, index }) => {
     return (
@@ -45,6 +51,10 @@ const OrderHistory = () => {
       )}
       {orderHistory && (
         <>
+          <p className="mb-4 text-center" style={{ fontSize: "18px" }}>
+            Welcome to your order history! Here, you can conveniently review
+            your past orders and access receipts when needed!
+          </p>
           <Row className="o-history-header">
             <Col>Order no.</Col>
             <Col>Order ref.</Col>

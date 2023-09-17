@@ -1,15 +1,17 @@
 import React from "react";
-import { Container, Row, Col, Figure } from "react-bootstrap";
+import Container from "react-bootstrap/Container";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import useFetch from "../../../utils/customHooks/useFetch";
-import { getProfileInfo } from "../../../services/api/userApi/getUserInfoApi";
 import LoadingSpinner from "../../shared/LoadingSpinner";
+import useFetch from "../../../utils/customHooks/useFetch";
 import NoDataError from "../../shared/NoDataError";
-import { useAuth } from "../../../contextProviders/AuthProvider";
-import { useNavigate } from "react-router-dom";
 import UserWishList from "./UserWishList";
 import OrderHistory from "./OrderHistory";
+import UserAddresses from "./UserAddresses";
+import UserProfile from "./UserProfile";
+import { getProfileInfo } from "../../../services/api/userApi/getUserInfoApi";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../contextProviders/AuthProvider";
 
 const UserPage = () => {
   const { data, loading, error } = useFetch(getProfileInfo);
@@ -34,21 +36,8 @@ const UserPage = () => {
           className="mb-3"
           justify
         >
-          <Tab eventKey="profile" title="Profile settings">
-            <Row>
-              <Col md={3} xs={12} className="d-flex justify-content-center">
-                <Figure>
-                  <Figure.Image
-                    src="/images/other/user.png"
-                    roundedCircle
-                    className="profile-placeholder-image"
-                  />
-                  <Figure.Caption className="text-center profile-placeholder-image-caption">
-                    {data.name || data.email}
-                  </Figure.Caption>
-                </Figure>
-              </Col>
-            </Row>
+          <Tab eventKey="profile" title="My profile">
+            <UserProfile data={data} />
           </Tab>
           <Tab eventKey="wishlist" title="Liked items">
             <UserWishList />
@@ -56,8 +45,8 @@ const UserPage = () => {
           <Tab eventKey="orderhistory" title="Order history">
             <OrderHistory />
           </Tab>
-          <Tab eventKey="billing" title="Address and payments">
-            In this tab you can manage your delivery address and payment methods
+          <Tab eventKey="addresses" title="Addresses">
+            <UserAddresses />
           </Tab>
         </Tabs>
       )}
