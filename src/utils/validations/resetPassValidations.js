@@ -1,9 +1,9 @@
 import {
   isAlphanumericAndAllowedChars,
   isLengthAppropriate,
-} from "./singUpValidations";
+} from "./validationFunctions";
 
-export const resetPassword = {
+export const resetPassDefaultData = {
   password: {
     value: "",
     errors: [],

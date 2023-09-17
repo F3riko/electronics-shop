@@ -1,39 +1,9 @@
-export const isAlphabetic = (inputString) => {
-  if (inputString && !/^[a-zA-Z]+$/.test(inputString)) {
-    return "Should contain only letters";
-  }
-  return false;
-};
-
-export const isLengthAppropriate = (value, min, max) => {
-  if ((value && value.length < min) || value.length > max) {
-    return `Should be between ${min} and ${max} characters`;
-  }
-  return false;
-};
-
-export const isEmailCorrect = (email) => {
-  const regexPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-  if (email && !regexPattern.test(email)) {
-    return "Invalid email address";
-  }
-  return false;
-};
-
-export const isAlphanumericAndAllowedChars = (inputString) => {
-  if (inputString && !/^[a-zA-Z0-9_\-!*]+$/.test(inputString)) {
-    return "Should contain only letters, digits and _, -, ! or *";
-  }
-  return false;
-};
-
-export const arePasswordsSame = (password, repeatPassword) => {
-  if (password && repeatPassword && password !== repeatPassword) {
-    return "Password shuld be the same!";
-  }
-  return false;
-};
+import {
+  isAlphabetic,
+  isLengthAppropriate,
+  isEmailCorrect,
+  isAlphanumericAndAllowedChars,
+} from "./validationFunctions";
 
 export const defaultSignUpData = {
   name: {
@@ -67,19 +37,4 @@ export const defaultSignUpData = {
       },
     ],
   },
-};
-
-export const validateInput = (name, formData) => {
-  const value = formData[name].value;
-  const errors = [];
-  if (formData[name].validations) {
-    formData[name].validations.forEach((validation) => {
-      const error = validation(value);
-      if (error) {
-        errors.push(error);
-      }
-    });
-  }
-
-  return errors;
 };

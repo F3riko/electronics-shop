@@ -2,7 +2,8 @@ import {
   isAlphabetic,
   isEmailCorrect,
   isLengthAppropriate,
-} from "./singUpValidations";
+  isInquiryCorrect,
+} from "./validationFunctions";
 
 export const defaultContactUsData = {
   name: {
@@ -23,11 +24,4 @@ export const defaultContactUsData = {
     errors: [],
     validations: [(inquiry) => isInquiryCorrect(inquiry)],
   },
-};
-
-export const isInquiryCorrect = (text) => {
-  if (text && text.length < 10) {
-    return "Inquiry should be at least 10 characters";
-  }
-  return false;
 };

@@ -16,6 +16,7 @@ import {
   validateAllInput,
 } from "../../../utils/validations/validationFunctions";
 import { defaultSignInData } from "../../../utils/validations/signInValidations";
+import ValidationErrorElement from "../../shared/ValidationError";
 
 const LoginForm = ({
   showInitial,
@@ -30,13 +31,13 @@ const LoginForm = ({
   });
   const navigate = useNavigate();
   const { login } = useAuth();
-
-  const ValidationErrorElement = () => {
+  const ErrorMsg = () => {
     return (
-      <Alert variant="danger" className="login-modal-error-alert">
-        Your password is incorrect or this account doesn't exist. Please reset
-        your password or sign up.
-      </Alert>
+      <>
+        {"Your password is incorrect or this account doesn't exist."}
+        <br></br>
+        {"Please reset your password or sign up."}
+      </>
     );
   };
 
@@ -112,7 +113,9 @@ const LoginForm = ({
                 />
                 <Form.Text className="text-center">
                   {renderErrors("password", loginData)}
-                  {fetchStatus.error && <ValidationErrorElement />}
+                  {fetchStatus.error && (
+                    <ValidationErrorElement message={<ErrorMsg />} />
+                  )}
                 </Form.Text>
               </FloatingLabel>
             </Form.Group>
