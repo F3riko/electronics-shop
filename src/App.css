@@ -51,6 +51,10 @@
 
 /* Login modal */
 
+.login-btn-link {
+  text-decoration: none !important;
+}
+
 .login-modal-error-alert {
   text-align: justify;
   font-size: 110%;

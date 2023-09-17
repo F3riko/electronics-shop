@@ -1,14 +1,21 @@
-import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Alert from "react-bootstrap/Alert";
 import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
+import Spinner from "react-bootstrap/Spinner";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { loginUser } from "../../../services/authService/userAuth/authentication/userLogIn";
 import { useAuth } from "../../../contextProviders/AuthProvider";
-import Spinner from "react-bootstrap/Spinner";
+import {
+  renderErrors,
+  handleChange,
+  handleBlur,
+  validateAllInput,
+} from "../../../utils/validations/validationFunctions";
+import { defaultSignInData } from "../../../utils/validations/signInValidations";
 
 const LoginForm = ({
   showInitial,
@@ -16,13 +23,13 @@ const LoginForm = ({
   showResetPassword,
   showSignUpForm,
 }) => {
-  const defaultLoginData = {
-    email: "",
-    password: "",
-    validationError: false,
-  };
-  const [loginData, setLoginData] = useState({});
+  const [loginData, setLoginData] = useState(defaultSignInData);
+  const [fetchStatus, setFetchSTatus] = useState({
+    loading: false,
+    error: false,
+  });
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const ValidationErrorElement = () => {
     return (
@@ -34,37 +41,33 @@ const LoginForm = ({
   };
 
   const handleCloseLogin = () => {
-    setLoginData(defaultLoginData);
+    setLoginData(defaultSignInData);
     handleClose();
   };
 
-  const handleChange = (e) => {
-    const { value, id } = e.target;
-    setLoginData((prevData) => ({
-      ...prevData,
-      validationError: false,
-      [id]: value,
-    }));
-  };
-
-  const { login } = useAuth();
-  const [loading, setLoading] = useState(false);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      setLoading(true);
-      const { status, error } = await loginUser(loginData);
-      setLoading(false);
-      if (status === 200) {
+      const errors = validateAllInput(loginData, setLoginData);
+      if (!errors) {
+        setFetchSTatus((prevData) => ({ ...prevData, loading: true }));
+        const userData = {
+          email: loginData.email.value,
+          password: loginData.password.value,
+        };
+        await loginUser(userData);
         login();
         navigate("/user/main");
         handleCloseLogin();
-      } else if (error) {
-        setLoginData((prevData) => ({ ...prevData, validationError: true }));
       }
     } catch (error) {
+      setLoginData(defaultSignInData);
+      setFetchSTatus((prevData) => ({ ...prevData, error: true }));
+      setTimeout(() => {
+        setFetchSTatus((prevData) => ({ ...prevData, error: false }));
+      }, 3000);
+    } finally {
+      setFetchSTatus((prevData) => ({ ...prevData, loading: false }));
     }
   };
 
@@ -84,31 +87,37 @@ const LoginForm = ({
                 className="mb-3"
               >
                 <Form.Control
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e, setLoginData)}
+                  onBlur={(e) => handleBlur(e, loginData, setLoginData)}
                   type="email"
                   placeholder="Email address"
                   required
-                  defaultValue={loginData.email}
+                  value={loginData.email.value}
                 />
+                <Form.Text className="text-center">
+                  {renderErrors("email", loginData)}
+                </Form.Text>
               </FloatingLabel>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="password">
               <FloatingLabel controlId="password" label="Password">
                 <Form.Control
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e, setLoginData)}
+                  onBlur={(e) => handleBlur(e, loginData, setLoginData)}
                   type="password"
                   placeholder="Password"
                   required
-                  defaultValue={loginData.password}
+                  value={loginData.password.value}
                 />
                 <Form.Text className="text-center">
-                  {loginData.validationError && <ValidationErrorElement />}
+                  {renderErrors("password", loginData)}
+                  {fetchStatus.error && <ValidationErrorElement />}
                 </Form.Text>
               </FloatingLabel>
             </Form.Group>
             <Button variant="primary" type="submit" className="w-100 py-3">
-              {loading ? (
+              {fetchStatus.loading ? (
                 <Spinner animation="border" variant="light" />
               ) : (
                 "Sign In"
@@ -118,7 +127,7 @@ const LoginForm = ({
           <Modal.Footer className="justify-content-between">
             <Button
               variant="link"
-              className="p-0"
+              className="p-0 login-btn-link"
               onClick={() => {
                 handleCloseLogin();
                 showResetPassword();
@@ -128,7 +137,7 @@ const LoginForm = ({
             </Button>
             <Button
               variant="link"
-              className="p-0"
+              className="p-0 login-btn-link"
               onClick={() => {
                 handleCloseLogin();
                 showSignUpForm();
