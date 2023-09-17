@@ -7,7 +7,7 @@ import OrderPaymentMethods from "./OrderPaymentMethods";
 import CheckoutPlateOrder from "./CheckoutPlateOrder";
 import DeliveryForm from "../../forms/usualForms/DeliveryForm";
 import BootstrapSwitchButton from "bootstrap-switch-button-react";
-import AddressPlate from "./AddressPlate";
+import AddressPlate from "../../shared/AddressPlate";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { nanoid } from "nanoid";
@@ -92,7 +92,7 @@ const OrderPage = () => {
       let errorMsg;
       if (
         error.message === "delivery method" ||
-        error.message == "payment method"
+        error.message === "payment method"
       ) {
         errorMsg = error.message;
       } else {

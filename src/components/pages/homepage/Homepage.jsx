@@ -10,8 +10,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import {
   addQueryParams,
   deleteQueryParam,
-  getAllQueryParams,
-  resetQueryParams,
 } from "../../../utils/navigation/urlParsing";
 
 // Context for homepage components

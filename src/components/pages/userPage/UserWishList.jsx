@@ -43,11 +43,19 @@ const UserWishList = () => {
         <h3 className="my-5 py-5 text-center">Oops, an error occurred!</h3>
       )}
       {fetchStatus.dataLoading && <LoadingSpinner />}
-      {data && (
-        <ProductPreviewGallery
-          productsData={data}
-          loading={fetchStatus.dataLoading}
-        />
+      {data && wishList.length > 0 && (
+        <>
+          <p style={{ fontSize: "18px" }} className="text-center">
+            Welcome to your Wishlist page! Here, you can browse through the
+            items you've added, easily move them to your cart, or simply remove
+            them if you've had a change of heart. <br></br>It's all about making
+            your shopping experience a breeze!
+          </p>
+          <ProductPreviewGallery
+            productsData={data}
+            loading={fetchStatus.dataLoading}
+          />
+        </>
       )}
     </Container>
   );
