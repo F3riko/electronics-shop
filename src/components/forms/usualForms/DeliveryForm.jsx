@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Spinner from "react-bootstrap/Spinner";
 import { defaultAddressData } from "../../../utils/validations/addressValidations";
-import { validateInput } from "../../../utils/validations/singUpValidations";
+import { validateInput } from "../../../utils/validations/validationFunctions";
 import { useState } from "react";
 import { addUserAddress } from "../../../services/api/userApi/addUserAddress";
 import { useAuth } from "../../../contextProviders/AuthProvider";

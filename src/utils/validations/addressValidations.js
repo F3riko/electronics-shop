@@ -2,7 +2,7 @@ import {
   isLengthAppropriate,
   isAlphabetic,
   isEmailCorrect,
-} from "./singUpValidations";
+} from "./validationFunctions";
 
 export const defaultAddressData = {
   name: {
