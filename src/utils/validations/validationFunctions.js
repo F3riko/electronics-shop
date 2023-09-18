@@ -7,6 +7,14 @@ export const isAlphabetic = (inputString) => {
   return false;
 };
 
+export const isEmpty = (inputString) => {
+  const testString = String(inputString);
+  if (testString.length === 0) {
+    return "Required field";
+  }
+  return false;
+};
+
 export const isLengthAppropriate = (value, min, max) => {
   if ((value && value.length < min) || value.length > max) {
     return `Should be between ${min} and ${max} characters`;
