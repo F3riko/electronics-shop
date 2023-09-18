@@ -22,8 +22,8 @@ const UserAddresses = () => {
   const [showForm, setShowForm] = useState(false);
 
   return (
-    <Container className="mx-5 px-5">
-      <Row className="mx-5 px-5">
+    <Container className="">
+      <Row className="">
         <p className="mb-4 text-center" style={{ fontSize: "18px" }}>
           On this page, you can easily manage your addresses by reviewing,
           removing outdated ones, and adding new ones as needed!
@@ -32,10 +32,10 @@ const UserAddresses = () => {
       {loading && <LoadingSpinner />}
       {error && <NoDataError />}
       {!loading && !error && data && (
-        <Row className="mx-5 px-5">
+        <Row className="justify-content-center">
           {data.map((address) => {
             return (
-              <Col md={6} xs={12} key={nanoid()}>
+              <Col md={4} xs={12} key={nanoid()}>
                 <AddressPlate
                   deletionAllowed={true}
                   refetch={refetch}
@@ -46,7 +46,7 @@ const UserAddresses = () => {
             );
           })}
           <Col
-            md={6}
+            md={4}
             xs={12}
             className="mb-3"
             onClick={() => setShowForm((prevValue) => !prevValue)}
@@ -61,8 +61,8 @@ const UserAddresses = () => {
         </Row>
       )}
       {!loading && !error && showForm && (
-        <Row className="mx-5 px-5">
-          <Col>
+        <Row className="d-flex justify-content-center">
+          <Col xs={12} md={7}>
             <DeliveryForm
               refetch={refetch}
               handleClose={() => setShowForm(false)}
