@@ -3,7 +3,7 @@ import axios from "axios";
 export const resetPassMsg = async (userEmail) => {
   try {
     const response = await axios.post(
-      "http://localhost:3100/auth/passResetToken/",
+      `${process.env.REACT_APP_BASE_SERVER_URL}/auth/passResetToken/`,
       { userEmail },
       {
         headers: {

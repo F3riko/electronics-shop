@@ -1,7 +1,8 @@
 import ProductPreviewGallery from "./productPreviewGallery/ProductPreviewGallery";
 import CategoriesBar from "./CategoriesBar";
-import Row from "react-bootstrap/esm/Row";
-import Col from "react-bootstrap/esm/Col";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
 import { createContext, useEffect, useState } from "react";
 import { getCategoriesList, getProducts } from "../../../services/homepage-api";
 import NoDataError from "../../shared/NoDataError";
@@ -68,25 +69,27 @@ const Homepage = () => {
   return (
     <HomeContext.Provider value={categories}>
       {!fetchStatus.productsError && !fetchStatus.categoriesError ? (
-        <Row>
-          <Col md={2}>
-            <CategoriesBar
-              activeCategory={activeCategory}
-              setActiveCategory={setActiveCategory}
-            />
-          </Col>
-          <Col md={9}>
-            <Row>
-              <SortingBar activeCategory={activeCategory} />
-            </Row>
-            <Row>
-              <ProductPreviewGallery
-                productsData={products}
-                loading={fetchStatus.productsLoading}
+        <Container className="home-page-wrapper">
+          <Row>
+            <Col md={2}>
+              <CategoriesBar
+                activeCategory={activeCategory}
+                setActiveCategory={setActiveCategory}
               />
-            </Row>
-          </Col>
-        </Row>
+            </Col>
+            <Col md={9}>
+              <Row>
+                <SortingBar activeCategory={activeCategory} />
+              </Row>
+              <Row>
+                <ProductPreviewGallery
+                  productsData={products}
+                  loading={fetchStatus.productsLoading}
+                />
+              </Row>
+            </Col>
+          </Row>
+        </Container>
       ) : (
         <NoDataError />
       )}

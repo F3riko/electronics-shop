@@ -4,7 +4,7 @@ export const getUserAddresses = async (userId) => {
   try {
     axios.defaults.withCredentials = true;
     const response = await axios.get(
-      `http://localhost:3100/auth/address?userId=${userId}`,
+      `${process.env.REACT_APP_BASE_SERVER_URL}/auth/address?userId=${userId}`,
       {
         headers: {
           "Content-Type": "application/json",

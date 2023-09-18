@@ -10,7 +10,7 @@ export const processOrderPayment = async (
   try {
     axios.defaults.withCredentials = true;
     const response = await axios.post(
-      "http://localhost:3100/order/payment",
+      `${process.env.REACT_APP_BASE_SERVER_URL}/order/payment`,
       { userId, orderId, paymentId, addressId, deliveryMethod },
       {
         headers: {

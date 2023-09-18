@@ -156,7 +156,7 @@
 
 /* Categories bar */
 .categories-bar {
-  margin: 10px 0 0 15px;
+  margin: 16px 0 0 15px;
 }
 
 /* Navbar */
@@ -691,4 +691,10 @@
 .payment-text-countdown {
   text-align: center;
   font-size: 18px;
+}
+
+/* Homepage */
+.home-page-wrapper {
+  margin: 0 15px !important;
+  padding: 0 !important;
 }

@@ -4,7 +4,7 @@ export const getSelectedProducts = async (productsIds) => {
   try {
     const productIdsJSON = JSON.stringify(productsIds);
     const response = await axios.post(
-      "http://localhost:3100/products/selected",
+      `${process.env.REACT_APP_BASE_SERVER_URL}/products/selected`,
       { productsIds: productIdsJSON },
       {
         headers: {

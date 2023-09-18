@@ -4,7 +4,7 @@ export const getOrderInfoById = async (orderId) => {
   try {
     axios.defaults.withCredentials = true;
     const response = await axios.get(
-      `http://localhost:3100/order/info?id=${orderId}`,
+      `${process.env.REACT_APP_BASE_SERVER_URL}/order/info?id=${orderId}`,
       {
         headers: {
           "Content-Type": "application/json",
