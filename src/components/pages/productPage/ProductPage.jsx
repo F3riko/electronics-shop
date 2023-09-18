@@ -4,13 +4,14 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Carousel from "react-bootstrap/Carousel";
 import CartBlock from "./CartBlock";
+import NoDataError from "../../shared/NoDataError";
+import LoadingSpinner from "../../shared/LoadingSpinner";
+import ThumbnailRender from "../../shared/ThumbnailRender";
+import ReviewGallery from "./Reviews/ReviewGallery";
 import { getProduct } from "../../../services/api/productApi/getProductApi";
 import { getProductImg } from "../../../services/api/productApi/getProductImgApi";
 import useFetch from "../../../utils/customHooks/useFetch";
 import { useAuth } from "../../../contextProviders/AuthProvider";
-import NoDataError from "../../shared/NoDataError";
-import LoadingSpinner from "../../shared/LoadingSpinner";
-import ThumbnailRender from "../../shared/ThumbnailRender";
 
 const ProductPage = () => {
   const { productId } = useParams();
@@ -26,7 +27,6 @@ const ProductPage = () => {
     error: imgError,
   } = useFetch(getProductImg, productId);
   const { categories } = useAuth();
-
   const { cart } = useAuth();
 
   return (
@@ -111,23 +111,20 @@ const ProductPage = () => {
           </Row>
           <Row>
             <Col xs={12} md={8} className="px-0">
+              <h5 className="text-center my-4">About this product</h5>
               <div className="pr-page-description mt-3">
-                <h5 className="text-center">About this product</h5>
-                <p>{productData.description}</p>
+                <p className="mb-0">{productData.description}</p>
               </div>
-              <div className="pr-page-full-details my-2" id="description">
-                <h5 className="text-center">Detailed product info</h5>
-                <p>
-                  {/* Get list of properties here */}
-                  {/* {Object.entries(properties).map((key, value) => {
-                    return (
-                      <span>
-                        {key}: {value}
-                      </span>
-                    );
-                  })} */}
-                </p>
+              <h5 className="text-center my-4">Detailed product info</h5>
+              <div className="pr-page-full-details mt-3" id="description">
+                <p>{}</p>
               </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12} md={8} className="px-0">
+              <h5 className="text-center my-4">Reviews</h5>
+              <ReviewGallery />
             </Col>
           </Row>
         </>
