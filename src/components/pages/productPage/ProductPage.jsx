@@ -30,7 +30,7 @@ const ProductPage = () => {
   const { cart } = useAuth();
 
   return (
-    <Container fluid className="pr-page-wrapper">
+    <Container className="pr-page-wrapper">
       {productError && <NoDataError />}
       {productLoading && <LoadingSpinner />}
       {productData && (

@@ -4,7 +4,7 @@ export const addUserAddress = async (userId, addressData) => {
   try {
     axios.defaults.withCredentials = true;
     const response = await axios.post(
-      "http://localhost:3100/auth/address",
+      `${process.env.REACT_APP_BASE_SERVER_URL}/auth/address`,
       { userId, address: addressData },
       {
         headers: {

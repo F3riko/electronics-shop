@@ -3,7 +3,7 @@ import axios from "axios";
 export const getProfileInfo = async () => {
   try {
     axios.defaults.withCredentials = true;
-    const response = await axios.get("http://localhost:3100/auth/profile", {
+    const response = await axios.get(`${process.env.REACT_APP_BASE_SERVER_URL}/auth/profile`, {
       headers: {
         "Content-Type": "application/json",
       },

@@ -4,7 +4,7 @@ export const updateWishList = async (userId, productId, actionType) => {
   axios.defaults.withCredentials = true;
   try {
     const response = await axios.post(
-      "http://localhost:3100/auth/wishlist/",
+      `${process.env.REACT_APP_BASE_SERVER_URL}/auth/wishlist/`,
       {
         itemInWishList: actionType === "add" ? false : true,
         productId,

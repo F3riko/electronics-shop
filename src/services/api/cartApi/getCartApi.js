@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const getCart = async () => {
   try {
-    const response = await axios.get("http://localhost:3100/cart", {
+    const response = await axios.get(`${process.env.REACT_APP_BASE_SERVER_URL}/cart`, {
       headers: {
         "Content-Type": "application/json",
       },

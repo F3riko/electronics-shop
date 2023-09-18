@@ -60,11 +60,11 @@ const NavBar = () => {
       >
         <Navbar.Brand onClick={() => navigate("/")}>
           <Image
-            src="images/logo/big-logo.png"
+            src={`${process.env.REACT_APP_BASE_URL}/images/logo/big-logo.png`}
             className="nav-bar-logo nav-bar-logo-large"
           />
           <Image
-            src="images/logo/small-logo.png"
+            src={`${process.env.REACT_APP_BASE_URL}/images/logo/small-logo.png`}
             className="nav-bar-logo nav-bar-logo-small"
           />
         </Navbar.Brand>
