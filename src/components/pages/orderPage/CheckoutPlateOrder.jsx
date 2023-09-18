@@ -2,7 +2,6 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-import Spinner from "react-bootstrap/Spinner";
 import Placeholder from "react-bootstrap/Placeholder";
 import Alert from "react-bootstrap/Alert";
 

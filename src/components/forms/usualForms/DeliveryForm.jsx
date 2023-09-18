@@ -6,10 +6,16 @@ import Button from "react-bootstrap/Button";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Spinner from "react-bootstrap/Spinner";
 import { defaultAddressData } from "../../../utils/validations/addressValidations";
-import { validateInput } from "../../../utils/validations/validationFunctions";
+import {
+  handleBlur,
+  handleChange,
+  validateAllInput,
+  renderErrors,
+} from "../../../utils/validations/validationFunctions";
 import { useState } from "react";
 import { addUserAddress } from "../../../services/api/userApi/addUserAddress";
 import { useAuth } from "../../../contextProviders/AuthProvider";
+import ValidationErrorElement from "../../shared/ValidationError";
 
 const DeliveryForm = ({ refetch, handleClose }) => {
   const [addressData, setAddressData] = useState(defaultAddressData);
@@ -19,90 +25,35 @@ const DeliveryForm = ({ refetch, handleClose }) => {
   });
   const { user } = useAuth();
 
-  const handleFieldChange = (event) => {
-    const { id, value } = event.target;
-    setAddressData((prevFormData) => ({
-      ...prevFormData,
-      [id]: { ...prevFormData[id], value: value, errors: [] },
-    }));
-  };
-
-  const validateField = (fieldId) => {
-    const errors = validateInput(fieldId, addressData);
-    if (errors && errors[0]) {
-      setAddressData((prevFormData) => ({
-        ...prevFormData,
-        [fieldId]: { ...prevFormData[fieldId], errors: errors },
-      }));
-    }
-  };
-
-  const handleFieldBlur = (event) => {
-    const { id } = event.target;
-    validateField(id);
-  };
-
-  const renderErrors = (formDataKey) => {
-    let errors;
-    if (addressData[formDataKey].errors) {
-      errors = addressData[formDataKey].errors.map((error) => {
-        return (
-          <small key={error.slice(0, 2)}>
-            {error}
-            <br />
-          </small>
-        );
-      });
-    }
-    return errors ? errors : null;
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    let hasErrors = false;
-
-    for (const fieldId in addressData) {
-      const fieldValue = addressData[fieldId].value;
-      if (!fieldValue && fieldId !== "additionalInfo") {
-        setAddressData((prevFormData) => ({
-          ...prevFormData,
-          [fieldId]: {
-            ...prevFormData[fieldId],
-            errors: ["Shouldn't be empty"],
-          },
-        }));
-        hasErrors = true;
-        break;
-      }
-      validateField(fieldId);
-    }
-
-    if (!hasErrors) {
-      const addressDataClean = {
-        name: addressData.name.value,
-        surname: addressData.surname.value,
-        email: addressData.email.value,
-        phone: addressData.phone.value,
-        zip: addressData.zip.value,
-        city: addressData.city.value,
-        street: addressData.street.value,
-        address: addressData.address.value,
-        additionalInfo: addressData.additionalInfo.value,
-      };
-      try {
-        setFetchStatus((prevValue) => ({ ...prevValue, loading: true }));
+    try {
+      const errors = validateAllInput(addressData, setAddressData);
+      if (!errors) {
+        setFetchStatus((prevData) => ({ ...prevData, loading: true }));
+        const addressDataClean = {
+          name: addressData.name.value,
+          surname: addressData.surname.value,
+          email: addressData.email.value,
+          phone: addressData.phone.value,
+          zip: addressData.zip.value,
+          city: addressData.city.value,
+          street: addressData.street.value,
+          address: addressData.address.value,
+          additionalInfo: addressData.additionalInfo.value,
+        };
         await addUserAddress(user?.id, addressDataClean);
         refetch();
         handleClose();
-      } catch (error) {
-        setFetchStatus((prevValue) => ({ ...prevValue, error: true }));
-        setTimeout(() => {
-          setFetchStatus((prevValue) => ({ ...prevValue, error: false }));
-        }, 3000);
-      } finally {
-        setFetchStatus((prevValue) => ({ ...prevValue, loading: false }));
       }
+    } catch (error) {
+      setAddressData(defaultAddressData);
+      setFetchStatus((prevData) => ({ ...prevData, error: true }));
+      setTimeout(() => {
+        setFetchStatus((prevData) => ({ ...prevData, error: false }));
+      }, 3000);
+    } finally {
+      setFetchStatus((prevData) => ({ ...prevData, loading: false }));
     }
   };
 
@@ -113,72 +64,72 @@ const DeliveryForm = ({ refetch, handleClose }) => {
           <h6 className="text-center mb-3">Recipient</h6>
         </Row>
         <Row>
-          <Col>
+          <Col xs={12} md={6}>
             <Form.Group controlId="name" className="address-form-field">
               <FloatingLabel controlId="name" label="First Name">
                 <Form.Control
-                  onChange={handleFieldChange}
-                  onBlur={handleFieldBlur}
+                  onChange={(e) => handleChange(e, setAddressData)}
+                  onBlur={(e) => handleBlur(e, addressData, setAddressData)}
                   type="text"
                   placeholder="First Name"
                   required
-                  defaultValue={addressData.name.value}
+                  value={addressData.name.value}
                 />
                 <Form.Text className="text-center">
-                  {renderErrors("name")}
+                  {renderErrors("name", addressData)}
                 </Form.Text>
               </FloatingLabel>
             </Form.Group>
           </Col>
-          <Col>
+          <Col xs={12} md={6}>
             <Form.Group controlId="surname" className="address-form-field">
               <FloatingLabel controlId="surname" label="Last Name">
                 <Form.Control
-                  onBlur={handleFieldBlur}
-                  onChange={handleFieldChange}
+                  onBlur={(e) => handleBlur(e, addressData, setAddressData)}
+                  onChange={(e) => handleChange(e, setAddressData)}
                   type="text"
                   placeholder="Last Name"
                   required
-                  defaultValue={addressData.surname.value}
+                  value={addressData.surname.value}
                 />
                 <Form.Text className="text-center">
-                  {renderErrors("surname")}
+                  {renderErrors("surname", addressData)}
                 </Form.Text>
               </FloatingLabel>
             </Form.Group>
           </Col>
         </Row>
         <Row>
-          <Col>
+          <Col xs={12} md={6}>
             <Form.Group controlId="phone" className="address-form-field">
               <FloatingLabel controlId="phone" label="Phone number">
                 <Form.Control
-                  onBlur={handleFieldBlur}
-                  onChange={handleFieldChange}
+                  onBlur={(e) => handleBlur(e, addressData, setAddressData)}
+                  onChange={(e) => handleChange(e, setAddressData)}
                   type="digits"
                   placeholder="Phone number"
                   required
-                  defaultValue={addressData.phone.value}
+                  value={addressData.phone.value}
                 />
                 <Form.Text className="text-center">
-                  {renderErrors("phone")}
+                  {renderErrors("phone", addressData)}
                 </Form.Text>
               </FloatingLabel>
             </Form.Group>
           </Col>
-          <Col>
+          <Col xs={12} md={6}>
             <Form.Group controlId="email" className="address-form-field">
               <FloatingLabel controlId="email" label="Email">
                 <Form.Control
-                  onBlur={handleFieldBlur}
-                  onChange={handleFieldChange}
+                  onBlur={(e) => handleBlur(e, addressData, setAddressData)}
+                  onChange={(e) => handleChange(e, setAddressData)}
                   type="text"
                   placeholder="Email"
                   required
-                  defaultValue={addressData.email.value}
+                  value={addressData.email.value}
                 />
                 <Form.Text className="text-center">
-                  {renderErrors("email")}
+                  {renderErrors("email", addressData)}
                 </Form.Text>
               </FloatingLabel>
             </Form.Group>
@@ -188,54 +139,54 @@ const DeliveryForm = ({ refetch, handleClose }) => {
           <h6 className="text-center my-3">Address</h6>
         </Row>
         <Row>
-          <Col>
+          <Col xs={12} md={4}>
             <Form.Group controlId="zip" className="address-form-field">
               <FloatingLabel controlId="zip" label="Zip code">
                 <Form.Control
-                  onBlur={handleFieldBlur}
-                  onChange={handleFieldChange}
+                  onBlur={(e) => handleBlur(e, addressData, setAddressData)}
+                  onChange={(e) => handleChange(e, setAddressData)}
                   type="text"
                   placeholder="Zip code"
                   required
-                  defaultValue={addressData.zip.value}
+                  value={addressData.zip.value}
                 />
                 <Form.Text className="text-center">
-                  {renderErrors("zip")}
+                  {renderErrors("zip", addressData)}
                 </Form.Text>
               </FloatingLabel>
             </Form.Group>
           </Col>
-          <Col>
+          <Col xs={12} md={4}>
             <Form.Group controlId="city" className="address-form-field">
               <FloatingLabel controlId="city" label="City">
                 <Form.Control
-                  onBlur={handleFieldBlur}
-                  onChange={handleFieldChange}
+                  onBlur={(e) => handleBlur(e, addressData, setAddressData)}
+                  onChange={(e) => handleChange(e, setAddressData)}
                   type="text"
                   placeholder="City"
                   required
-                  defaultValue={addressData.city.value}
+                  value={addressData.city.value}
                 />
                 <Form.Text className="text-center">
-                  {renderErrors("city")}
+                  {renderErrors("city", addressData)}
                 </Form.Text>
               </FloatingLabel>
             </Form.Group>
           </Col>
-          <Col>
+          <Col xs={12} md={4}>
             {" "}
             <Form.Group controlId="street" className="address-form-field">
               <FloatingLabel controlId="street" label="Street">
                 <Form.Control
-                  onBlur={handleFieldBlur}
-                  onChange={handleFieldChange}
+                  onBlur={(e) => handleBlur(e, addressData, setAddressData)}
+                  onChange={(e) => handleChange(e, setAddressData)}
                   type="text"
                   placeholder="Street"
                   required
-                  defaultValue={addressData.street.value}
+                  value={addressData.street.value}
                 />
                 <Form.Text className="text-center">
-                  {renderErrors("street")}
+                  {renderErrors("street", addressData)}
                 </Form.Text>
               </FloatingLabel>
             </Form.Group>
@@ -246,15 +197,15 @@ const DeliveryForm = ({ refetch, handleClose }) => {
             <Form.Group controlId="address" className="address-form-field">
               <FloatingLabel controlId="address" label="Address">
                 <Form.Control
-                  onBlur={handleFieldBlur}
-                  onChange={handleFieldChange}
+                  onBlur={(e) => handleBlur(e, addressData, setAddressData)}
+                  onChange={(e) => handleChange(e, setAddressData)}
                   type="text"
                   placeholder="Address"
                   required
-                  defaultValue={addressData.address.value}
+                  value={addressData.address.value}
                 />
                 <Form.Text className="text-center">
-                  {renderErrors("address")}
+                  {renderErrors("address", addressData)}
                 </Form.Text>
               </FloatingLabel>
             </Form.Group>
@@ -273,12 +224,13 @@ const DeliveryForm = ({ refetch, handleClose }) => {
                 as="textarea"
                 placeholder="Leave your comment for delivery here"
                 className="address-form-textarea"
-                defaultValue={addressData.additionalInfo.value}
-                onBlur={handleFieldBlur}
-                onChange={handleFieldChange}
+                value={addressData.additionalInfo.value}
+                onBlur={(e) => handleBlur(e, addressData, setAddressData)}
+                onChange={(e) => handleChange(e, setAddressData)}
               />
               <Form.Text className="text-center">
-                {renderErrors("additionalInfo")}
+                {renderErrors("additionalInfo", addressData)}
+                {fetchStatus.error && <ValidationErrorElement />}
               </Form.Text>
             </Form.Group>
           </Col>
