@@ -4,7 +4,7 @@ import Row from "react-bootstrap/esm/Row";
 import ProductPreviewCard from "./ProductPreviewCard";
 import GalleryPagination from "./GalleryPagination";
 import NoProductsCard from "./NoProductsCard";
-import LoadingSinner from "../../../shared/LoadingSpinner";
+import LoadingSinner from "../LoadingSpinner"
 
 const ProductPreviewGallery = ({ productsData, loading }) => {
   const [currentPage, setCurrentPage] = useState(1);

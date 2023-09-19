@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Container from "react-bootstrap/esm/Container";
-import ProductPreviewGallery from "../homePage/productPreviewGallery/ProductPreviewGallery";
+import ProductPreviewGallery from "../../shared/productPreviewGallery/ProductPreviewGallery"
 import { useAuth } from "../../../contextProviders/AuthProvider";
 import { getSelectedProducts } from "../../../services/api/productApi/getSelectedProducstApi";
 import LoadingSpinner from "../../shared/LoadingSpinner";

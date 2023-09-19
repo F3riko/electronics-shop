@@ -5,21 +5,21 @@ import Col from "react-bootstrap/Col";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment } from "@fortawesome/free-regular-svg-icons";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import CustomLink from "../../../shared/CustomLink";
+import CustomLink from "../CustomLink";
 import { useState, useEffect } from "react";
-import { getCategoryNameById } from "../../../../utils/categoriesOprations/categoryUtils";
-import Counter from "../../../shared/Counter";
-import PriceBlock from "../../../shared/PriceBlock";
-import { useAuth } from "../../../../contextProviders/AuthProvider";
-import useFetch from "../../../../utils/customHooks/useFetch";
-import { getProductImg } from "../../../../services/api/productApi/getProductImgApi";
-import ThumbnailRender from "../../../shared/ThumbnailRender";
-import CartButton from "../../../shared/CartButton";
-import LikeButton from "../../../shared/LikeButton";
+import { getCategoryNameById } from "../../../utils/categoriesOprations/categoryUtils";
+import Counter from "../Counter";
+import PriceBlock from "../PriceBlock";
+import { useAuth } from "../../../contextProviders/AuthProvider";
+import useFetch from "../../../utils/customHooks/useFetch";
+import { getProductImg } from "../../../services/api/productApi/getProductImgApi";
+import ThumbnailRender from "../ThumbnailRender";
+import CartButton from "../CartButton";
+import LikeButton from "../LikeButton";
 
 const ProductPreviewCard = ({ productData }) => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const { categories } = useAuth()
+  const { categories } = useAuth();
   const categoryName = getCategoryNameById(categories, productData.category_id);
   const { data, loading, error } = useFetch(getProductImg, productData.id);
   const { handleCart, cart, fetchStatus } = useAuth();
@@ -38,7 +38,7 @@ const ProductPreviewCard = ({ productData }) => {
   const ProductTitle = () => {
     return (
       <Row className="mb-2 product-title-text">
-        <CustomLink to={`product/${productData.id}`}>
+        <CustomLink to={`/product/${productData.id}`}>
           <Col>{productData.title}</Col>
         </CustomLink>
       </Row>
@@ -49,7 +49,7 @@ const ProductPreviewCard = ({ productData }) => {
     <Container fluid className="product-tile-wrapper">
       <Row>
         <Col xs={12} md={3} className="product-tile-thubmnail-wrapper">
-          <Link to={`product/${productData.id}`}>
+          <Link to={`/product/${productData.id}`}>
             <ThumbnailRender data={data} loading={loading} error={error} />
           </Link>
         </Col>
