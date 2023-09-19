@@ -33,7 +33,7 @@ const ReviewForm = ({ refetch, handleClose }) => {
   const handleRatingChange = (value) => {
     setReviewData((prevData) => ({
       ...prevData,
-      ["rating"]: { ...prevData["rating"], value: value, errors: [] },
+      rating: { ...prevData["rating"], value: value, errors: [] },
     }));
   };
 
@@ -50,8 +50,8 @@ const ReviewForm = ({ refetch, handleClose }) => {
           }
         }
         await postNewReview(reviewObject, productId, user.name, user.id);
-        refetch()
-        handleClose()
+        refetch();
+        handleClose();
       }
     } catch (error) {
       setFetchStatus((prevData) => ({ ...prevData, error: true }));

@@ -1,4 +1,4 @@
-import ProductPreviewGallery from "./productPreviewGallery/ProductPreviewGallery";
+import ProductPreviewGallery from "../../shared/productPreviewGallery/ProductPreviewGallery"
 import CategoriesBar from "./CategoriesBar";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
