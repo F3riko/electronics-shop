@@ -108,6 +108,11 @@ const NavBar = () => {
                 </Button>
                 <Button onClick={handleLogOut} className="nav-bar-button">
                   Log out
+                  <FontAwesomeIcon
+                    icon={faRightToBracket}
+                    style={{ color: "#ffffff" }}
+                    className="nav-bar-cart-icon"
+                  />
                 </Button>
               </>
             ) : (
@@ -121,6 +126,7 @@ const NavBar = () => {
                   icon={faRightToBracket}
                   style={{ color: "#ffffff" }}
                   className="nav-bar-cart-icon"
+                  rotation={180}
                 />
               </Button>
             )}
