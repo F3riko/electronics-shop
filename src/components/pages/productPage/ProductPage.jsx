@@ -20,6 +20,7 @@ const ProductPage = () => {
     data: productData,
     loading: productLoading,
     error: productError,
+    refetch,
   } = useFetch(getProduct, productId);
 
   const {
@@ -79,7 +80,9 @@ const ProductPage = () => {
               <span className="mb-2">
                 {" "}
                 <RatingComponent
-                  initialValue={productData.item_rating}
+                  initialValue={
+                    productData.item_rating / productData.reviews_quantity
+                  }
                   size={"lg"}
                 />
                 <span className="ms-1">({productData.reviews_quantity})</span>
@@ -133,7 +136,7 @@ const ProductPage = () => {
           <Row>
             <Col xs={12} md={8} className="px-0">
               <h5 className="text-center my-4">Reviews</h5>
-              <ReviewGallery />
+              <ReviewGallery refetchProduct={refetch} />
             </Col>
           </Row>
         </>

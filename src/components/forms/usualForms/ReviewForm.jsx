@@ -18,7 +18,7 @@ import { postNewReview } from "../../../services/authService/userAuth/authorizat
 import { useParams } from "react-router-dom";
 import RatingComponent from "../../shared/RatingElement";
 
-const ReviewForm = ({ refetch, handleClose }) => {
+const ReviewForm = ({ refetch, refetchProduct, handleClose }) => {
   const [reviewData, setReviewData] = useState(defaultReviewData);
   const { productId } = useParams();
   const [fetchStatus, setFetchStatus] = useState({
@@ -48,6 +48,7 @@ const ReviewForm = ({ refetch, handleClose }) => {
         }
         await postNewReview(reviewObject, productId, user.name, user.id);
         refetch();
+        refetchProduct();
         handleClose();
       }
     } catch (error) {

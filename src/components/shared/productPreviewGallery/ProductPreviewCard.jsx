@@ -91,7 +91,11 @@ const ProductPreviewCard = ({ productData }) => {
                     </span>
                   </>
                 ) : (
-                  <RatingComponent initialValue={productData.item_rating} />
+                  <RatingComponent
+                    initialValue={
+                      productData.item_rating / productData.reviews_quantity
+                    }
+                  />
                 )}
               </span>
               <span>

@@ -13,7 +13,7 @@ import { useState } from "react";
 import { useAuth } from "../../../../contextProviders/AuthProvider";
 import { reviewAuth } from "../../../../services/authService/reviewRightAuth";
 
-const ReviewGallery = () => {
+const ReviewGallery = ({ refetchProduct }) => {
   const [showReviewForm, setShowReviewForm] = useState(false);
   const { productId } = useParams();
   const [fetchStatus, setFetchStatus] = useState({
@@ -87,7 +87,11 @@ const ReviewGallery = () => {
         </Button>
       )}
       {showReviewForm && (
-        <ReviewForm refetch={refetch} handleClose={() => setShowReviewForm(false)} />
+        <ReviewForm
+          refetchProduct={refetchProduct}
+          refetch={refetch}
+          handleClose={() => setShowReviewForm(false)}
+        />
       )}
     </Container>
   );
