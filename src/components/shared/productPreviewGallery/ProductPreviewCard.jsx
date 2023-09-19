@@ -4,7 +4,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment } from "@fortawesome/free-regular-svg-icons";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar } from "@fortawesome/free-regular-svg-icons";
 import CustomLink from "../CustomLink";
 import { useState, useEffect } from "react";
 import { getCategoryNameById } from "../../../utils/categoriesOprations/categoryUtils";
@@ -16,6 +16,7 @@ import { getProductImg } from "../../../services/api/productApi/getProductImgApi
 import ThumbnailRender from "../ThumbnailRender";
 import CartButton from "../CartButton";
 import LikeButton from "../LikeButton";
+import RatingComponent from "../RatingElement";
 
 const ProductPreviewCard = ({ productData }) => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
@@ -44,6 +45,7 @@ const ProductPreviewCard = ({ productData }) => {
       </Row>
     );
   };
+  console.log(productData.item_rating);
 
   return (
     <Container fluid className="product-tile-wrapper">
@@ -76,15 +78,27 @@ const ProductPreviewCard = ({ productData }) => {
             </span>
           </Row>
           <Row>
-            <Col>
-              <span className="me-2">
-                <FontAwesomeIcon icon={faStar} style={{ color: "fbce2d" }} />
-                <span className="mx-1">
-                  {parseFloat(productData.item_rating).toFixed(1)}
-                </span>
+            <Col className="d-flex flex-column">
+              <span>
+                {productData.item_rating === 0 ? (
+                  <>
+                    <FontAwesomeIcon
+                      icon={faStar}
+                      className="cart-secondary-text"
+                    />
+                    <span style={{ marginLeft: "2px" }}>
+                      {productData.item_rating}
+                    </span>
+                  </>
+                ) : (
+                  <RatingComponent initialValue={productData.item_rating} />
+                )}
               </span>
               <span>
-                <FontAwesomeIcon icon={faComment} />
+                <FontAwesomeIcon
+                  icon={faComment}
+                  className="cart-secondary-text"
+                />
                 <span className="mx-1">{productData.reviews_quantity}</span>
               </span>
             </Col>
