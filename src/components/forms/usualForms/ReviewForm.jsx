@@ -1,15 +1,11 @@
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Rating from "react-rating";
 import Form from "react-bootstrap/Form";
 import ValidationErrorElement from "../../shared/ValidationError";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-regular-svg-icons";
-import { faStar as faStarSolid } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../../contextProviders/AuthProvider";
 import {
   validateAllInput,
@@ -20,6 +16,7 @@ import {
 import { defaultReviewData } from "../../../utils/validations/reviewValidations";
 import { postNewReview } from "../../../services/authService/userAuth/authorization/postNewReview";
 import { useParams } from "react-router-dom";
+import RatingComponent from "../../shared/RatingElement";
 
 const ReviewForm = ({ refetch, handleClose }) => {
   const [reviewData, setReviewData] = useState(defaultReviewData);
@@ -69,24 +66,11 @@ const ReviewForm = ({ refetch, handleClose }) => {
         <Row className="review-name-rating-wrapper">
           <Col className="review-name">{user.name}</Col>
           <Col className="review-rating d-flex flex-column">
-            <Rating
-              initialRating={reviewData.rating.value}
+            <RatingComponent
+              initialValue={reviewData.rating.value}
               onChange={handleRatingChange}
-              fractions={2}
-              emptySymbol={
-                <FontAwesomeIcon
-                  size="xl"
-                  icon={faStar}
-                  style={{ color: "#ccc" }}
-                />
-              }
-              fullSymbol={
-                <FontAwesomeIcon
-                  icon={faStarSolid}
-                  style={{ color: "#ffe32e" }}
-                  size="xl"
-                />
-              }
+              size={"xl"}
+              readOnly={false}
             />
             <span className="me-4">{renderErrors("rating", reviewData)}</span>
           </Col>
