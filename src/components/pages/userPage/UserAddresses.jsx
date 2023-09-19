@@ -22,7 +22,7 @@ const UserAddresses = () => {
   const [showForm, setShowForm] = useState(false);
 
   return (
-    <Container className="">
+    <Container style={{ minHeight: "65vh" }}>
       <Row className="">
         <p className="mb-4 text-center" style={{ fontSize: "18px" }}>
           On this page, you can easily manage your addresses by reviewing,
