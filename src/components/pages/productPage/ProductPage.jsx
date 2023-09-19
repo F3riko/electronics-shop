@@ -8,6 +8,7 @@ import NoDataError from "../../shared/NoDataError";
 import LoadingSpinner from "../../shared/LoadingSpinner";
 import ThumbnailRender from "../../shared/ThumbnailRender";
 import ReviewGallery from "./Reviews/ReviewGallery";
+import RatingComponent from "../../shared/RatingElement";
 import { getProduct } from "../../../services/api/productApi/getProductApi";
 import { getProductImg } from "../../../services/api/productApi/getProductImgApi";
 import useFetch from "../../../utils/customHooks/useFetch";
@@ -19,6 +20,7 @@ const ProductPage = () => {
     data: productData,
     loading: productLoading,
     error: productError,
+    refetch,
   } = useFetch(getProduct, productId);
 
   const {
@@ -75,6 +77,16 @@ const ProductPage = () => {
               md={5}
               className="pr-page-short-specs d-flex flex-column"
             >
+              <span className="mb-2">
+                {" "}
+                <RatingComponent
+                  initialValue={
+                    productData.item_rating / productData.reviews_quantity
+                  }
+                  size={"lg"}
+                />
+                <span className="ms-1">({productData.reviews_quantity})</span>
+              </span>
               {categories && categories[productData.category_id]?.name && (
                 <span>
                   <span className="cart-secondary-text">Category: </span>
@@ -124,7 +136,7 @@ const ProductPage = () => {
           <Row>
             <Col xs={12} md={8} className="px-0">
               <h5 className="text-center my-4">Reviews</h5>
-              <ReviewGallery />
+              <ReviewGallery refetchProduct={refetch} />
             </Col>
           </Row>
         </>
