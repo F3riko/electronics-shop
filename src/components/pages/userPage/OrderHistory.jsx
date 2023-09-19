@@ -43,13 +43,13 @@ const OrderHistory = () => {
   };
 
   return (
-    <Container>
+    <Container style={{ minHeight: "60vh" }}>
       {orderHistory.length === 0 && (
         <h3 className="my-5 py-5 text-center">
           Oops, your order history is empty!
         </h3>
       )}
-      {orderHistory && (
+      {orderHistory.length > 0 && (
         <>
           <p className="mb-4 text-center" style={{ fontSize: "18px" }}>
             Welcome to your order history! Here, you can conveniently review

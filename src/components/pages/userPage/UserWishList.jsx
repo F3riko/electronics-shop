@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Container from "react-bootstrap/esm/Container";
-import ProductPreviewGallery from "../../shared/productPreviewGallery/ProductPreviewGallery"
+import ProductPreviewGallery from "../../shared/productPreviewGallery/ProductPreviewGallery";
 import { useAuth } from "../../../contextProviders/AuthProvider";
 import { getSelectedProducts } from "../../../services/api/productApi/getSelectedProducstApi";
 import LoadingSpinner from "../../shared/LoadingSpinner";
@@ -33,7 +33,7 @@ const UserWishList = () => {
   }, [wishList]);
 
   return (
-    <Container>
+    <Container style={{ minHeight: "60vh" }}>
       {wishList.length === 0 && (
         <h3 className="my-5 py-5 text-center">
           Oops, your wishslist is empty!

@@ -8,7 +8,7 @@ const UserProfile = ({ data }) => {
   const daysRegistered = calculateDaysTillNow(data.registered_at);
 
   return (
-    <Container style={{ width: "100%" }}>
+    <Container style={{ width: "100%", minHeight: "65vh" }}>
       <Row>
         <Col
           xs={12}
