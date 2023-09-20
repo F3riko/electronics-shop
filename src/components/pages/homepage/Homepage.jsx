@@ -1,9 +1,9 @@
-import ProductPreviewGallery from "../../shared/productPreviewGallery/ProductPreviewGallery"
+import ProductPreviewGallery from "../../shared/productPreviewGallery/ProductPreviewGallery";
 import CategoriesBar from "./CategoriesBar";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useRef } from "react";
 import { getCategoriesList, getProducts } from "../../../services/homepage-api";
 import NoDataError from "../../shared/NoDataError";
 import SortingBar from "./SortingBar";
@@ -11,7 +11,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import {
   addQueryParams,
   deleteQueryParam,
+  getAllQueryParams,
 } from "../../../utils/navigation/urlParsing";
+import SpecsSortBar from "./SpecsSortBar/SpecsSortBar";
 
 // Context for homepage components
 export const HomeContext = createContext();
@@ -27,13 +29,19 @@ const Homepage = () => {
     categoriesError: false,
     productsLoading: false,
   });
+  const prevActiveCategory = useRef(activeCategory);
 
   useEffect(() => {
     (async () => {
       try {
         const categories = await getCategoriesList();
         setCategories(categories);
-        setActiveCategory(categories[0]);
+        const allQueryParams = getAllQueryParams(location);
+        if (allQueryParams.category) {
+          setActiveCategory(categories[allQueryParams.category]);
+        } else {
+          setActiveCategory(categories[0]);
+        }
       } catch (error) {
         setFetchStatus((prevData) => ({ ...prevData, categoriesError: true }));
       }
@@ -44,8 +52,13 @@ const Homepage = () => {
     if (activeCategory?.id) {
       addQueryParams({ category: activeCategory.id }, location, navigate);
     } else {
-      deleteQueryParam("category", location, navigate);
+      if (prevActiveCategory.current?.id) {
+        deleteQueryParam("category", location, navigate);
+      }
     }
+
+    // Update the previous value to match the current one
+    prevActiveCategory.current = activeCategory;
   }, [activeCategory]);
 
   useEffect(() => {
@@ -76,6 +89,7 @@ const Homepage = () => {
                 activeCategory={activeCategory}
                 setActiveCategory={setActiveCategory}
               />
+              <SpecsSortBar activeCategory={activeCategory} />
             </Col>
             <Col md={9}>
               <Row>

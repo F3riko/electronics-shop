@@ -30,3 +30,14 @@ export const getPriceRange = async (categoryId) => {
     throw error;
   }
 };
+
+export const getSpecsByCategory = async (categoryId) => {
+  try {
+    const response = await axios.get(
+      `${process.env.REACT_APP_BASE_SERVER_URL}/products/specs?category=${categoryId}`
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

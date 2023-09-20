@@ -45,7 +45,6 @@ const ProductPreviewCard = ({ productData }) => {
       </Row>
     );
   };
-  console.log(productData.item_rating);
 
   return (
     <Container fluid className="product-tile-wrapper">

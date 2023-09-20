@@ -1,9 +1,5 @@
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavBar from "./components/navbar/NavBar";
 import Homepage from "./components/pages/homePage/Homepage";
@@ -22,7 +18,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<NavBar />}>
-            <Route index element={<Homepage />} />Z
+            <Route index element={<Homepage />} />
             <Route path="product/:productId" element={<ProductPage />} />
             <Route path="cart" element={<Cart />} />
             <Route path="user/passReset" element={<ResetPassword />} />
