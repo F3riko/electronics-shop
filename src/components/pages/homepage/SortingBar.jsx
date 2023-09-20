@@ -12,6 +12,8 @@ import {
   deleteQueryParam,
   deleteSortingParams,
   getAllQueryParams,
+  getAllOptionsParams,
+  deleteAllOptionsParams,
 } from "../../../utils/navigation/urlParsing";
 
 const SortingBar = ({ activeCategory }) => {
@@ -25,6 +27,7 @@ const SortingBar = ({ activeCategory }) => {
   const [pricesLimit, setPricesLimit] = useState({ min: 0, max: 0 });
   const [sortOptions, setSortOptions] = useState(defaultSortOptions);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedItemOptions, setSelectedItemOptions] = useState({});
 
   useEffect(() => {
     try {
@@ -44,6 +47,10 @@ const SortingBar = ({ activeCategory }) => {
     const queryParams = getAllQueryParams(location);
     if (queryParams.searchQuery) {
       setSearchQuery(queryParams.searchQuery);
+    }
+    const allOptions = getAllOptionsParams(location);
+    if (allOptions) {
+      setSelectedItemOptions(allOptions);
     }
   }, [location]);
 
@@ -72,6 +79,11 @@ const SortingBar = ({ activeCategory }) => {
   const handleResetSearch = () => {
     deleteQueryParam("searchQuery", location, navigate);
     setSearchQuery("");
+  };
+
+  const handleResetSelectedItemOptions = () => {
+    deleteAllOptionsParams(location, navigate);
+    setSelectedItemOptions({});
   };
 
   return (
@@ -151,6 +163,40 @@ const SortingBar = ({ activeCategory }) => {
               <Button
                 variant="danger"
                 onClick={handleResetSearch}
+                className="sort-button"
+              >
+                Clear
+              </Button>
+            </Alert>
+          </Col>
+        </Row>
+      )}
+      {Object.values(selectedItemOptions).length > 0 && (
+        <Row>
+          <Col className="sort-search-query-wrapper">
+            <Alert variant="light" className="sort-search-query-alert">
+              <span>Item properties you have chosen:</span>
+              <div className="d-flex flex-column">
+                {Object.keys(selectedItemOptions).map((option) => {
+                  return (
+                    <div key={option}>
+                      <span className="me-1" style={{ color: "grey" }}>
+                        {option}:
+                      </span>
+                      {selectedItemOptions[option].map((value) => {
+                        return (
+                          <span className="ms-1" key={value}>
+                            {value};
+                          </span>
+                        );
+                      })}
+                    </div>
+                  );
+                })}
+              </div>
+              <Button
+                variant="danger"
+                onClick={handleResetSelectedItemOptions}
                 className="sort-button"
               >
                 Clear

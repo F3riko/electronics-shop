@@ -201,6 +201,27 @@
   margin: 16px 0 0 15px;
 }
 
+/* Sort specs bar */
+.specs-wrapper {
+  margin: 16px 0 0 15px;
+}
+
+.spec-toggle-button {
+  width: 100%;
+  text-align: start !important;
+  margin: 2px;
+}
+
+.specs-list {
+  margin-left: 5px;
+  padding: 10px;
+  background-color: #f8f9fa;
+}
+
+.spec-checkbox {
+  padding: 3px 0;
+}
+
 /* Navbar */
 
 .nav-bar-logo {
