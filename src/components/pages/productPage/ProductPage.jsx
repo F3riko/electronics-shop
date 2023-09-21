@@ -127,10 +127,29 @@ const ProductPage = () => {
               <div className="pr-page-description mt-3">
                 <p className="mb-0">{productData.description}</p>
               </div>
-              <h5 className="text-center my-4">Detailed product info</h5>
-              <div className="pr-page-full-details mt-3" id="description">
-                <p>{}</p>
-              </div>
+              {productData.properties.length > 0 && (
+                <>
+                  <h5 className="text-center my-4">Detailed product info</h5>
+                  <div className="pr-page-full-details mt-3" id="description">
+                    <div>
+                      {productData.properties.map((property) => {
+                        return (
+                          <Row>
+                            <Col
+                              md={2}
+                              xs={5}
+                              className="me-2 cart-secondary-text text-end"
+                            >
+                              {property.title}:
+                            </Col>
+                            <Col>{property.property_value}</Col>
+                          </Row>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </>
+              )}
             </Col>
           </Row>
           <Row>
